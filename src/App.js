@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import globalStyles from "./globalStyles";
-import Appbar from "./components/client/pageLayout/Appbar";
+import Appbar from "./components/pageLayout/Appbar";
+import Layout from "./components/Layout";
 
 const theme = createMuiTheme({
   overrides: {
@@ -21,8 +22,8 @@ const theme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <Appbar />
+      <div>
+        <Layout />
       </div>
     </ThemeProvider>
   );

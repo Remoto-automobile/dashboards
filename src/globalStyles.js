@@ -1,3 +1,21 @@
+import { makeStyles } from "@material-ui/core/styles";
+
+export const pageDynamics = makeStyles((theme) => ({
+  desktopOnly: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  mobileOnly: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+}));
+// export const responsive = windowSize();
+
 let fontFamily = "Asap";
 export const fonts = {
   mainHeader: {
@@ -70,4 +88,33 @@ export const Appbar = {
   searchBgHover: "#f2f2f2",
   searchPlaceholder: "#b5b8bb",
   appbarBg: "#ffffff",
+  desktopNotificationIcon: {
+    color: colors.dark3,
+    margin: "auto 10px",
+  },
+};
+
+export const Appdrawer = {
+  drawerWidth: 240,
+  desktopDrawer: {
+    width: 258,
+  },
+};
+
+export const Card = {
+  spacing: {
+    margin: 10,
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bgColor: "#ffffff",
+  color: "#2d2c2c",
+  avatar: { width: 120, height: 120 },
+  orderBullet: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
 };

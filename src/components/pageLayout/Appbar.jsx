@@ -1,6 +1,12 @@
 import React from "react";
-import { Appbar, colors, fonts } from "../../../globalStyles";
-import CallToAction from "../atoms/CallToAction";
+import {
+  Appbar,
+  colors,
+  fonts,
+  pageDynamics,
+  Appdrawer,
+} from "../../globalStyles";
+import CallToAction from "../basic/CallToAction";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -27,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   brand: {
-    marginLeft: 20,
-    marginRight: 40,
+    width: Appdrawer.drawerWidth,
+    paddingLeft: 20,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -95,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const responsive = pageDynamics();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -174,9 +181,23 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar
         position="static"
-        style={{ backgroundColor: Appbar.appbarBg, padding: 10 }}
+        style={{
+          backgroundColor: Appbar.appbarBg,
+          padding: 10,
+          boxShadow: "none",
+        }}
       >
         <Toolbar>
+          <div className={responsive.mobileOnly}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              aria-label="open drawer"
+              style={{ backgroundColor: "#f8f8f8" }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <div className={classes.brand}>
             <Typography
               style={{
@@ -184,11 +205,12 @@ export default function PrimarySearchAppBar() {
                 textTransform: "uppercase",
                 color: colors.dark3,
               }}
+              className={responsive.desktopOnly}
             >
               Remoto
             </Typography>
           </div>
-          <div className={classes.search}>
+          <div className={classes.search + " " + responsive.desktopOnly}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -202,12 +224,12 @@ export default function PrimarySearchAppBar() {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <div className={responsive.desktopOnly}>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge
                 badgeContent={17}
                 color="secondary"
-                style={{ color: colors.dark3 }}
+                style={Appbar.desktopNotificationIcon}
               >
                 <NotificationsIcon />
               </Badge>
@@ -219,27 +241,13 @@ export default function PrimarySearchAppBar() {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               // color="inherit"
-              style={{ color: colors.dark3 }}
+              style={Appbar.desktopNotificationIcon}
             >
               <AccountCircle />
             </IconButton>
           </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              // color="inherit"
-              style={{ color: colors.dark3 }}
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-          <div
-            style={{ margin: "auto 40px" }}
-            className={classes.sectionDesktop}
-          >
+
+          <div style={{ margin: "auto 20px" }}>
             <CallToAction />
           </div>
         </Toolbar>

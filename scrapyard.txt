@@ -7,3 +7,30 @@ MenuIcon
           >
             <MenuIcon />
           </IconButton>
+
+
+More Icon
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              // color="inherit"
+              style={{ color: colors.dark3 }}
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
+
+Sidebar List
+      <List>
+        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>

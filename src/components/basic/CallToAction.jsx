@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@material-ui/core";
-import { colors } from "../../../globalStyles";
+import { colors } from "../../globalStyles";
 
 function CallToAction({ displayText }) {
   return (
