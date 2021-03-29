@@ -8,6 +8,7 @@ import ProfileCard from "./medium/ProfileCard";
 import OrderCard from "./medium/OrderCard";
 import { fonts } from "../globalStyles";
 import { Typography } from "@material-ui/core";
+import OrderTable from "./medium/OrderTable";
 
 function Layout({ children }) {
   return (
@@ -47,6 +48,9 @@ function Layout({ children }) {
             </ProfileCard>
             <OrderCard flex={1} />
           </CardRow>
+          <div style={{ margin: "auto 10px" }}>
+            <OrderTable />
+          </div>
         </div>
       </div>
     </div>

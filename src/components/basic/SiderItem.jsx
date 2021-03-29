@@ -6,7 +6,7 @@ function SiderItem({ children }) {
   const compCl = styles();
   return (
     <div className={compCl.container}>
-      <p style={fonts.heading6}>{children}</p>
+      <p style={fonts.heading7}>{children}</p>
     </div>
   );
 }
