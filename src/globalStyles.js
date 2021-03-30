@@ -109,6 +109,12 @@ export const Card = {
     justifyContent: "center",
     alignItems: "center",
   },
+  title: {
+    display: "flex",
+    justifyContent: "left",
+    width: "100%",
+    paddingLeft: 20,
+  },
   bgColor: "#ffffff",
   color: "#2d2c2c",
   avatar: { width: 120, height: 120 },
@@ -116,5 +122,13 @@ export const Card = {
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
+  },
+};
+
+export const form = {
+  field: {
+    width: "100%",
+    margin: 20,
+    textAlign: "center",
   },
 };

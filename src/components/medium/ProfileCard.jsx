@@ -11,22 +11,15 @@ function ProfileCard({ children, flex, title, picSrc, picAlt, action }) {
         borderRadius: 14,
         backgroundColor: Card.bgColor,
         flexDirection: "column",
-        maxWidth: 960,
+        // maxWidth: 960,
         minHeight: 320,
         // width: 640,
         // height: 320,
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "left",
-          width: "100%",
-          paddingLeft: 20,
-        }}
-      >
+      <div style={Card.title}>
         <Typography style={{ ...fonts.heading6, color: Card.color }}>
-          {title}
+          {title || "Profile"}
         </Typography>
       </div>
       <div
@@ -38,7 +31,7 @@ function ProfileCard({ children, flex, title, picSrc, picAlt, action }) {
           // padding: "5px 50px",
         }}
       >
-        <div style={{ padding: "auto 30px", marginRight: 30 }}>
+        <div style={{ padding: "auto 30px", marginRight: 50 }}>
           <Avatar src={picSrc} alt={picAlt || "image"} style={Card.avatar} />
         </div>
         <div style={{ flex: 1 }}>{children}</div>

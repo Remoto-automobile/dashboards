@@ -25,6 +25,7 @@ function createData(name, carBrand, date, status) {
   return { name, carBrand, date, status };
 }
 
+// Data variable
 const rows = [
   createData(
     "Leslie Alexander",
@@ -106,6 +107,7 @@ const rows = [
   ),
 ];
 
+// Handle sorting
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -132,6 +134,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+// Table Headers
 const headCells = [
   {
     id: "name",
@@ -144,6 +147,7 @@ const headCells = [
   { id: "status", numeric: true, disablePadding: false, label: "Status" },
 ];
 
+// Sorting by headers
 function EnhancedTableHead(props) {
   const {
     classes,

@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ callToAction }) {
   const responsive = pageDynamics();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -246,10 +246,13 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </div>
-
-          <div style={{ margin: "auto 20px" }}>
-            <CallToAction />
-          </div>
+          {callToAction ? (
+            <div style={{ margin: "auto 20px" }}>
+              <CallToAction>fix my car </CallToAction>
+            </div>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

@@ -2,10 +2,10 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { colors } from "../../globalStyles";
 
-function CallToAction({ displayText }) {
+function CallToAction({ children }) {
   return (
     <Button variant="contained" style={styles}>
-      fix my car
+      {children}
     </Button>
   );
 }
