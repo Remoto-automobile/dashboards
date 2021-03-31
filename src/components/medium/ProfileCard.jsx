@@ -7,7 +7,7 @@ function ProfileCard({ children, flex, title, picSrc, picAlt, action }) {
     <div
       style={{
         ...Card.spacing,
-        flex: flex,
+        flex: flex || 1,
         borderRadius: 14,
         backgroundColor: Card.bgColor,
         flexDirection: "column",

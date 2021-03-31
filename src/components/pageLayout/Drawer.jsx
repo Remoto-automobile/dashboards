@@ -2,8 +2,6 @@ import React from "react";
 import { Drawer, CssBaseline, Hidden } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Appdrawer } from "../../globalStyles";
-import SiderCard from "../medium/SiderCard";
-import SiderItem from "../basic/SiderItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,9 +1,6 @@
-import logo from "./logo.svg";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-import globalStyles from "./globalStyles";
-import Appbar from "./components/pageLayout/Appbar";
 import Client from "./components/pages/client/Layout";
 import Admin from "./components/pages/admin/Layout";
 import Home from "./Home";

@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, fonts, pageDynamics } from "../../globalStyles";
 import EditProfileForm from "../basic/EditProfileForm";
-import { Typography, Divider } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 function EditProfileCard({ flex, title, picSrc, picAlt, children }) {
   const responsive = pageDynamics();

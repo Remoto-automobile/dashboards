@@ -7,23 +7,40 @@ import Dashboard from "./Dashboard";
 import UserProfile from "./UserProfile";
 import UserOrder from "./UserOrder";
 import EditProfileCard from "../../medium/EditProfileCard";
+
+// Import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import PeopleIcon from "@material-ui/icons/People";
+import EventNoteIcon from "@material-ui/icons/EventNote";
+import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 
 function Layout({ children }) {
   return (
     <div style={styles.root}>
       <div style={styles.appbar}>
-        <Appbar callToAction />
+        <Appbar callToAction showBrand />
       </div>
       <div style={styles.body}>
         <div>
           <Drawer>
             <SiderCard>
-              <SiderItem icon={<DashboardIcon />}>Dashboard</SiderItem>
-              <SiderItem>Profile</SiderItem>
-              <SiderItem>Fix My Car</SiderItem>
-              <SiderItem>Car Information</SiderItem>
-              <SiderItem>Help</SiderItem>
+              <SiderItem>
+                <DashboardIcon /> Dashboard
+              </SiderItem>
+              <SiderItem>
+                {" "}
+                <PeopleIcon /> Profile
+              </SiderItem>
+              <SiderItem>
+                <EventNoteIcon /> Fix My Car
+              </SiderItem>
+              <SiderItem>
+                <InsertInvitationIcon /> Car Information
+              </SiderItem>
+              <SiderItem>
+                <HelpOutlineIcon /> Help
+              </SiderItem>
             </SiderCard>
           </Drawer>
         </div>
