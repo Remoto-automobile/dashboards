@@ -1,10 +1,9 @@
-import logo from "./logo.svg";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-import globalStyles from "./globalStyles";
-import Appbar from "./components/pageLayout/Appbar";
-import Layout from "./components/Layout";
+import Client from "./components/pages/client/Layout";
+import Admin from "./components/pages/admin/Layout";
+import Home from "./Home";
 
 const theme = createMuiTheme({
   overrides: {
@@ -21,11 +20,23 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Layout />
-      </div>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        {/* <div> */}
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/admin">
+            <Admin />
+          </Route>
+          <Route path="/client">
+            <Client />
+          </Route>
+        </Switch>
+        {/* </div> */}
+      </ThemeProvider>
+    </Router>
   );
 }
 

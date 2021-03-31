@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
   const responsive = pageDynamics();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -182,7 +182,7 @@ export default function PrimarySearchAppBar() {
       <AppBar
         position="static"
         style={{
-          backgroundColor: Appbar.appbarBg,
+          backgroundColor: bg || Appbar.appbarBg,
           padding: 10,
           boxShadow: "none",
         }}
@@ -198,18 +198,22 @@ export default function PrimarySearchAppBar() {
               <MenuIcon />
             </IconButton>
           </div>
-          <div className={classes.brand}>
-            <Typography
-              style={{
-                ...fonts.heading4,
-                textTransform: "uppercase",
-                color: colors.dark3,
-              }}
-              className={responsive.desktopOnly}
-            >
-              Remoto
-            </Typography>
-          </div>
+          {showBrand ? (
+            <div className={classes.brand}>
+              <Typography
+                style={{
+                  ...fonts.heading4,
+                  textTransform: "uppercase",
+                  color: colors.dark3,
+                }}
+                className={responsive.desktopOnly}
+              >
+                Remoto
+              </Typography>
+            </div>
+          ) : (
+            ""
+          )}
           <div className={classes.search + " " + responsive.desktopOnly}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -246,10 +250,13 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </div>
-
-          <div style={{ margin: "auto 20px" }}>
-            <CallToAction />
-          </div>
+          {callToAction ? (
+            <div style={{ margin: "auto 20px" }}>
+              <CallToAction>fix my car </CallToAction>
+            </div>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

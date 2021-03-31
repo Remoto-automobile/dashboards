@@ -9,7 +9,7 @@ function BasicCard({ width, height, custom, children }) {
         width: width,
         height: height,
         backgroundColor: Card.bgColor,
-        borderRadius: "1.5em",
+        borderRadius: "1em",
         ...custom,
       }}
     >

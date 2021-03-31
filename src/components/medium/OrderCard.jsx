@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button, Avatar } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { Card, fonts } from "../../globalStyles";
 
