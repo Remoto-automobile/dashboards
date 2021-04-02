@@ -3,14 +3,27 @@ import { colors, fonts } from "../../globalStyles";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 
-function SiderItem({ children }) {
+function SiderItem({ children, icon }) {
   const compCl = styles();
   return (
     <div className={compCl.container}>
       <Typography
         style={{ ...fonts.mainBodyText, margin: "10px auto", fontWeight: 600 }}
       >
-        {children}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            // justifyContent: "space-between",
+          }}
+        >
+          {/* <div style={{ marginRight: 10 }}> */}
+          {icon}
+          {/* </div> */}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {children}
+          </div>
+        </div>
       </Typography>
     </div>
   );

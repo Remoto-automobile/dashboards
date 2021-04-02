@@ -19,6 +19,11 @@ import Dashboard from "./Dashboard";
 import PremiumPlan from "./PremiumPlan";
 import MiniPlan from "./MiniPlan";
 import AccessPlan from "./AccessPlan";
+import UpdateData from "./UpdateData";
+import Users from "./Users";
+import Status from "./Status";
+import UpdateStatus from "./UpdateStatus";
+import Notifications from "./Notifications";
 
 function Layout({ children }) {
   return (
@@ -26,30 +31,14 @@ function Layout({ children }) {
       <div>
         <Drawer>
           <SiderCard>
-            <SiderItem>
-              <DashboardIcon />
-              Dashboard
-            </SiderItem>
-            <SiderItem>
-              <PeopleIcon />
-              Products
-            </SiderItem>
-            <SiderItem>
-              <EventNoteIcon />
-              Users
-            </SiderItem>
-            <SiderItem>
-              <NotificationsIcon />
-              Notifications
-            </SiderItem>
-            <SiderItem>
-              <ConfirmationNumberIcon />
+            <SiderItem icon={<DashboardIcon />}>Dashboard</SiderItem>
+            <SiderItem icon={<PeopleIcon />}>Products</SiderItem>
+            <SiderItem icon={<EventNoteIcon />}>Users</SiderItem>
+            <SiderItem icon={<NotificationsIcon />}>Notifications</SiderItem>
+            <SiderItem icon={<ConfirmationNumberIcon />}>
               Coupon Codes
             </SiderItem>
-            <SiderItem>
-              <HelpIcon />
-              Help
-            </SiderItem>
+            <SiderItem icon={<HelpIcon />}>Help</SiderItem>
           </SiderCard>
         </Drawer>
       </div>
@@ -64,6 +53,11 @@ function Layout({ children }) {
             <PremiumPlan />
             <MiniPlan />
             <AccessPlan />
+            <UpdateData />
+            <Users />
+            <Status />
+            <UpdateStatus />
+            <Notifications />
           </div>
         </div>
       </div>

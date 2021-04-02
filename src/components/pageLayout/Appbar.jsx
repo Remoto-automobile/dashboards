@@ -1,4 +1,5 @@
 import React from "react";
+import { UiContext } from "../../App";
 import {
   Appbar,
   colors,
@@ -27,6 +28,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsActiveIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import CreateOrderDialog from "../pages/client/CreateOrder";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -101,10 +103,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
+  const Ui = React.useContext(UiContext);
   const responsive = pageDynamics();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  // const [isDia, setIsDia] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -252,13 +256,20 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
           </div>
           {callToAction ? (
             <div style={{ margin: "auto 20px" }}>
-              <CallToAction>fix my car </CallToAction>
+              <CallToAction
+                onClick={() => {
+                  Ui.uiDispatch("showCreateOrderDialog");
+                }}
+              >
+                fix my car
+              </CallToAction>
             </div>
           ) : (
             ""
           )}
         </Toolbar>
       </AppBar>
+      {/* <CreateOrderDialog dialogOpened={isDia} /> */}
       {renderMobileMenu}
       {renderMenu}
     </div>

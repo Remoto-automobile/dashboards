@@ -7,6 +7,8 @@ import Dashboard from "./Dashboard";
 import UserProfile from "./UserProfile";
 import UserOrder from "./UserOrder";
 import EditProfileCard from "../../medium/EditProfileCard";
+import CreateOrder from "./CreateOrder";
+import CarInfo from "./CarInfo";
 
 // Import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -50,6 +52,8 @@ function Layout({ children }) {
           <UserProfile />
           <UserOrder />
           <EditProfileCard />
+          <CreateOrder />
+          <CarInfo />
         </div>
       </div>
     </div>

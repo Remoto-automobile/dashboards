@@ -6,8 +6,8 @@ function BasicCard({ width, height, custom, children }) {
     <div
       style={{
         ...Card.spacing,
-        width: width,
-        height: height,
+        width: width || "auto",
+        height: height || "auto",
         backgroundColor: Card.bgColor,
         borderRadius: "1em",
         ...custom,

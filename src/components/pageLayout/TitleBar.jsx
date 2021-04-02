@@ -3,7 +3,7 @@ import { fonts } from "../../globalStyles";
 import { Typography } from "@material-ui/core";
 import CallToAction from "../basic/CallToAction";
 
-function TitleBar({ title, actionText, actionIcon }) {
+function TitleBar({ title, actionText, actionIcon, onActionClick, children }) {
   return (
     <div
       style={{
@@ -16,7 +16,8 @@ function TitleBar({ title, actionText, actionIcon }) {
       }}
     >
       <Typography style={fonts.heading6}>{title || "Title"}</Typography>
-      <CallToAction>
+      {children}
+      <CallToAction onClick={onActionClick}>
         {actionIcon} {actionText}{" "}
       </CallToAction>
     </div>

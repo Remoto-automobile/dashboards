@@ -2,9 +2,9 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { colors } from "../../globalStyles";
 
-function CallToAction({ children }) {
+function CallToAction({ children, onClick }) {
   return (
-    <Button variant="contained" style={styles}>
+    <Button variant="contained" style={styles} onClick={onClick}>
       {children}
     </Button>
   );

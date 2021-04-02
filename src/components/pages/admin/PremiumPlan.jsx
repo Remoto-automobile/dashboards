@@ -1,11 +1,19 @@
 import React from "react";
+import { UiContext } from "../../../App";
 import TitleBar from "../../pageLayout/TitleBar";
 import ProductCard from "../../medium/ProductCard";
 
 function PremiumPlan() {
+  const Ui = React.useContext(UiContext);
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <TitleBar title="Premium Plan" actionText="Update Data" />
+      <TitleBar
+        title="Premium Plan"
+        actionText="Update Data"
+        onActionClick={() => {
+          Ui.uiDispatch("showUpdateDataDialog");
+        }}
+      />
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <ProductCard
           type="display"
