@@ -23,6 +23,9 @@ const initialUiState = {
   createOrderDialog: false,
   updateDataDialog: false,
   updateOrderStatus: false,
+  productDataDialog: false,
+  updatePriceDialog: false,
+  updateProbabilityDialog: false,
 };
 const reducer = (state, action) => {
   switch (action) {
@@ -38,12 +41,27 @@ const reducer = (state, action) => {
       return { ...state, updateOrderStatus: true };
     case "hideUpdateOrderStatus":
       return { ...state, updateOrderStatus: false };
+    case "showUpdateProductDialog":
+      return { ...state, productDataDialog: true };
+    case "hideUpdateProductDialog":
+      return { ...state, productDataDialog: false };
+    case "showUpdatePriceDialog":
+      return { ...state, updatePriceDialog: true };
+    case "hideUpdatePriceDialog":
+      return { ...state, updatePriceDialog: false };
+    case "showUpdateProbabilityDialog":
+      return { ...state, updateProbabilityDialog: true };
+    case "hideUpdateProbabilityDialog":
+      return { ...state, updateProbabilityDialog: false };
     default:
       return {
         ...state,
         createOrderDialog: false,
         updateDataDialog: false,
         updateOrderStatus: false,
+        productDataDialog: false,
+        updatePriceDialog: false,
+        updateProbabilityDialog: false,
       };
   }
 };

@@ -24,6 +24,11 @@ import Users from "./Users";
 import Status from "./Status";
 import UpdateStatus from "./UpdateStatus";
 import Notifications from "./Notifications";
+import AddProduct from "./AddProduct";
+import AcSystem from "./AcSystem";
+import UpdateProductData from "./UpdateProductData";
+import UpdatePrice from "./UpdatePrice";
+import UpdateProbability from "./UpdateProbability";
 
 function Layout({ children }) {
   return (
@@ -58,6 +63,11 @@ function Layout({ children }) {
             <Status />
             <UpdateStatus />
             <Notifications />
+            <AddProduct />
+            <AcSystem />
+            <UpdateProductData />
+            <UpdatePrice />
+            <UpdateProbability />
           </div>
         </div>
       </div>

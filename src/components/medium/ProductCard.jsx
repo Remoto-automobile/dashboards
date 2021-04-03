@@ -9,6 +9,7 @@ function ProductCard({
   imgAlt,
   displayData,
   type = "action",
+  onButtonClick,
 }) {
   return (
     <div
@@ -43,6 +44,7 @@ function ProductCard({
         {type === "action" ? (
           <Button
             variant="outlined"
+            onClick={onButtonClick}
             style={{
               color: colors.bodyText,
               textTransform: "capitalize",

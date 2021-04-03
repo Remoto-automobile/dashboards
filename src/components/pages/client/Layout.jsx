@@ -9,6 +9,7 @@ import UserOrder from "./UserOrder";
 import EditProfileCard from "../../medium/EditProfileCard";
 import CreateOrder from "./CreateOrder";
 import CarInfo from "./CarInfo";
+import { Switch, Route } from "react-router-dom";
 
 // Import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -48,12 +49,21 @@ function Layout({ children }) {
         </div>
         <div style={{ width: "100%", padding: "0 20px" }}>
           {/* {children} */}
-          <Dashboard />
-          <UserProfile />
+          <Switch>
+            <Route path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
+          <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
+          </Switch>
+          {/* <UserProfile />
           <UserOrder />
           <EditProfileCard />
           <CreateOrder />
-          <CarInfo />
+          <CarInfo /> */}
         </div>
       </div>
     </div>

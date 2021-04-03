@@ -59,9 +59,9 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
           <AddAPhotoIcon />
         </Avatar>
         <form noValidate autoComplete="off">
-          <label htmlFor="name">
+          {/* <label htmlFor="name">
             <Typography style={fonts.bodyText}>Name</Typography>
-          </label>
+          </label> */}
           <TextField
             name="name"
             label="Name"
