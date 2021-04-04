@@ -2,9 +2,33 @@ import React from "react";
 import { Button } from "@material-ui/core";
 import { colors } from "../../globalStyles";
 
-function CallToAction({ children, onClick }) {
+function CallToAction({ children, onClick, size }) {
+  let width;
+  switch (size) {
+    case "big":
+      width = 220;
+      break;
+    case "medium":
+      width = 200;
+
+      break;
+    case "small":
+      width = 180;
+
+      break;
+    case "tiny":
+      width = 160;
+
+      break;
+    default:
+      width = "auto";
+  }
   return (
-    <Button variant="contained" style={styles} onClick={onClick}>
+    <Button
+      variant="contained"
+      style={{ ...styles, width: width }}
+      onClick={onClick}
+    >
       {children}
     </Button>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import TitleBar from "../../pageLayout/TitleBar";
 import ProductCard from "../../medium/ProductCard";
 import UserTable from "../../major/UserTable";
-import { InputBase } from "@material-ui/core";
+import { TextField, Input } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 function Users() {
@@ -12,8 +12,21 @@ function Users() {
         title="Users"
         actionText="Add New Product"
         actionIcon={<AddIcon />}
+        ctaSize="big"
       >
-        <InputBase placeholder="Search" />
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "right",
+            flexWrap: "wrap",
+          }}
+        >
+          <TextField
+            placeholder="Search Users"
+            style={{ width: 500, marginRight: 50 }}
+          />
+        </div>
       </TitleBar>
       <ProductCard type="display" title="Users" displayData="213" />
 

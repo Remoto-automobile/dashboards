@@ -14,6 +14,13 @@ export const pageDynamics = makeStyles((theme) => ({
     },
   },
 }));
+
+export const navigation = makeStyles((theme) => ({
+  link: {
+    textDecoration: "none",
+    color: "inherit",
+  },
+}));
 // export const responsive = windowSize();
 
 let fontFamily = "Asap";

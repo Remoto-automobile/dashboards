@@ -1,5 +1,7 @@
 import React from "react";
 import { colors } from "../../../globalStyles";
+import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/Styles";
 
 import Appbar from "../../pageLayout/Appbar";
 import Drawer from "../../pageLayout/Drawer";
@@ -30,20 +32,49 @@ import UpdateProductData from "./UpdateProductData";
 import UpdatePrice from "./UpdatePrice";
 import UpdateProbability from "./UpdateProbability";
 
+const paint = makeStyles((theme) => ({
+  link: {
+    textDecoration: "none",
+    color: "inherit",
+    "&:hover": {
+      color: colors.main,
+    },
+  },
+}));
+
 function Layout({ children }) {
+  const painting = paint();
+  const { url, path } = useRouteMatch();
   return (
     <div style={styles.root}>
       <div>
         <Drawer>
           <SiderCard>
-            <SiderItem icon={<DashboardIcon />}>Dashboard</SiderItem>
-            <SiderItem icon={<PeopleIcon />}>Products</SiderItem>
-            <SiderItem icon={<EventNoteIcon />}>Users</SiderItem>
-            <SiderItem icon={<NotificationsIcon />}>Notifications</SiderItem>
-            <SiderItem icon={<ConfirmationNumberIcon />}>
-              Coupon Codes
-            </SiderItem>
-            <SiderItem icon={<HelpIcon />}>Help</SiderItem>
+            <Link className={painting.link} to={`${url}/dashboard`}>
+              <SiderItem icon={<DashboardIcon />}>Dashboard</SiderItem>
+            </Link>
+
+            <Link className={painting.link} to={`${url}/products`}>
+              <SiderItem icon={<PeopleIcon />}>Products</SiderItem>
+            </Link>
+
+            <Link className={painting.link} to={`${url}/users`}>
+              <SiderItem icon={<EventNoteIcon />}>Users</SiderItem>
+            </Link>
+
+            <Link className={painting.link} to={`${url}/notifications`}>
+              <SiderItem icon={<NotificationsIcon />}>Notifications</SiderItem>
+            </Link>
+
+            <Link className={painting.link} to={`${url}/coupon`}>
+              <SiderItem icon={<ConfirmationNumberIcon />}>
+                Coupon Codes
+              </SiderItem>
+            </Link>
+
+            <Link className={painting.link} to={`${url}/help`}>
+              <SiderItem icon={<HelpIcon />}>Help</SiderItem>
+            </Link>
           </SiderCard>
         </Drawer>
       </div>
@@ -53,18 +84,44 @@ function Layout({ children }) {
         </div>
         <div style={{ width: "100%", backgroundColor: colors.secondaryBg }}>
           <div style={{ width: "100%", padding: "0 20px" }}>
-            <Products />
-            <Dashboard />
-            <PremiumPlan />
-            <MiniPlan />
-            <AccessPlan />
-            <UpdateData />
-            <Users />
-            <Status />
+            <Switch>
+              <Route exact path={`${path}`}>
+                <Products />
+              </Route>
+              <Route path={`${path}/products`}>
+                <Products />
+              </Route>
+              <Route path={`${path}/dashboard`}>
+                <Dashboard />
+              </Route>
+              <Route path={`${path}/plans/premium`}>
+                <PremiumPlan />
+              </Route>
+              <Route path={`${path}/plans/mini`}>
+                <MiniPlan />
+              </Route>
+              <Route path={`${path}/plans/access`}>
+                <AccessPlan />
+              </Route>
+              <Route exact path={`${path}/users`}>
+                <Users />
+              </Route>
+              <Route path={`${path}/users/view`}>
+                <Status />
+              </Route>
+              <Route path={`${path}/notifications`}>
+                <Notifications />
+              </Route>
+              <Route path={`${path}/addproduct`}>
+                <AddProduct />
+              </Route>
+              <Route path={`${path}/ac_system`}>
+                <AcSystem />
+              </Route>
+            </Switch>
+
             <UpdateStatus />
-            <Notifications />
-            <AddProduct />
-            <AcSystem />
+            <UpdateData />
             <UpdateProductData />
             <UpdatePrice />
             <UpdateProbability />
