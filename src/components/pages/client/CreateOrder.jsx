@@ -8,7 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import Typography from "@material-ui/core/Typography";
+import { Heading7, MainBodyText, BodyText } from "../../../typography";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,7 +17,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function CreateOrderDialog({ dialogOpened }) {
   const Ui = React.useContext(UiContext);
   return (
-    // <div>
     <Dialog
       open={Ui.uiState.createOrderDialog}
       TransitionComponent={Transition}
@@ -30,9 +29,7 @@ export default function CreateOrderDialog({ dialogOpened }) {
     >
       <div style={{ padding: "20px 20%" }}>
         <DialogTitle id="create-order-title" style={{ textAlign: "center" }}>
-          <Typography style={{ ...fonts.heading7 }}>
-            {"Create Order"}
-          </Typography>
+          <Heading7>{"Create Order"}</Heading7>
           <div
             style={{
               position: "absolute",
@@ -49,30 +46,27 @@ export default function CreateOrderDialog({ dialogOpened }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="create-order-description">
-            Diagnose your car's problem through our car issue dialog. Click the
-            button below to book an appointment.
+            <BodyText small>
+              Diagnose your car's problem through our car issue dialog. Click
+              the button below to book an appointment.
+            </BodyText>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button> */}
           <Button
             onClick={() => {
               Ui.uiDispatch("default");
             }}
-            color="primary"
             style={{
               backgroundColor: colors.main,
               textTransform: "capitalize",
-              ...fonts.mainBodyText,
               width: "90%",
-              color: colors.mainBg,
-              fontWeight: 700,
               marginBottom: 40,
             }}
           >
-            Book an appointment
+            <MainBodyText bold color={colors.mainBg}>
+              Book an appointment
+            </MainBodyText>
           </Button>
         </DialogActions>
       </div>

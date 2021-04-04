@@ -4,6 +4,8 @@ import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
 import ProductCard from "../../medium/ProductCard";
 
+import acImage from "../../../assets/air-condition.svg";
+
 function Products() {
   const Ui = React.useContext(UiContext);
   return (
@@ -16,6 +18,8 @@ function Products() {
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <ProductCard
           title="Exhaust System"
+          imgSrc={acImage}
+          bg="#FF663445"
           onButtonClick={() => {
             Ui.uiDispatch("showUpdateProductDialog");
           }}

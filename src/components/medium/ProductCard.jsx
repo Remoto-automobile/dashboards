@@ -5,11 +5,12 @@ import { Typography, Button, Avatar } from "@material-ui/core";
 function ProductCard({
   flex,
   title,
-  imgSrc = "n",
+  imgSrc,
   imgAlt,
   displayData,
   type = "action",
   onButtonClick,
+  bg,
 }) {
   return (
     <div
@@ -28,7 +29,13 @@ function ProductCard({
       }}
     >
       <div style={{ ...Card.title, flex: 1 }}>
-        {imgSrc && <Avatar src={imgSrc} alt={imgAlt || "PI"} />}
+        {imgSrc && (
+          <Avatar
+            src={imgSrc}
+            alt={imgAlt || "PI"}
+            style={{ backgroundColor: bg, padding: 8 }}
+          />
+        )}
         <Typography
           style={{
             color: Card.color,

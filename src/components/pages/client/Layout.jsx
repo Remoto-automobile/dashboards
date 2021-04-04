@@ -9,7 +9,8 @@ import UserOrder from "./UserOrder";
 import EditProfileCard from "../../medium/EditProfileCard";
 import CreateOrder from "./CreateOrder";
 import CarInfo from "./CarInfo";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch, Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/Styles";
 
 // Import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -17,8 +18,21 @@ import PeopleIcon from "@material-ui/icons/People";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { colors } from "../../../globalStyles";
+
+const paint = makeStyles((theme) => ({
+  link: {
+    textDecoration: "none",
+    color: "inherit",
+    "&:hover": {
+      color: colors.main,
+    },
+  },
+}));
 
 function Layout({ children }) {
+  const painting = paint();
+  let { path, url } = useRouteMatch();
   return (
     <div style={styles.root}>
       <div style={styles.appbar}>
@@ -28,42 +42,57 @@ function Layout({ children }) {
         <div>
           <Drawer>
             <SiderCard>
-              <SiderItem>
-                <DashboardIcon /> Dashboard
-              </SiderItem>
-              <SiderItem>
-                {" "}
-                <PeopleIcon /> Profile
-              </SiderItem>
-              <SiderItem>
-                <EventNoteIcon /> Fix My Car
-              </SiderItem>
-              <SiderItem>
-                <InsertInvitationIcon /> Car Information
-              </SiderItem>
-              <SiderItem>
-                <HelpOutlineIcon /> Help
-              </SiderItem>
+              <Link to={`${url}/dashboard`} className={painting.link}>
+                <SiderItem>
+                  <DashboardIcon /> Dashboard
+                </SiderItem>
+              </Link>
+              <Link to={`${url}/profile`} className={painting.link}>
+                <SiderItem>
+                  <PeopleIcon /> Profile
+                </SiderItem>
+              </Link>
+              <Link to={`${url}/order`} className={painting.link}>
+                <SiderItem>
+                  <EventNoteIcon /> Fix My Car
+                </SiderItem>
+              </Link>
+              <Link to={`${url}/car_info`} className={painting.link}>
+                <SiderItem>
+                  <InsertInvitationIcon /> Car Information
+                </SiderItem>
+              </Link>
+              <Link className={painting.link}>
+                <SiderItem>
+                  <HelpOutlineIcon /> Help
+                </SiderItem>
+              </Link>
             </SiderCard>
           </Drawer>
         </div>
         <div style={{ width: "100%", padding: "0 20px" }}>
           {/* {children} */}
           <Switch>
-            <Route path="/">
+            <Route path={`${path}/dashboard`}>
+              <Dashboard />
+            </Route>
+            <Route exact path={`${path}/profile`}>
+              <UserProfile />
+            </Route>
+            <Route path={`${path}/order`}>
+              <UserOrder />
+            </Route>
+            <Route path={`${path}/profile/edit`}>
+              <EditProfileCard />
+            </Route>
+            <Route path={`${path}/car_info`}>
+              <CarInfo />
+            </Route>
+            <Route exact path={`${path}/`}>
               <Dashboard />
             </Route>
           </Switch>
-          <Switch>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-          </Switch>
-          {/* <UserProfile />
-          <UserOrder />
-          <EditProfileCard />
           <CreateOrder />
-          <CarInfo /> */}
         </div>
       </div>
     </div>

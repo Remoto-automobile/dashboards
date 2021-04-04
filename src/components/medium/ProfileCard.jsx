@@ -1,8 +1,23 @@
 import React from "react";
 import { Typography, Button, Avatar } from "@material-ui/core";
 import { Card, fonts, colors } from "../../globalStyles";
+import profilePicture from "../../assets/temp/profilePicture.jpg";
+import { Link, useRouteMatch } from "react-router-dom";
 
-function ProfileCard({ children, flex, title, picSrc, picAlt, action }) {
+function ProfileCard({
+  children,
+  flex,
+  title,
+  picSrc,
+  picAlt,
+  actionText,
+  action,
+}) {
+  const { path } = useRouteMatch();
+  let location;
+  if (action === "editProfile") {
+    location = `${path}/edit`;
+  }
   return (
     <div
       style={{
@@ -32,22 +47,28 @@ function ProfileCard({ children, flex, title, picSrc, picAlt, action }) {
         }}
       >
         <div style={{ padding: "auto 30px", marginRight: 50 }}>
-          <Avatar src={picSrc} alt={picAlt || "image"} style={Card.avatar} />
+          <Avatar
+            src={profilePicture}
+            alt={picAlt || "image"}
+            style={Card.avatar}
+          />
         </div>
         <div style={{ flex: 1 }}>{children}</div>
       </div>
 
       <div style={{ display: "flex", width: "100%", justifyContent: "right" }}>
-        <Button
-          variant="outlined"
-          style={{
-            color: colors.bodyText,
-            textTransform: "capitalize",
-            fontWeight: 700,
-          }}
-        >
-          {action}
-        </Button>
+        <Link to={location}>
+          <Button
+            variant="outlined"
+            style={{
+              color: colors.bodyText,
+              textTransform: "capitalize",
+              fontWeight: 700,
+            }}
+          >
+            {actionText}
+          </Button>
+        </Link>
       </div>
     </div>
   );

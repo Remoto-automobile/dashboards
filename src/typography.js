@@ -8,7 +8,7 @@ export function BodyText({ children, bold, color, other, small }) {
         ...fonts.bodyText,
         color: color || colors.bodyText,
         fontWeight: bold ? 600 : 400,
-        fontSize: small ? "0.5em" : fonts.bodyText.fontSize,
+        fontSize: small ? "0.7em" : fonts.bodyText.fontSize,
         ...other,
       }}
     >
@@ -36,7 +36,37 @@ export function Heading7({ children, bold, color, other }) {
   return (
     <Typography
       style={{
-        ...fonts.Heading7,
+        ...fonts.heading7,
+        color: color || colors.bodyText,
+        fontWeight: bold ? 700 : 600,
+        ...other,
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
+
+export function Heading6({ children, bold, color, other }) {
+  return (
+    <Typography
+      style={{
+        ...fonts.heading6,
+        color: color || colors.bodyText,
+        fontWeight: bold ? 700 : 600,
+        ...other,
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}
+
+export function Heading5({ children, bold, color, other }) {
+  return (
+    <Typography
+      style={{
+        ...fonts.heading5,
         color: color || colors.bodyText,
         fontWeight: bold ? 700 : 600,
         ...other,

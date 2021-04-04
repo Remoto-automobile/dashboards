@@ -1,5 +1,6 @@
 import React from "react";
 import { UiContext } from "../../App";
+import profilePicture from "../../assets/temp/profilePicture.jpg";
 import {
   Appbar,
   colors,
@@ -7,6 +8,7 @@ import {
   pageDynamics,
   Appdrawer,
 } from "../../globalStyles";
+import brandLogo from "../../assets/REMOTO@2x 2.png";
 import CallToAction from "../basic/CallToAction";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import {
@@ -18,7 +20,7 @@ import {
   Badge,
   MenuItem,
   Menu,
-  Button,
+  Avatar,
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
@@ -204,16 +206,21 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
           </div>
           {showBrand ? (
             <div className={classes.brand}>
-              <Typography
-                style={{
-                  ...fonts.heading4,
-                  textTransform: "uppercase",
-                  color: colors.dark3,
-                }}
-                className={responsive.desktopOnly}
-              >
-                Remoto
-              </Typography>
+              <img
+                src={brandLogo}
+                alt={
+                  <Typography
+                    style={{
+                      ...fonts.heading4,
+                      textTransform: "uppercase",
+                      color: colors.dark3,
+                    }}
+                    className={responsive.desktopOnly}
+                  >
+                    Remoto
+                  </Typography>
+                }
+              />
             </div>
           ) : (
             ""
@@ -251,7 +258,7 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
               // color="inherit"
               style={Appbar.desktopNotificationIcon}
             >
-              <AccountCircle />
+              <Avatar src={profilePicture} alt={<AccountCircle />} />
             </IconButton>
           </div>
           {callToAction ? (

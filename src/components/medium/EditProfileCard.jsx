@@ -1,48 +1,65 @@
 import React from "react";
-import { Card, fonts, pageDynamics } from "../../globalStyles";
+import { Card, pageDynamics } from "../../globalStyles";
 import EditProfileForm from "../basic/EditProfileForm";
-import { Typography } from "@material-ui/core";
+import { Heading6, BodyText } from "../../typography";
+import BasicCard from "../medium/BasicCard";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import profilePicture from "../../assets/temp/profilePicture.jpg";
+import { Avatar } from "@material-ui/core";
 
 function EditProfileCard({ flex, title, picSrc, picAlt, children }) {
   const responsive = pageDynamics();
   return (
-    <div
-      style={{
-        ...Card.spacing,
-        flex: flex || 1,
-        borderRadius: 14,
-        backgroundColor: Card.bgColor,
+    <BasicCard
+      custom={{
+        display: "flex",
         flexDirection: "column",
+        alignItems: "stretch",
+        marginBottom: 50,
       }}
+      width="100%"
     >
       <div style={Card.title}>
-        <Typography style={{ ...fonts.heading6, color: Card.color }}>
-          {title || "Edit Profile"}
-        </Typography>
+        <Heading6 color={Card.color}>{title || "Edit Profile"}</Heading6>
       </div>
       <hr width="100%" />
+
       <div
         style={{
-          flex: 1,
-          display: flex,
+          display: "flex",
           flexDirection: "column",
-          // justifyContent: "center",
           alignItems: "center",
-          padding: "auto 30%",
-          marginTop: 25,
+          marginBottom: 50,
         }}
       >
-        {/* <div>
-          <Avatar src={picSrc} alt={picAlt || "image"} style={Card.avatar} />
-        </div> */}
-        <div className={responsive.desktopOnly}>
-          <EditProfileForm mobile={false} />
-        </div>
-        <div className={responsive.mobileOnly}>
-          <EditProfileForm mobile={true} />
-        </div>
+        <Avatar
+          src={profilePicture}
+          alt={picAlt || "image"}
+          style={{ ...Card.avatar, margin: "30px auto" }}
+        >
+          <AddAPhotoIcon />
+        </Avatar>
+        <BodyText>
+          * The uploaded image must be 500px wide and 500px long
+        </BodyText>
       </div>
-    </div>
+      <div
+        className={responsive.desktopOnly}
+        style={{
+          justifyContent: "center",
+        }}
+      >
+        <EditProfileForm mobile={false} />
+      </div>
+      <div
+        className={responsive.mobileOnly}
+        style={{
+          justifyContent: "center",
+        }}
+      >
+        <EditProfileForm mobile={true} />
+      </div>
+    </BasicCard>
   );
 }
 
