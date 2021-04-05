@@ -9,7 +9,8 @@ function UserProfile() {
   return (
     <CardRow>
       <ProfileCard
-        action="View Profile"
+        actionText="Edit Profile"
+        action="editProfile"
         flex={1}
         picSrc="https://picsum.photos/120/120"
         title="Profile"

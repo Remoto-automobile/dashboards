@@ -1,7 +1,9 @@
 import React from "react";
-import { Card, fonts, colors } from "../../globalStyles";
-import { Typography, Avatar } from "@material-ui/core";
+import { Heading7, Heading6, BodyText } from "../../typography";
+import { Card, colors } from "../../globalStyles";
+import check from "../../assets/check.jpg";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { Avatar } from "@material-ui/core";
 
 function OrderThanks({ flex, title }) {
   return (
@@ -16,9 +18,7 @@ function OrderThanks({ flex, title }) {
       }}
     >
       <div style={Card.title}>
-        <Typography style={{ ...fonts.heading6, color: Card.color }}>
-          {title || "Current Order"}
-        </Typography>
+        <Heading6 color={Card.color}>{title || "Current Order"}</Heading6>
       </div>
       <div
         style={{
@@ -26,21 +26,30 @@ function OrderThanks({ flex, title }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexWrap: "wrap",
+          marginTop: 20,
         }}
       >
-        <div style={{ padding: "auto 30px", marginRight: 50 }}>
-          <Avatar style={Card.avatar}>
-            <CheckCircleIcon />
-          </Avatar>
+        <div
+          style={{
+            padding: "auto 30px",
+            marginRight: 40,
+          }}
+        >
+          <img
+            style={{ width: 160, height: 120 }}
+            src={check}
+            alt={<CheckCircleIcon />}
+          />
+          {/* <CheckCircleIcon />
+          </Avatar> */}
         </div>
-        <div style={{ flex: 1 }}>
-          <Typography style={{ ...fonts.heading7 }}>
-            Thank you for your order
-          </Typography>
-          <Typography style={{ ...fonts.bodyText, color: colors.bodyText }}>
+        <div style={{ flex: 1, minWidth: 320 }}>
+          <Heading7>Thank you for your order</Heading7>
+          <BodyText color={colors.bodyText}>
             We are currently processing your order. You can find updates to your
             order under Order History
-          </Typography>
+          </BodyText>
         </div>
       </div>
     </div>

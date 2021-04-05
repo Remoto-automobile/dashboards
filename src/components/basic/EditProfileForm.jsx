@@ -1,20 +1,15 @@
 import React, { useState } from "react";
-import { form, Card, colors, fonts } from "../../globalStyles";
+import { form, Card, colors } from "../../globalStyles";
 import {
-  Avatar,
+  InputLabel,
+  FormControl,
   TextField,
   Button,
   MenuItem,
-  Typography,
 } from "@material-ui/core";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import { BodyText } from "../../typography";
 
 const years = [
-  2000,
-  2001,
-  2002,
-  2003,
-  2004,
   2005,
   2006,
   2007,
@@ -29,98 +24,113 @@ const years = [
   2016,
   2017,
   2018,
-  2019,
-  2020,
-  2021,
 ];
 
 function EditProfileForm({ picAlt, picSrc, mobile }) {
-  const [year, setYear] = useState(2021);
+  const [year, setYear] = useState(2018);
   const changeYear = (event) => {
     setYear(event.target.value);
   };
-  let padding;
-  mobile ? (padding = "0 20px") : (padding = "0 30%");
+  let width;
+  mobile ? (width = "90%") : (width = "35%");
   return (
-    <React.Fragment>
-      <div
+    <form
+      noValidate
+      autoComplete="off"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        width: width,
+        marginBottom: 40,
+      }}
+    >
+      <FormControl margin="normal">
+        <label htmlFor="name">
+          <BodyText bold>Name</BodyText>
+        </label>
+        <TextField
+          name="name"
+          // label="Name"
+          value="Remoto Official"
+          variant="outlined"
+          // style={form.field}
+        />
+      </FormControl>
+
+      <FormControl margin="normal">
+        <label htmlFor="phone">
+          <BodyText bold>Phone</BodyText>
+        </label>
+        <TextField
+          name="phone"
+          value="2348000000000"
+          variant="outlined"
+          // style={form.field}
+        />
+      </FormControl>
+
+      <FormControl margin="normal">
+        <label htmlFor="brand">
+          <BodyText bold>Brand</BodyText>
+        </label>
+        <TextField
+          name="brand"
+          value="Toyota"
+          variant="outlined"
+          // style={form.field}
+        />
+      </FormControl>
+
+      <FormControl margin="normal">
+        <label htmlFor="model">
+          <BodyText bold>Model</BodyText>
+        </label>
+        <TextField
+          name="model"
+          value="Corolla"
+          variant="outlined"
+          // style={form.field}
+        />
+      </FormControl>
+
+      <FormControl margin="normal">
+        <TextField
+          name="year"
+          select
+          variant="outlined"
+          onChange={changeYear}
+          value={year}
+          // style={form.field}
+        >
+          {years.map((year) => (
+            <MenuItem key={year} value={year}>
+              {year}
+            </MenuItem>
+          ))}
+        </TextField>
+      </FormControl>
+
+      <FormControl margin="normal">
+        <TextField
+          name="location"
+          value="Lagos"
+          variant="outlined"
+          // style={form.field}
+        />
+      </FormControl>
+      <Button
         style={{
-          padding: padding,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          // ...form.field,
+          backgroundColor: colors.main,
+          textTransform: "capitalize",
         }}
       >
-        <Avatar
-          src={picSrc}
-          alt={picAlt || "image"}
-          style={{ ...Card.avatar, marginBottom: 30 }}
-        >
-          <AddAPhotoIcon />
-        </Avatar>
-        <form noValidate autoComplete="off">
-          <label htmlFor="name">
-            <Typography style={fonts.bodyText}>Name</Typography>
-          </label>
-          <TextField
-            name="name"
-            label="Name"
-            variant="outlined"
-            style={form.field}
-          />
-          <TextField
-            name="phone"
-            label="Phone"
-            variant="outlined"
-            style={form.field}
-          />
-          <TextField
-            name="brand"
-            label="Car Brand"
-            variant="outlined"
-            style={form.field}
-          />
-          <TextField
-            name="model"
-            label="Model"
-            variant="outlined"
-            style={form.field}
-          />
-          <TextField
-            name="year"
-            select
-            label="Year"
-            variant="outlined"
-            onChange={changeYear}
-            value={year}
-            style={form.field}
-          >
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            name="location"
-            label="Location"
-            variant="outlined"
-            style={form.field}
-          />
-          <Button
-            style={{
-              ...form.field,
-              backgroundColor: colors.main,
-              textTransform: "capitalize",
-              color: colors.secondaryBg,
-              fontWeight: 600,
-            }}
-          >
-            Save Changes
-          </Button>
-        </form>
-      </div>
-    </React.Fragment>
+        <BodyText bold color={colors.mainBg}>
+          Save Changes
+        </BodyText>
+      </Button>
+    </form>
   );
 }
 
