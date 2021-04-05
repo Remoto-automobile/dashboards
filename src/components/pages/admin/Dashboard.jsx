@@ -3,12 +3,13 @@ import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
 import ProductCard from "../../medium/ProductCard";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/Styles";
+import { makeStyles } from "@material-ui/core/styles";
+//editted
 
 const paint = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
-    color: "inherit",
+    color: "inherit"
   },
 }));
 
