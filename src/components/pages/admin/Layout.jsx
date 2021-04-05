@@ -1,7 +1,7 @@
 import React from "react";
 import { colors } from "../../../globalStyles";
 import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/Styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Appbar from "../../pageLayout/Appbar";
 import Drawer from "../../pageLayout/Drawer";
