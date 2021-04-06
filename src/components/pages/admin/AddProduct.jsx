@@ -10,7 +10,7 @@ function AddProduct() {
   return (
     <div>
       <div>
-        <TitleBar title="Add New Product" />
+        <TitleBar title="Add New Product" noCtaButton />
       </div>
       <div style={{ display: "flex" }}>
         <BasicCard
@@ -32,6 +32,7 @@ function AddProduct() {
               variant="outlined"
               placeholder="Search Products"
               style={{ width: 320 }}
+              size="small"
             />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <BodyText bold other={{ margin: 10 }}>
@@ -76,6 +77,7 @@ function AddProduct() {
               name="newProduct"
               placeholder="Mercedes"
               style={{ width: 320 }}
+              size="small"
             />
             <div style={{ marginLeft: 20 }}>
               <CallToAction>Add</CallToAction>

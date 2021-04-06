@@ -22,7 +22,7 @@ function Dashboard() {
         actionText="Add New Product"
         actionIcon={<AddIcon />}
       />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginBottom: 50 }}>
         <Link to="plans/premium" className={painting.link}>
           <ProductCard
             type="display"

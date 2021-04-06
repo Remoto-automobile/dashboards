@@ -132,86 +132,132 @@ export default function CarInfo() {
             </TableBody>
           </Table>
         </TabPanel>
+
         <TabPanel value={value} index={1}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Car Model</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell>
+                  <BodyText bold>Car Model</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText bold>Year</BodyText>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Corolla</TableCell>
-                <TableCell>2018</TableCell>
+                <TableCell>
+                  <BodyText>Corolla</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText>2018</BodyText>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TabPanel>
+
         <TabPanel value={value} index={2}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Car Model</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell>
+                  <BodyText bold>Car Model</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText bold>Year</BodyText>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Corolla</TableCell>
-                <TableCell>2018</TableCell>
+                <TableCell>
+                  <BodyText>Corolla</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText>2018</BodyText>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TabPanel>
+
         <TabPanel value={value} index={3}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Car Model</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell>
+                  <BodyText bold>Car Model</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText bold>Year</BodyText>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Corolla</TableCell>
-                <TableCell>2018</TableCell>
+                <TableCell>
+                  <BodyText>Corolla</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText>2018</BodyText>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TabPanel>
+
         <TabPanel value={value} index={4}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Car Model</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell>
+                  <BodyText bold>Car Model</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText bold>Year</BodyText>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Corolla</TableCell>
-                <TableCell>2018</TableCell>
+                <TableCell>
+                  <BodyText>Corolla</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText>2018</BodyText>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TabPanel>
+
         <TabPanel value={value} index={5}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Car Model</TableCell>
-                <TableCell>Year</TableCell>
+                <TableCell>
+                  <BodyText bold>Car Model</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText bold>Year</BodyText>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell>Corolla</TableCell>
-                <TableCell>2018</TableCell>
+                <TableCell>
+                  <BodyText>Corolla</BodyText>
+                </TableCell>
+                <TableCell>
+                  <BodyText>2018</BodyText>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TabPanel>
+
         {/* </SwipeableViews> */}
       </div>
     </BasicCard>

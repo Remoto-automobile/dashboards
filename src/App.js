@@ -26,9 +26,14 @@ const initialUiState = {
   productDataDialog: false,
   updatePriceDialog: false,
   updateProbabilityDialog: false,
+  openMobileMenu: false,
 };
 const reducer = (state, action) => {
   switch (action) {
+    case "openMobileMenu":
+      return { ...state, openMobileMenu: true };
+    case "closeMobileMenu":
+      return { ...state, openMobileMenu: false };
     case "showCreateOrderDialog":
       return { ...state, createOrderDialog: true };
     case "hideCreateOrderDialog":
@@ -62,6 +67,7 @@ const reducer = (state, action) => {
         productDataDialog: false,
         updatePriceDialog: false,
         updateProbabilityDialog: false,
+        openMobileMenu: false,
       };
   }
 };

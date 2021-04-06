@@ -1,8 +1,10 @@
 import React from "react";
+import { Card, fonts, colors } from "../../../globalStyles";
 import TitleBar from "../../pageLayout/TitleBar";
 import TabPanel from "../../basic/TabPanel";
 import { MainBodyText, BodyText } from "../../../typography";
 import AddIcon from "@material-ui/icons/Add";
+import { useLocation, useHistory } from "react-router-dom";
 import {
   AppBar,
   Tabs,
@@ -15,6 +17,43 @@ import {
   TextField,
   MenuItem,
 } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import CallToAction from "../../basic/CallToAction";
+
+const CarTabs = withStyles({
+  root: {
+    backgroundColor: Card.bgColor,
+  },
+  indicator: {
+    backgroundColor: "green",
+  },
+})(Tabs);
+
+const CarTab = withStyles((theme) => ({
+  root: {
+    textTransform: "capitalize",
+    minWidth: 72,
+    borderRadius: "20px 20px 0px 0px",
+    margin: "auto 5px",
+    // backgroundColor: colors,
+    fontWeight: 600,
+    fontFamily: fonts.bodyText.fontFamily,
+    // marginRight: theme.spacing(4),
+    "&:hover": {
+      color: colors.main,
+      opacity: 1,
+    },
+    "&$selected": {
+      color: Card.color,
+      fontWeight: 600,
+      backgroundColor: "#b2ffb2",
+    },
+    "&:focus": {
+      color: "#40a9ff",
+    },
+  },
+  selected: {},
+}))(Tab);
 
 function a11yProps(index) {
   return {
@@ -43,22 +82,14 @@ const years = [
   2015,
 ];
 
-function populate(component, price, probability) {
-  return { component, price, probability };
-}
-
-const tableData = [
-  populate("Compressor", 31000, 0.25),
-  populate("Condenser", 21000, 0.2),
-  populate("Expansion Valve", 10000, 0.02),
-  populate("Reciever Drier", 4000, 0.1),
-  populate("Evaporator", 16000, 0.2),
-  populate("Blower Motor", 6000, 0.03),
-  populate("Accumulator", 7000, 0.1),
-  populate("Refrigerant", 2000, 0.1),
-];
-
-function AcSystem() {
+function ProductDetails() {
+  const location = useLocation();
+  const history = useHistory();
+  // if (!location.state) {
+  //   history.push("/admin/products");
+  // }
+  // const history = useHistory();
+  console.log(location.state.name);
   const [year, setYear] = React.useState(2008);
   const [value, setValue] = React.useState(0);
   const [car, setCar] = React.useState("Toyota");
@@ -79,13 +110,13 @@ function AcSystem() {
   return (
     <div>
       <TitleBar
-        title="Air-Condition System"
+        title={location.state.name}
         actionText="Add New Product"
         actionIcon={<AddIcon />}
       />
       <div>
-        <AppBar position="static" color="default">
-          <Tabs
+        <AppBar position="static" color="default" elevation="none">
+          <CarTabs
             value={value}
             onChange={handleChange}
             indicatorColor="primary"
@@ -93,30 +124,37 @@ function AcSystem() {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="Toyota" {...a11yProps(0)} />
-            <Tab label="Honda" {...a11yProps(1)} />
-            <Tab label="Hyundai" {...a11yProps(2)} />
-            <Tab label="Kia" {...a11yProps(3)} />
-            <Tab label="Toyota" {...a11yProps(4)} />
-            <Tab label="Kia" {...a11yProps(5)} />
-            <Tab label="Hyundai" {...a11yProps(5)} />
-          </Tabs>
+            <CarTab label="Toyota" {...a11yProps(0)} />
+            <CarTab label="Honda" {...a11yProps(1)} />
+            <CarTab label="Hyundai" {...a11yProps(2)} />
+            <CarTab label="Kia" {...a11yProps(3)} />
+            <CarTab label="Toyota" {...a11yProps(4)} />
+            <CarTab label="Kia" {...a11yProps(5)} />
+            <CarTab label="Hyundai" {...a11yProps(5)} />
+          </CarTabs>
         </AppBar>
 
         <TabPanel value={value} index={0}>
-          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              marginBottom: 30,
+              flexWrap: "wrap",
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center" }}>
-              <MainBodyText other={{ marginRight: 20 }}>
+              <BodyText small other={{ marginRight: 20 }}>
                 Select Car Type
-              </MainBodyText>
+              </BodyText>
               <TextField
                 name="car"
                 select
-                label="Car"
                 variant="outlined"
                 onChange={changeCar}
                 value={car}
-                style={{ width: 400 }}
+                style={{ width: 300 }}
+                size="small"
               >
                 {carTypes.map((c) => (
                   <MenuItem key={c} value={c}>
@@ -126,17 +164,17 @@ function AcSystem() {
               </TextField>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <MainBodyText other={{ marginRight: 20 }}>
-                Select Car Type
-              </MainBodyText>
+              <BodyText small other={{ marginRight: 20 }}>
+                Choose Year
+              </BodyText>
               <TextField
                 name="year"
                 select
-                label="Year"
                 variant="outlined"
                 onChange={changeYear}
                 value={year}
-                style={{ width: 400 }}
+                style={{ width: 300 }}
+                size="small"
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -161,25 +199,36 @@ function AcSystem() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableData.map((table) => (
+              {location.state.data.map((data) => (
                 <TableRow>
                   <TableCell>
-                    <BodyText>{table.component}</BodyText>
+                    <BodyText>{data.component}</BodyText>
                   </TableCell>
                   <TableCell>
-                    <BodyText>{table.price}</BodyText>
+                    <BodyText>{data.price}</BodyText>
                   </TableCell>
                   <TableCell>
-                    <BodyText>{table.probability}</BodyText>
+                    <BodyText>{data.probability}</BodyText>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "right",
+              marginTop: 50,
+              paddingRight: 50,
+            }}
+          >
+            <CallToAction>Update Data</CallToAction>
+          </div>
         </TabPanel>
       </div>
     </div>
   );
 }
 
-export default AcSystem;
+export default ProductDetails;

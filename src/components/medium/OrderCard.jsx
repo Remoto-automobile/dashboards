@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { Card, fonts } from "../../globalStyles";
+import { Heading6, BodyText } from "../../typography";
 
 function OrderCard({ children, flex }) {
   return (
@@ -22,9 +23,7 @@ function OrderCard({ children, flex }) {
           paddingLeft: 20,
         }}
       >
-        <Typography style={{ ...fonts.heading6, color: Card.color }}>
-          Orders
-        </Typography>
+        <Heading6 color={Card.color}>Orders</Heading6>
       </div>
       <div
         style={{
@@ -37,15 +36,15 @@ function OrderCard({ children, flex }) {
       >
         <div style={Card.orderBullet}>
           <FiberManualRecordIcon style={{ color: "green", marginRight: 30 }} />
-          <Typography style={{ fontWeight: 600 }}>100 Completed</Typography>
+          <BodyText bold>100 Completed</BodyText>
         </div>
         <div style={Card.orderBullet}>
           <FiberManualRecordIcon style={{ color: "yellow", marginRight: 30 }} />
-          <Typography style={{ fontWeight: 600 }}>50 Ongoing</Typography>
+          <BodyText bold>50 Ongoing</BodyText>
         </div>
         <div style={Card.orderBullet}>
           <FiberManualRecordIcon style={{ color: "red", marginRight: 30 }} />
-          <Typography style={{ fontWeight: 600 }}>19 Withdrawn</Typography>
+          <BodyText bold>19 Withdrawn</BodyText>
         </div>
       </div>
     </div>

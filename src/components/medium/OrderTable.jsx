@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Heading6, MainBodyText, BodyText } from "../../typography";
+import { pageDynamics, colors } from "../../globalStyles";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import {
@@ -16,6 +17,7 @@ import {
   TableCell,
   TableBody,
   Table,
+  Button,
 } from "@material-ui/core";
 
 // import DeleteIcon from "@material-ui/icons/Delete";
@@ -249,6 +251,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function OrderTable() {
+  const responsive = pageDynamics();
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("name");
@@ -277,7 +280,7 @@ export default function OrderTable() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar />
-        <TableContainer>
+        <TableContainer style={{ overflow: "hidden" }}>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -349,8 +352,23 @@ export default function OrderTable() {
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          // labelRowsPerPage={false}
+          labelRowsPerPage={false}
         />
+        <div
+          className={responsive.mobileOnly}
+          style={{ width: "100%", justifyContent: "right", marginTop: 20 }}
+        >
+          <Button
+            style={{
+              color: colors.mainBg,
+              backgroundColor: colors.main,
+              textTransform: "capitalize",
+              fontWeight: 700,
+            }}
+          >
+            View All
+          </Button>
+        </div>
       </Paper>
     </div>
   );

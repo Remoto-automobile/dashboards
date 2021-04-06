@@ -1,11 +1,13 @@
 import React from "react";
-import { Card, fonts, colors } from "../../../globalStyles";
+import { Card, colors, pageDynamics } from "../../../globalStyles";
 import BasicCard from "../../medium/BasicCard";
 import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
-import { Typography, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import { Heading6, BodyText } from "../../../typography";
 
 function Notifications() {
+  const responsive = pageDynamics();
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TitleBar
@@ -20,24 +22,27 @@ function Notifications() {
             display: "flex",
             flexDirection: "column",
             alignItems: "left",
+            justifyContent: "flex-start",
             padding: "0px 20px",
+            minHeight: "50vh",
           }}
         >
-          <div style={Card.title}>
-            <Typography style={{ ...fonts.heading6, color: Card.color }}>
-              {"Subscribers"}
-            </Typography>
+          <div style={{ ...Card.title, marginTop: 30 }}>
+            <Heading6 color={Card.color}>{"Subscribers"}</Heading6>
           </div>
           <div>
-            <Typography
-              style={{ ...fonts.bodyText, paddingLeft: 20, marginTop: 30 }}
-            >
+            <BodyText other={{ marginTop: 30, padding: 20 }}>
               New issurance subscribe available, please take action for release
               of documents
-            </Typography>
+            </BodyText>
           </div>
           <div
-            style={{ display: "flex", width: "100%", justifyContent: "right" }}
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "right",
+              marginTop: 20,
+            }}
           >
             <Button
               variant="outlined"
@@ -64,7 +69,8 @@ function Notifications() {
             </Button>
           </div>
         </BasicCard>
-        <div style={{ flex: 1 }}></div>
+
+        <div style={{ flex: 1 }} className={responsive.desktopOnly}></div>
       </div>
     </div>
   );

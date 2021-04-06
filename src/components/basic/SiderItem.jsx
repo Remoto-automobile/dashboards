@@ -1,40 +1,51 @@
 import React from "react";
-import { colors, fonts } from "../../globalStyles";
+import { colors } from "../../globalStyles";
+import { MainBodyText } from "../../typography";
 import { makeStyles, fade } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { UiContext } from "../../App";
 
-function SiderItem({ children, icon }) {
+function SiderItem({ children, icon, rad }) {
   const compCl = styles();
+  const Ui = React.useContext(UiContext);
+  let extra = {};
+  if (rad) {
+    extra = { borderRadius: 10 };
+  }
   return (
-    <div className={compCl.container}>
-      <Typography
-        style={{ ...fonts.mainBodyText, margin: "10px auto", fontWeight: 600 }}
-      >
+    <div
+      className={compCl.container}
+      style={extra}
+      onClick={() => {
+        Ui.uiDispatch("default");
+      }}
+    >
+      <MainBodyText>
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            // justifyContent: "space-between",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
           }}
         >
           {/* <div style={{ marginRight: 10 }}> */}
-          {icon}
+          <div style={{ marginRight: 20 }}>{icon}</div>
           {/* </div> */}
           <div style={{ display: "flex", alignItems: "center" }}>
             {children}
           </div>
         </div>
-      </Typography>
+      </MainBodyText>
     </div>
   );
 }
 
 const styles = makeStyles((theme) => ({
   container: {
+    paddingTop: 15,
+    paddingBottom: 10,
+    paddingLeft: 30,
+    paddingRight: 20,
     width: "100%",
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
     "&:hover": {
       backgroundColor: fade(colors.main, 0.15),
     },

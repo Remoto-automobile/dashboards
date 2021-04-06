@@ -102,7 +102,7 @@ export const Appbar = {
 };
 
 export const Appdrawer = {
-  drawerWidth: 240,
+  drawerWidth: 280,
   desktopDrawer: {
     width: 258,
   },
@@ -127,7 +127,6 @@ export const Card = {
   avatar: { width: 120, height: 120 },
   orderBullet: {
     display: "flex",
-    justifyContent: "space-between",
     width: "100%",
   },
 };
