@@ -27,7 +27,7 @@ import Status from "./Status";
 import UpdateStatus from "./UpdateStatus";
 import Notifications from "./Notifications";
 import AddProduct from "./AddProduct";
-import AcSystem from "./AcSystem";
+import ProductDetails from "./ProductDetails";
 import UpdateProductData from "./UpdateProductData";
 import UpdatePrice from "./UpdatePrice";
 import UpdateProbability from "./UpdateProbability";
@@ -88,7 +88,7 @@ function Layout({ children }) {
               <Route exact path={`${path}`}>
                 <Products />
               </Route>
-              <Route path={`${path}/products`}>
+              <Route exact path={`${path}/products`}>
                 <Products />
               </Route>
               <Route path={`${path}/dashboard`}>
@@ -112,11 +112,11 @@ function Layout({ children }) {
               <Route path={`${path}/notifications`}>
                 <Notifications />
               </Route>
-              <Route path={`${path}/addproduct`}>
+              <Route path={`${path}/products/add`}>
                 <AddProduct />
               </Route>
-              <Route path={`${path}/ac_system`}>
-                <AcSystem />
+              <Route path={`${path}/products/:product`}>
+                <ProductDetails />
               </Route>
             </Switch>
 

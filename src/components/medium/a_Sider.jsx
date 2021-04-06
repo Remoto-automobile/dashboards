@@ -1,28 +1,23 @@
 import React from "react";
-import { Appdrawer, Card, fonts, colors } from "../../globalStyles";
-import { Typography } from "@material-ui/core";
+import { Appdrawer, Card, colors } from "../../globalStyles";
+import { Heading4, BodyText } from "../../typography";
+import brandLogo from "../../assets/REMOTO@2x 2.png";
 
 function SiderCard({ children }) {
   return (
     <div style={styles.card}>
       <div style={styles.brand}>
-        <Typography
-          style={{
-            ...fonts.heading4,
-            textTransform: "uppercase",
-            color: colors.dark3,
-            margin: "auto",
-          }}
-        >
-          Remoto
-        </Typography>
+        <img src={brandLogo} alt={<Heading4>Remoto</Heading4>} />
       </div>
       <div>
-        <Typography style={{ ...fonts.bodyText, color: colors.bodyText }}>
+        <BodyText
+          color={colors.bodyText}
+          other={{ margin: 15, marginLeft: 30, marginBottom: 5 }}
+        >
           Admin
-        </Typography>
+        </BodyText>
       </div>
-      {children}
+      <div>{children}</div>
     </div>
   );
 }
@@ -32,14 +27,15 @@ const styles = {
     width: Appdrawer.drawerWidth,
     margin: 0,
     backgroundColor: Card.bgColor,
-    padding: "20px 15px 180px 15px",
+    // padding: "20px 15px 180px 15px",
     borderRadius: 0,
   },
   brand: {
     // backgroundColor: "red",
     display: "flex",
     justifyContent: "center",
-    marginBottom: 30,
+    alignItems: "center",
+    margin: "25px auto",
   },
 };
 export default SiderCard;

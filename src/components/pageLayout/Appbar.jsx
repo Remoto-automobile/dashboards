@@ -200,12 +200,15 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
               className={classes.menuButton}
               aria-label="open drawer"
               style={{ backgroundColor: "#f8f8f8" }}
+              onClick={() => {
+                Ui.uiDispatch("openMobileMenu");
+              }}
             >
               <MenuIcon />
             </IconButton>
           </div>
           {showBrand ? (
-            <div className={classes.brand}>
+            <div className={classes.brand + " " + classes.sectionDesktop}>
               <img
                 src={brandLogo}
                 alt={

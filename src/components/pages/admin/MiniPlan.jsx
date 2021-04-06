@@ -6,7 +6,7 @@ function MiniPlan() {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TitleBar title="Mini Plan" actionText="Update Data" />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginBottom: 50 }}>
         <ProductCard
           type="display"
           title="Total Sum of Component"

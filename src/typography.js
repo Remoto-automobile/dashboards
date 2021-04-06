@@ -76,3 +76,18 @@ export function Heading5({ children, bold, color, other }) {
     </Typography>
   );
 }
+
+export function Heading4({ children, bold, color, other }) {
+  return (
+    <Typography
+      style={{
+        ...fonts.heading4,
+        color: color || colors.bodyText,
+        fontWeight: bold ? 700 : 600,
+        ...other,
+      }}
+    >
+      {children}
+    </Typography>
+  );
+}

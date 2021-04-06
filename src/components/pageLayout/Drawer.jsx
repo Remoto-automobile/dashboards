@@ -2,6 +2,7 @@ import React from "react";
 import { Drawer, CssBaseline, Hidden } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Appdrawer } from "../../globalStyles";
+import { UiContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AppDrawer(props) {
+  const Ui = React.useContext(UiContext);
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -59,8 +61,10 @@ export default function AppDrawer(props) {
             container={container}
             variant="temporary"
             anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
+            open={Ui.uiState.openMobileMenu}
+            onClose={() => {
+              Ui.uiDispatch("closeMobileMenu");
+            }}
             classes={{
               paper: classes.drawerPaper,
             }}

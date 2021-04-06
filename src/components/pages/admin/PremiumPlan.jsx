@@ -14,7 +14,7 @@ function PremiumPlan() {
           Ui.uiDispatch("showUpdateDataDialog");
         }}
       />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginBottom: 50 }}>
         <ProductCard
           type="display"
           title="Total Sum of Component"

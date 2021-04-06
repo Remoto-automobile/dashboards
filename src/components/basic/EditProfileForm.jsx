@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { form, Card, colors } from "../../globalStyles";
-import {
-  InputLabel,
-  FormControl,
-  TextField,
-  Button,
-  MenuItem,
-} from "@material-ui/core";
+import { FormControl, TextField, Button, MenuItem } from "@material-ui/core";
 import { BodyText } from "../../typography";
 
 const years = [
@@ -95,6 +89,9 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
       </FormControl>
 
       <FormControl margin="normal">
+        <label htmlFor="year">
+          <BodyText bold>Year</BodyText>
+        </label>
         <TextField
           name="year"
           select
@@ -112,6 +109,9 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
       </FormControl>
 
       <FormControl margin="normal">
+        <label htmlFor="location">
+          <BodyText bold>Location</BodyText>
+        </label>
         <TextField
           name="location"
           value="Lagos"

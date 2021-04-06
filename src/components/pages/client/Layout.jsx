@@ -43,28 +43,28 @@ function Layout({ children }) {
           <Drawer>
             <SiderCard>
               <Link to={`${url}/dashboard`} className={painting.link}>
-                <SiderItem>
-                  <DashboardIcon /> Dashboard
+                <SiderItem rad icon={<DashboardIcon />}>
+                  Dashboard
                 </SiderItem>
               </Link>
               <Link to={`${url}/profile`} className={painting.link}>
-                <SiderItem>
-                  <PeopleIcon /> Profile
+                <SiderItem rad icon={<PeopleIcon />}>
+                  Profile
                 </SiderItem>
               </Link>
               <Link to={`${url}/order`} className={painting.link}>
-                <SiderItem>
-                  <EventNoteIcon /> Fix My Car
+                <SiderItem rad icon={<EventNoteIcon />}>
+                  Fix My Car
                 </SiderItem>
               </Link>
               <Link to={`${url}/car_info`} className={painting.link}>
-                <SiderItem>
-                  <InsertInvitationIcon /> Car Information
+                <SiderItem rad icon={<InsertInvitationIcon />}>
+                  Car Information
                 </SiderItem>
               </Link>
               <Link className={painting.link}>
-                <SiderItem>
-                  <HelpOutlineIcon /> Help
+                <SiderItem rad icon={<HelpOutlineIcon />}>
+                  Help
                 </SiderItem>
               </Link>
             </SiderCard>

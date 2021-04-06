@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { MainBodyText, BodyText, Heading6 } from "../../typography";
-import { Table, Menu, MenuItem, ButtonBase } from "@material-ui/core";
+import { Table, Menu, MenuItem, ButtonBase, Avatar } from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -10,6 +10,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { navigation } from "../../globalStyles";
+import profileImage from "../../assets/temp/profilePicture.jpg";
 
 const useStyles = makeStyles({
   table: {
@@ -100,7 +101,7 @@ export default function BasicTable() {
   );
 
   return (
-    <div style={{ padding: "auto 40px", marginTop: 20 }}>
+    <div style={{ padding: "auto 40px", marginTop: 20, marginBottom: 50 }}>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
@@ -129,7 +130,19 @@ export default function BasicTable() {
             {rows.map((row) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
-                  <BodyText>{row.name}</BodyText>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <img
+                      src={profileImage}
+                      alt=""
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: "50%",
+                        marginRight: 20,
+                      }}
+                    />
+                    <BodyText>{row.name}</BodyText>
+                  </div>
                 </TableCell>
                 <TableCell align="right">
                   <BodyText>{row.phone}</BodyText>
