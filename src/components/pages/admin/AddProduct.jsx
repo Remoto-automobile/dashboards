@@ -12,7 +12,7 @@ function AddProduct() {
       <div>
         <TitleBar title="Add New Product" noCtaButton />
       </div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         <BasicCard
           custom={{
             flex: 2,
@@ -70,16 +70,17 @@ function AddProduct() {
               flex: 1,
               marginTop: 30,
               width: "100%",
+              flexWrap: "wrap",
             }}
           >
             <TextField
               variant="outlined"
               name="newProduct"
               placeholder="Mercedes"
-              style={{ width: 320 }}
+              style={{ width: 320, marginBottom: 20, marginRight: 20 }}
               size="small"
             />
-            <div style={{ marginLeft: 20 }}>
+            <div style={{ marginBottom: 20 }}>
               <CallToAction>Add</CallToAction>
             </div>
           </div>

@@ -87,6 +87,7 @@ export const colors = {
   mainBg: "#ffffff",
   footer: "#ededed",
   secondaryBg: "#f8f8f8",
+  fade: "#858585",
 };
 
 // Appbar styles
