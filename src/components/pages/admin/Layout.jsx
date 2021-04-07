@@ -135,7 +135,6 @@ function Layout({ children }) {
 const styles = {
   root: {
     display: "flex",
-    // flexDirection: "column",
   },
   appbar: {},
   body: {

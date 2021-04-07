@@ -9,13 +9,26 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { Typography, TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginRight: 100,
+    marginLeft: 100,
+    marginTop: 30,
+    marginBottom: 50,
+    [theme.breakpoints.down("md")]: {
+      margin: 10,
+    },
+  },
+}));
+
 export default function UpdateProductData() {
+  const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (
     // <div>
@@ -30,11 +43,11 @@ export default function UpdateProductData() {
       aria-labelledby="update-data-title"
       aria-describedby="update-data-form"
     >
-      <div style={{ padding: "20px 20%", width: 400 }}>
+      <div className={classes.container}>
         <DialogTitle id="create-order-title" style={{ textAlign: "center" }}>
           {/* Fill in the field to update the prices of the product */}
           <Heading7>Update Data</Heading7>
-          <BodyText small>
+          <BodyText small color={colors.fade}>
             Update data of prices or probabilty rate of the product
           </BodyText>
           <div
@@ -65,6 +78,7 @@ export default function UpdateProductData() {
               <Button
                 variant="outlined"
                 onClick={() => {
+                  Ui.uiDispatch("default");
                   Ui.uiDispatch("showUpdatePriceDialog");
                 }}
                 style={{
@@ -72,6 +86,7 @@ export default function UpdateProductData() {
                   backgroundColor: colors.main,
                   textTransform: "capitalize",
                   fontWeight: 700,
+                  marginTop: 20,
                 }}
               >
                 Update Prices
@@ -79,6 +94,7 @@ export default function UpdateProductData() {
               <Button
                 variant="outlined"
                 onClick={() => {
+                  Ui.uiDispatch("default");
                   Ui.uiDispatch("showUpdateProbabilityDialog");
                 }}
                 style={{
@@ -86,7 +102,7 @@ export default function UpdateProductData() {
                   textTransform: "capitalize",
                   fontWeight: 700,
                   borderColor: colors.main,
-                  marginTop: 10,
+                  marginTop: 20,
                 }}
               >
                 Update Probability

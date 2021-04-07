@@ -5,6 +5,7 @@ import TabPanel from "../../basic/TabPanel";
 import { MainBodyText, BodyText } from "../../../typography";
 import AddIcon from "@material-ui/icons/Add";
 import { useLocation, useHistory } from "react-router-dom";
+import { UiContext } from "../../../App";
 import {
   AppBar,
   Tabs,
@@ -83,6 +84,7 @@ const years = [
 ];
 
 function ProductDetails() {
+  const Ui = React.useContext(UiContext);
   const location = useLocation();
   const history = useHistory();
   // if (!location.state) {
@@ -113,6 +115,7 @@ function ProductDetails() {
         title={location.state.name}
         actionText="Add New Product"
         actionIcon={<AddIcon />}
+        onActionClick={() => history.push("/admin/products/add")}
       />
       <div>
         <AppBar position="static" color="default" elevation="none">
@@ -223,7 +226,13 @@ function ProductDetails() {
               paddingRight: 50,
             }}
           >
-            <CallToAction>Update Data</CallToAction>
+            <CallToAction
+              onClick={() => {
+                Ui.uiDispatch("showUpdateProductDialog");
+              }}
+            >
+              Update Data
+            </CallToAction>
           </div>
         </TabPanel>
       </div>
