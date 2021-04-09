@@ -25,6 +25,7 @@ const styles = {
     backgroundColor: Card.bgColor,
     // backgroundColor: "red",
     padding: "15px",
+    minHeight: "60vh",
   },
   brand: {
     justifyContent: "flex-start",

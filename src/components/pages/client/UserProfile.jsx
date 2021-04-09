@@ -21,6 +21,9 @@ function UserProfile() {
           Car Brand:{" "}
           <span style={{ fontWeight: 700 }}>Toyota, Corolla, 2018</span>
         </BodyText>
+        <BodyText other={{ margin: 5 }}>
+          Location: <span style={{ fontWeight: 700 }}>Lagos</span>
+        </BodyText>
       </ProfileCard>
     </CardRow>
   );

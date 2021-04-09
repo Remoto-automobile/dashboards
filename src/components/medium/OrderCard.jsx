@@ -35,15 +35,36 @@ function OrderCard({ children, flex }) {
         }}
       >
         <div style={Card.orderBullet}>
-          <FiberManualRecordIcon style={{ color: "green", marginRight: 30 }} />
+          <FiberManualRecordIcon
+            style={{
+              color: "#00b2a9",
+              marginRight: 30,
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          />
           <BodyText bold>100 Completed</BodyText>
         </div>
         <div style={Card.orderBullet}>
-          <FiberManualRecordIcon style={{ color: "yellow", marginRight: 30 }} />
+          <FiberManualRecordIcon
+            style={{
+              color: "#eaab00",
+              marginRight: 30,
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          />
           <BodyText bold>50 Ongoing</BodyText>
         </div>
         <div style={Card.orderBullet}>
-          <FiberManualRecordIcon style={{ color: "red", marginRight: 30 }} />
+          <FiberManualRecordIcon
+            style={{
+              color: "#eb5757",
+              marginRight: 30,
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          />
           <BodyText bold>19 Withdrawn</BodyText>
         </div>
       </div>

@@ -29,6 +29,7 @@ const styles = {
     backgroundColor: Card.bgColor,
     // padding: "20px 15px 180px 15px",
     borderRadius: 0,
+    minHeight: "95vh",
   },
   brand: {
     // backgroundColor: "red",

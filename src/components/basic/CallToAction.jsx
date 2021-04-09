@@ -42,6 +42,7 @@ const styles = {
   // margin: "auto 50px auto 30px",
   display: "flex",
   flexWrap: "nowrap",
+  borderRadius: "0.6em",
 };
 
 export default CallToAction;

@@ -102,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  alertIcon: {
+    transform: "rotate(25deg)",
+  },
 }));
 
 export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
@@ -163,7 +166,7 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
       <MenuItem>
         <IconButton aria-label="show new notifications" color="inherit">
           <Badge badgeContent={95} color="secondary">
-            <NotificationsIcon />
+            <NotificationsIcon className={classes.alertIcon} />
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -249,7 +252,7 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
                 color="secondary"
                 style={Appbar.desktopNotificationIcon}
               >
-                <NotificationsIcon />
+                <NotificationsIcon className={classes.alertIcon} />
               </Badge>
             </IconButton>
             <IconButton

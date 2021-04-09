@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 50,
     [theme.breakpoints.down("md")]: {
       margin: 10,
+      paddingLeft: 50,
+      paddingRight: 50,
     },
   },
 }));

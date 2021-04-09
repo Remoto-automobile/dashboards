@@ -40,7 +40,8 @@ function EditProfileCard({ flex, title, picSrc, picAlt, children }) {
           <AddAPhotoIcon />
         </Avatar>
         <BodyText>
-          * The uploaded image must be 500px wide and 500px long
+          <span style={{ color: "#ff3030", fontWeight: 700 }}>*</span> The
+          uploaded image must be 500px wide and 500px long
         </BodyText>
       </div>
       <div

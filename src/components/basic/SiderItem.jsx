@@ -19,7 +19,7 @@ function SiderItem({ children, icon, rad, activeStyle }) {
         Ui.uiDispatch("default");
       }}
     >
-      <MainBodyText>
+      <MainBodyText bold>
         <div
           style={{
             display: "flex",
