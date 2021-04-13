@@ -2,6 +2,7 @@ import React from "react";
 import { colors } from "../../../globalStyles";
 import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { SidebarContext } from "../../../App";
 
 import Appbar from "../../pageLayout/Appbar";
 import Drawer from "../../pageLayout/Drawer";
@@ -43,6 +44,7 @@ const paint = makeStyles((theme) => ({
 }));
 
 function Layout({ children }) {
+  const Sidebar = React.useContext(SidebarContext);
   const painting = paint();
   const { url, path } = useRouteMatch();
   return (
@@ -50,30 +52,106 @@ function Layout({ children }) {
       <div>
         <Drawer>
           <SiderCard>
-            <Link className={painting.link} to={`${url}/dashboard`}>
-              <SiderItem icon={<DashboardIcon />}>Dashboard</SiderItem>
+            <Link
+              className={painting.link}
+              to={`${url}/dashboard`}
+              onClick={() => Sidebar.sidebarDispatch("dashboard")}
+            >
+              <SiderItem
+                icon={<DashboardIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "dashboard" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Dashboard
+              </SiderItem>
             </Link>
 
-            <Link className={painting.link} to={`${url}/products`}>
-              <SiderItem icon={<PeopleIcon />}>Products</SiderItem>
+            <Link
+              className={painting.link}
+              to={`${url}/products`}
+              onClick={() => Sidebar.sidebarDispatch("a_products")}
+            >
+              <SiderItem
+                icon={<PeopleIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_products" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Products
+              </SiderItem>
             </Link>
 
-            <Link className={painting.link} to={`${url}/users`}>
-              <SiderItem icon={<EventNoteIcon />}>Users</SiderItem>
+            <Link
+              className={painting.link}
+              to={`${url}/users`}
+              onClick={() => Sidebar.sidebarDispatch("a_users")}
+            >
+              <SiderItem
+                icon={<EventNoteIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_users" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Users
+              </SiderItem>
             </Link>
 
-            <Link className={painting.link} to={`${url}/notifications`}>
-              <SiderItem icon={<NotificationsIcon />}>Notifications</SiderItem>
+            <Link
+              className={painting.link}
+              to={`${url}/notifications`}
+              onClick={() => Sidebar.sidebarDispatch("a_notification")}
+            >
+              <SiderItem
+                icon={<NotificationsIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_notification" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Notifications
+              </SiderItem>
             </Link>
 
-            <Link className={painting.link} to={`${url}/coupon`}>
-              <SiderItem icon={<ConfirmationNumberIcon />}>
+            <Link
+              className={painting.link}
+              to={`${url}/coupon`}
+              onClick={() => Sidebar.sidebarDispatch("a_couponCode")}
+            >
+              <SiderItem
+                icon={<ConfirmationNumberIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_couponCode" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
                 Coupon Codes
               </SiderItem>
             </Link>
 
-            <Link className={painting.link} to={`${url}/help`}>
-              <SiderItem icon={<HelpIcon />}>Help</SiderItem>
+            <Link
+              className={painting.link}
+              to={`${url}/help`}
+              onClick={() => Sidebar.sidebarDispatch("a_help")}
+            >
+              <SiderItem
+                icon={<HelpIcon />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_help" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Help
+              </SiderItem>
             </Link>
           </SiderCard>
         </Drawer>

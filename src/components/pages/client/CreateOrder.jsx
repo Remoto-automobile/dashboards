@@ -9,12 +9,28 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { Heading7, MainBodyText, BodyText } from "../../../typography";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginRight: 110,
+    marginLeft: 110,
+    marginTop: 30,
+    marginBottom: 50,
+    [theme.breakpoints.down("md")]: {
+      margin: 10,
+      paddingLeft: 50,
+      paddingRight: 50,
+    },
+  },
+}));
+
 export default function CreateOrderDialog({ dialogOpened }) {
+  const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (
     <Dialog
@@ -27,7 +43,7 @@ export default function CreateOrderDialog({ dialogOpened }) {
       aria-labelledby="create-order-title"
       aria-describedby="create-order-description"
     >
-      <div style={{ padding: "20px 20%" }}>
+      <div className={classes.container}>
         <DialogTitle id="create-order-title" style={{ textAlign: "center" }}>
           <Heading7>{"Create Order"}</Heading7>
           <div
@@ -47,8 +63,7 @@ export default function CreateOrderDialog({ dialogOpened }) {
         <DialogContent>
           <DialogContentText id="create-order-description">
             <BodyText small>
-              Diagnose your car's problem through our car issue dialog. Click
-              the button below to book an appointment.
+              Click the button below to book an appointment
             </BodyText>
           </DialogContentText>
         </DialogContent>
@@ -60,7 +75,7 @@ export default function CreateOrderDialog({ dialogOpened }) {
             style={{
               backgroundColor: colors.main,
               textTransform: "capitalize",
-              width: "90%",
+              width: "100%",
               marginBottom: 40,
             }}
           >

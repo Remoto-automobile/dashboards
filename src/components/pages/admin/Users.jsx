@@ -34,7 +34,7 @@ function Users() {
       </TitleBar>
       <ProductCard type="display" title="Users" displayData="213" />
 
-      <div>
+      <div style={{ marginBottom: 30 }}>
         <UserTable />
       </div>
     </div>

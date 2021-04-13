@@ -2,14 +2,14 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { MainBodyText, BodyText, Heading6 } from "../../typography";
-import { Table, Menu, MenuItem, ButtonBase, Avatar } from "@material-ui/core";
+import { Table, Menu, MenuItem, ButtonBase, Button } from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { navigation } from "../../globalStyles";
+import { navigation, pageDynamics, colors } from "../../globalStyles";
 import profileImage from "../../assets/temp/profilePicture.jpg";
 
 const useStyles = makeStyles({
@@ -61,6 +61,7 @@ const rows = [
 ];
 
 export default function BasicTable() {
+  const responsive = pageDynamics();
   const painting = navigation();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -166,6 +167,21 @@ export default function BasicTable() {
           </TableBody>
         </Table>
       </TableContainer>
+      <div
+        className={responsive.mobileOnly}
+        style={{ width: "100%", justifyContent: "right", marginTop: 20 }}
+      >
+        <Button
+          style={{
+            color: colors.mainBg,
+            backgroundColor: colors.main,
+            textTransform: "capitalize",
+            fontWeight: 700,
+          }}
+        >
+          View All
+        </Button>
+      </div>
       {actionMenu}
     </div>
   );

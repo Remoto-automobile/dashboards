@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Heading6, MainBodyText, BodyText } from "../../typography";
 import { pageDynamics, colors } from "../../globalStyles";
-import clsx from "clsx";
+// import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import {
   Toolbar,
@@ -20,8 +20,11 @@ import {
   Button,
 } from "@material-ui/core";
 
+// import { Pagination } from "@material-ui/lab";
+
 // import DeleteIcon from "@material-ui/icons/Delete";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 
 function createData(name, carBrand, date, status) {
   return { name, carBrand, date, status };
@@ -280,7 +283,7 @@ export default function OrderTable() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar />
-        <TableContainer style={{ overflow: "hidden" }}>
+        <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -331,7 +334,9 @@ export default function OrderTable() {
                       <TableCell>{row.date}</TableCell>
                       <TableCell>{row.status}</TableCell>
                       <TableCell style={{ padding: 0, margin: 0 }}>
-                        <DeleteOutlineOutlinedIcon />
+                        <DeleteForeverOutlinedIcon
+                          style={{ color: "#ffb3af" }}
+                        />
                       </TableCell>
                     </TableRow>
                   );
@@ -354,6 +359,17 @@ export default function OrderTable() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
           labelRowsPerPage={false}
         />
+        {/* <Pagination
+          page={page}
+          count={Math.ceil(rows.length / 6)}
+          rowsPerPage={6}
+          // onChangePage={handleChangePage}
+          // onChangeRowsPerPage={handleChangeRowsPerPage}
+          variant="rounded"
+          onChange={handleChangePage}
+          // defaultPage={0}
+          // showFirstButton={true}
+        /> */}
         <div
           className={responsive.mobileOnly}
           style={{ width: "100%", justifyContent: "right", marginTop: 20 }}

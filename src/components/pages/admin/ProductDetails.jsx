@@ -26,7 +26,7 @@ const CarTabs = withStyles({
     backgroundColor: Card.bgColor,
   },
   indicator: {
-    backgroundColor: "green",
+    backgroundColor: "#60ceca",
   },
 })(Tabs);
 
@@ -35,7 +35,7 @@ const CarTab = withStyles((theme) => ({
     textTransform: "capitalize",
     minWidth: 72,
     borderRadius: "20px 20px 0px 0px",
-    margin: "auto 5px",
+    // margin: "auto 5px",
     // backgroundColor: colors,
     fontWeight: 600,
     fontFamily: fonts.bodyText.fontFamily,
@@ -47,7 +47,7 @@ const CarTab = withStyles((theme) => ({
     "&$selected": {
       color: Card.color,
       fontWeight: 600,
-      backgroundColor: "#b2ffb2",
+      backgroundColor: "#ccf0ee",
     },
     "&:focus": {
       color: "#40a9ff",

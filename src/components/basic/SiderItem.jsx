@@ -4,7 +4,7 @@ import { MainBodyText } from "../../typography";
 import { makeStyles, fade } from "@material-ui/core/styles";
 import { UiContext } from "../../App";
 
-function SiderItem({ children, icon, rad }) {
+function SiderItem({ children, icon, rad, activeStyle }) {
   const compCl = styles();
   const Ui = React.useContext(UiContext);
   let extra = {};
@@ -14,12 +14,12 @@ function SiderItem({ children, icon, rad }) {
   return (
     <div
       className={compCl.container}
-      style={extra}
+      style={{ ...activeStyle, ...extra }}
       onClick={() => {
         Ui.uiDispatch("default");
       }}
     >
-      <MainBodyText>
+      <MainBodyText bold>
         <div
           style={{
             display: "flex",
@@ -47,7 +47,7 @@ const styles = makeStyles((theme) => ({
     paddingRight: 20,
     width: "100%",
     "&:hover": {
-      backgroundColor: fade(colors.main, 0.15),
+      backgroundColor: fade(colors.main, 0.05),
     },
   },
 }));

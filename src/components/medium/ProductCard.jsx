@@ -41,7 +41,7 @@ function ProductCard({
           <Avatar
             src={imgSrc}
             alt={imgAlt || "PI"}
-            style={{ backgroundColor: bg, padding: 5, height: 44, width: 44 }}
+            style={{ backgroundColor: bg, padding: 10, height: 48, width: 48 }}
           />
         )}
         <Typography
