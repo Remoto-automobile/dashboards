@@ -69,7 +69,7 @@ export const productRoute = "http://localhost:8000/api/product";
 export const componentRoute = "http://localhost:8000/api/component";
 export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
 export const subscriptionRoute = "http://localhost:8000/api/subscription";
-export const userRoute = "http://localhost:8000/api/user";
+export const userRoute = "http://localhost:8000/api/register";
 export const systemRoute = "http://localhost:8000/api/system";
 
 function Api({ children }) {

@@ -11,6 +11,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { navigation, pageDynamics, colors } from "../../globalStyles";
 import profileImage from "../../assets/temp/profilePicture.jpg";
+import { UserContext, userRoute } from "../../context/Api";
+import axios from "axios";
+import Loading from "./Loading";
 
 const useStyles = makeStyles({
   table: {
@@ -61,6 +64,8 @@ const rows = [
 ];
 
 export default function BasicTable() {
+  const [rows, setRows] = React.useState([]);
+  const User = React.useContext(UserContext);
   const responsive = pageDynamics();
   const painting = navigation();
   const classes = useStyles();
@@ -101,7 +106,20 @@ export default function BasicTable() {
     </Menu>
   );
 
-  return (
+  React.useEffect(() => {
+    axios
+      .get(userRoute, {
+        headers: { token: "f45165058243964ce7acff87206efb97" },
+      })
+      .then((res) => {
+        // User.dispatch({type: "FETCH_SUCCESS", payload: res.data, loading: false})
+        setRows((r) => (r = res.data));
+      })
+      .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
+  }, []);
+  return User.state.loading ? (
+    <Loading />
+  ) : (
     <div style={{ padding: "auto 40px", marginTop: 20, marginBottom: 50 }}>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -142,11 +160,11 @@ export default function BasicTable() {
                         marginRight: 20,
                       }}
                     />
-                    <BodyText>{row.name}</BodyText>
+                    <BodyText>{row.company_name}</BodyText>
                   </div>
                 </TableCell>
                 <TableCell align="right">
-                  <BodyText>{row.phone}</BodyText>
+                  <BodyText>{row.contact_number}</BodyText>
                 </TableCell>
                 <TableCell align="right">
                   <BodyText>{row.carBrand}</BodyText>

@@ -7,6 +7,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { pageDynamics } from "../../../globalStyles";
 import { UserContext, userRoute } from "../../../context/Api";
 import axios from "axios";
+import Loading from "../../major/Loading";
 
 function Users() {
   const User = React.useContext(UserContext);
@@ -14,16 +15,27 @@ function Users() {
 
   React.useEffect(() => {
     axios
-      .get(userRoute)
+      .get(userRoute, {
+        // headers: {
+        //   token: "f45165058243964ce7acff87206efb97",
+        // },
+      })
       .then((res) => {
-        User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        console.log(User.state.payload);
+        User.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: res.data,
+          loading: false,
+        });
+        console.log(User.state.data);
       })
       .catch((err) => {
-        User.dispatch({ type: "FETCH_FAILURE", error: err });
+        User.dispatch({ type: "FETCH_FAILURE", error: err, loading: false });
       });
   }, []);
-  return (
+
+  return User.state.loading ? (
+    <Loading />
+  ) : (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TitleBar
         title="Users"
@@ -47,7 +59,11 @@ function Users() {
           </div>
         </div>
       </TitleBar>
-      <ProductCard type="display" title="Users" displayData="213" />
+      <ProductCard
+        type="display"
+        title="Users"
+        displayData={User.state.data.length}
+      />
 
       <div style={{ marginBottom: 30 }}>
         <UserTable />

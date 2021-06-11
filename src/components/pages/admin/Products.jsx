@@ -57,7 +57,11 @@ function Products() {
     { color: "rgba(45, 156, 219, 0.1)", image: brakeImage, link: "brake" },
   ];
   React.useEffect(() => {
-    Axios.get(systemRoute)
+    Axios.get(systemRoute, {
+      headers: {
+        token: "f45165058243964ce7acff87206efb97",
+      },
+    })
       .then((data) =>
         Product.dispatch({
           type: "FETCH_SUCCESS",

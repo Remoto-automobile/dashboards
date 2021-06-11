@@ -119,7 +119,9 @@ function ProductDetails({ systemId }) {
 
   // get component
   React.useEffect(() => {
-    Axios.get(`${componentRoute}/system/${query.get("systemId")}`)
+    Axios.get(`${componentRoute}/system/${query.get("systemId")}`, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
       .then((data) => {
         Comp.dispatch({
           type: "FETCH_SUCCESS",
@@ -138,7 +140,9 @@ function ProductDetails({ systemId }) {
 
   // get brand
   React.useEffect(() => {
-    Axios.get(brandRoute)
+    Axios.get(brandRoute, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
       .then((data) => {
         Brand.dispatch({
           type: "FETCH_SUCCESS",
@@ -153,7 +157,9 @@ function ProductDetails({ systemId }) {
 
   // get model
   React.useEffect(() => {
-    Axios.get(modelRoute)
+    Axios.get(modelRoute, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
       .then((data) =>
         Model.dispatch({
           type: "FETCH_SUCCESS",
@@ -170,27 +176,16 @@ function ProductDetails({ systemId }) {
       );
   }, []);
 
-  // const fetchComponent = (year, model_id, system_id) => {
-  //   Axios.post(`${exactcomponentRoute}/find_unique`, {
-  //     model: model_id,
-  //     system: system_id,
-  //     year: year,
-  //   })
-  //     .then((data) => setComponents(data.data))
-  //     .catch((err) => setComponents({ error: err }));
-  // };
-
-  // React.useEffect(() => {
-  //   console.log(components);
-  //   fetchComponent(year, car, paramData);
-  // }, [year, car, paramData, components]);
-
   React.useEffect(() => {
-    Axios.post(`${exactcomponentRoute}/find_unique`, {
-      model_id: car,
-      year: year,
-      system_id: query.get("systemId"),
-    })
+    Axios.post(
+      `${exactcomponentRoute}/find_unique`,
+      {
+        model_id: car,
+        year: year,
+        system_id: query.get("systemId"),
+      },
+      { headers: { token: "f45165058243964ce7acff87206efb97" } }
+    )
       .then((res) =>
         ExactComp.dispatch({
           type: "FETCH_SUCCESS",
@@ -201,6 +196,9 @@ function ProductDetails({ systemId }) {
       .catch((err) => {
         console.log(err);
       });
+    return ExactComp.dispatch({
+      loading: true,
+    });
   }, [year, car]);
 
   const handleChange = (event, newValue) => {
@@ -216,12 +214,13 @@ function ProductDetails({ systemId }) {
     <Loading />
   ) : Model.state.loading ? (
     <Loading />
-  ) : ExactComp.state.loading ? (
-    <Loading />
   ) : (
+    //  ExactComp.state.loading ? (
+    //   <Loading />
+    // ) :
     <div>
       <TitleBar
-        title={location.state.name}
+        title={query.get("system_id")}
         actionText="Add New Product"
         actionIcon={<AddIcon />}
         onActionClick={() => history.push("/admin/products/add")}
@@ -331,25 +330,29 @@ function ProductDetails({ systemId }) {
               <TableBody>
                 {console.log(Comp.state.data)}
                 {console.log(ExactComp.state.data)}
-                {/* {Comp.state.data.map((comp) =>
-                  ExactComp.state.data.map(
-                    (ecomp, i) =>
-                      ecomp.component_id === comp.id &&
-                      year == ecomp.year && (
-                        <TableRow>
-                          <TableCell>
-                            <BodyText>{comp.name}</BodyText>
-                          </TableCell>
-                          <TableCell>
-                            <BodyText>{comp.id}</BodyText>
-                          </TableCell>
-                          <TableCell>
-                            <BodyText>0.5</BodyText>
-                          </TableCell>
-                        </TableRow>
-                      )
+                {ExactComp.state.loading ? (
+                  <Loading />
+                ) : (
+                  Comp.state.data.map((comp) =>
+                    ExactComp.state.data.map(
+                      (ecomp, i) =>
+                        ecomp.component_id === comp.id &&
+                        year === ecomp.year && (
+                          <TableRow>
+                            <TableCell>
+                              <BodyText>{comp.name}</BodyText>
+                            </TableCell>
+                            <TableCell>
+                              <BodyText>{ecomp.price}</BodyText>
+                            </TableCell>
+                            <TableCell>
+                              <BodyText>0.5</BodyText>
+                            </TableCell>
+                          </TableRow>
+                        )
+                    )
                   )
-                )} */}
+                )}
 
                 {/* {components.map((comp) => (
                   <TableRow>
