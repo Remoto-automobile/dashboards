@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, fonts, colors } from "../../globalStyles";
 import { Typography, Button, Avatar, makeStyles } from "@material-ui/core";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const paint = makeStyles((theme) => ({
   card: {
@@ -26,13 +27,16 @@ const paint = makeStyles((theme) => ({
 function ProductCard({
   flex,
   title,
+  systemId,
   imgSrc,
   imgAlt,
   displayData,
   type = "action",
   onButtonClick,
   bg,
+  routeLink,
 }) {
+  const { path, url } = useRouteMatch();
   const painting = paint();
   return (
     <div className={painting.card}>
@@ -57,17 +61,19 @@ function ProductCard({
       </div>
       <div style={{ display: "flex", width: "100%", justifyContent: "right" }}>
         {type === "action" ? (
-          <Button
-            variant="outlined"
-            onClick={onButtonClick}
-            style={{
-              color: colors.bodyText,
-              textTransform: "capitalize",
-              fontWeight: 700,
-            }}
-          >
-            View Product
-          </Button>
+          <Link to={`${path}/${routeLink}?systemId=${systemId}`}>
+            <Button
+              variant="outlined"
+              // onClick={onButtonClick}
+              style={{
+                color: colors.bodyText,
+                textTransform: "capitalize",
+                fontWeight: 700,
+              }}
+            >
+              View Product
+            </Button>
+          </Link>
         ) : (
           <Typography style={{ ...fonts.heading7 }}>{displayData}</Typography>
         )}

@@ -6,6 +6,8 @@ import Client from "./components/pages/client/Layout";
 import Admin from "./components/pages/admin/Layout";
 import Home from "./Home";
 
+import Api from "./context/Api";
+
 const theme = createMuiTheme({
   overrides: {
     // Style sheet name ⚛️
@@ -112,29 +114,31 @@ function App() {
   );
 
   return (
-    <UiContext.Provider value={{ uiState: ui, uiDispatch: dispatch }}>
-      <SidebarContext.Provider
-        value={{ sidebarState: sidebar, sidebarDispatch: sidebarDispatch }}
-      >
-        <Router>
-          <ThemeProvider theme={theme}>
-            {/* <div> */}
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/admin">
-                <Admin />
-              </Route>
-              <Route path="/client">
-                <Client />
-              </Route>
-            </Switch>
-            {/* </div> */}
-          </ThemeProvider>
-        </Router>
-      </SidebarContext.Provider>
-    </UiContext.Provider>
+    <Api>
+      <UiContext.Provider value={{ uiState: ui, uiDispatch: dispatch }}>
+        <SidebarContext.Provider
+          value={{ sidebarState: sidebar, sidebarDispatch: sidebarDispatch }}
+        >
+          <Router>
+            <ThemeProvider theme={theme}>
+              {/* <div> */}
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/admin">
+                  <Admin />
+                </Route>
+                <Route path="/client">
+                  <Client />
+                </Route>
+              </Switch>
+              {/* </div> */}
+            </ThemeProvider>
+          </Router>
+        </SidebarContext.Provider>
+      </UiContext.Provider>
+    </Api>
   );
 }
 
