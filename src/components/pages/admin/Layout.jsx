@@ -12,6 +12,7 @@ import SiderItem from "../../basic/SiderItem";
 // import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
+import { LocalAtm } from "@material-ui/icons"
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
@@ -151,6 +152,26 @@ function Layout({ children }) {
                 }
               >
                 Help
+              </SiderItem>
+            </Link>
+
+            <Link
+              className={painting.link}
+              to={`#`}
+              onClick={() => {
+                localStorage.removeItem("admin_token")
+                window.location.href = "/admin/login"
+              }}
+            >
+              <SiderItem
+                icon={<LocalAtm />}
+                activeStyle={
+                  Sidebar.sidebarState.selected === "a_help" && {
+                    backgroundColor: "#f8e8e5",
+                  }
+                }
+              >
+                Logout
               </SiderItem>
             </Link>
           </SiderCard>

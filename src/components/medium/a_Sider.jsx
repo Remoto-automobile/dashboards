@@ -14,7 +14,7 @@ function SiderCard({ children }) {
           color={colors.bodyText}
           other={{ margin: 15, marginLeft: 30, marginBottom: 5 }}
         >
-          Admin
+          
         </BodyText>
       </div>
       <div>{children}</div>

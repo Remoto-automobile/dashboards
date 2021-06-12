@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { Provider } from 'react-redux'
 import Client from "./components/pages/client/Layout";
 import Admin from "./components/pages/admin/Layout";
+import AdminLogin from './components/pages/admin/Login'
 import Home from "./Home";
-
+import Store from './store'
 const theme = createMuiTheme({
   overrides: {
     // Style sheet name ⚛️
@@ -112,29 +114,50 @@ function App() {
   );
 
   return (
-    <UiContext.Provider value={{ uiState: ui, uiDispatch: dispatch }}>
-      <SidebarContext.Provider
-        value={{ sidebarState: sidebar, sidebarDispatch: sidebarDispatch }}
-      >
-        <Router>
-          <ThemeProvider theme={theme}>
-            {/* <div> */}
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/admin">
-                <Admin />
-              </Route>
-              <Route path="/client">
-                <Client />
-              </Route>
-            </Switch>
-            {/* </div> */}
-          </ThemeProvider>
-        </Router>
-      </SidebarContext.Provider>
-    </UiContext.Provider>
+    <Provider store={Store}>
+      <UiContext.Provider value={{ uiState: ui, uiDispatch: dispatch }}>
+        <SidebarContext.Provider
+          value={{ sidebarState: sidebar, sidebarDispatch: sidebarDispatch }}
+        >
+          <Router>
+            <ThemeProvider theme={theme}>
+              {/* <div> */}
+              <Switch>
+                <Route exact path="/" render={() => {
+                  window.location = "/client";
+                  return null
+                }} />
+                <Route path="/admin/login" exact >
+                  <AdminLogin />
+                </Route>
+
+                <Route path="/client/login" exact>
+                  <AdminLogin type="client" />
+                </Route>
+
+                <Route path="/admin" render={(props) => {
+                  const token = localStorage.getItem("admin_token");
+                  if (token === null) {
+                    window.location = "/admin/login";
+                    return null
+                  }
+                  return <Admin {...props} />
+                }} />
+                <Route path="/client" render={(props) => {
+                  const token = localStorage.getItem("client_token");
+                  if (token === null) {
+                    window.location = "/client/login";
+                    return null
+                  }
+                  return <Client {...props} />
+                }} />
+              </Switch>
+              {/* </div> */}
+            </ThemeProvider>
+          </Router>
+        </SidebarContext.Provider>
+      </UiContext.Provider>
+    </Provider>
   );
 }
 
