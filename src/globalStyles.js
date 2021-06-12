@@ -139,3 +139,10 @@ export const form = {
     textAlign: "center",
   },
 };
+
+export function capitalize(data) {
+  let lower = data.toLowerCase();
+  // let first = data.charAt(0);
+  // first = first.toUpperCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}

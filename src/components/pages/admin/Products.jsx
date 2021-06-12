@@ -1,9 +1,11 @@
 import React from "react";
+import Axios from "axios";
 import { UiContext } from "../../../App";
+import { SystemContext, systemRoute, ItemContext } from "../../../context/Api";
 import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
 import ProductCard from "../../medium/ProductCard";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
 
 import acImage from "../../../assets/air-condition.svg";
 import exhaustImage from "../../../assets/exhaust.svg";
@@ -16,12 +18,66 @@ import coolingImage from "../../../assets/cooling.svg";
 import electricalImage from "../../../assets/electrical.svg";
 import engineImage from "../../../assets/engine.svg";
 import transmissionImage from "../../../assets/transmission.svg";
+import Loading from "../../major/Loading";
 
 function Products() {
   let history = useHistory();
   let { path, url } = useRouteMatch();
   const Ui = React.useContext(UiContext);
-  return (
+  const Product = React.useContext(SystemContext);
+  const Item = React.useContext(ItemContext);
+
+  let productData = [
+    { color: "rgba(255, 102, 52, 0.1)", image: acImage, link: "ac_system" },
+    { color: "rgba(0, 178, 169, 0.1)", image: coolingImage, link: "cooling" },
+    {
+      color: "rgba(255, 102, 52, 0.1)",
+      image: electricalImage,
+      link: "electrical",
+    },
+    { color: "rgba(39, 174, 96, 0.1)", image: exhaustImage, link: "exhaust" },
+    { color: "rgba(39, 174, 96, 0.1)", image: engineImage, link: "engine" },
+    { color: "rgba(45, 156, 219, 0.1)", image: fuelImage, link: "fuel" },
+    {
+      color: "rgba(255, 102, 52, 0.1)",
+      image: steeringImage,
+      link: "steering",
+    },
+    {
+      color: "rgba(255, 102, 52, 0.1)",
+      image: transmissionImage,
+      link: "transmission",
+    },
+    { color: "rgba(0, 178, 169, 0.1)", image: ignitionImage, link: "ignition" },
+    {
+      color: "rgba(39, 174, 96, 0.1)",
+      image: suspensionImage,
+      link: "suspension",
+    },
+    { color: "rgba(45, 156, 219, 0.1)", image: brakeImage, link: "brake" },
+  ];
+  React.useEffect(() => {
+    Axios.get(systemRoute, {
+      headers: {
+        token: "f45165058243964ce7acff87206efb97",
+      },
+    })
+      .then((data) =>
+        Product.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: data.data,
+          loading: false,
+        })
+      )
+      .catch((err) => {
+        Product.dispatch({ type: "FETCH_FAILURE", err: err, loading: false });
+      });
+  }, []);
+  let i = -1;
+
+  return Product.state.loading ? (
+    <Loading />
+  ) : (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TitleBar
         title="Products"
@@ -30,7 +86,53 @@ function Products() {
         linkLocation={`${url}/add`}
       />
       <div style={{ display: "flex", flexWrap: "wrap", marginBottom: 50 }}>
-        <ProductCard
+        {Product.state.data.map((product) => {
+          i++;
+          let pdata = productData[i];
+          return (
+            <ProductCard
+              title={product.name + " System"}
+              imgSrc={pdata.image}
+              bg={pdata.color}
+              routeLink={pdata.link}
+              systemId={product.id}
+              // onButtonClick={() => {
+              //   history.push(`/admin/products/${pdata.link}`, {
+              //     name: product.name + " System",
+              //     system: product.id,
+              //     data: [
+              //       {
+              //         component: "Compressor",
+              //         price: 31000,
+              //         probability: 0.25,
+              //       },
+              //       { component: "Condenser", price: 21000, probability: 0.2 },
+              //       {
+              //         component: "Expansion Valve",
+              //         price: 10000,
+              //         probability: 0.02,
+              //       },
+              //       {
+              //         component: "Reciever Drier",
+              //         price: 4000,
+              //         probability: 0.1,
+              //       },
+              //       { component: "Evaporator", price: 16000, probability: 0.2 },
+              //       {
+              //         component: "Blower Motor",
+              //         price: 6000,
+              //         probability: 0.03,
+              //       },
+              //       { component: "Accumulator", price: 7000, probability: 0.1 },
+              //       { component: "Refrigerant", price: 7000, probability: 0.1 },
+              //     ],
+              //   });
+              //   // Ui.uiDispatch("showUpdateProductDialog");
+              // }}
+            />
+          );
+        })}
+        {/* <ProductCard
           title="Air Condition System"
           imgSrc={acImage}
           bg="rgba(255, 102, 52, 0.1)"
@@ -317,7 +419,7 @@ function Products() {
               ],
             });
           }}
-        />
+        /> */}
       </div>
     </div>
   );

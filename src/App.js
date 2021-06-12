@@ -8,6 +8,9 @@ import Admin from "./components/pages/admin/Layout";
 import AdminLogin from './components/pages/admin/Login'
 import Home from "./Home";
 import Store from './store'
+
+import Api from "./context/Api";
+
 const theme = createMuiTheme({
   overrides: {
     // Style sheet name ⚛️
@@ -115,6 +118,7 @@ function App() {
 
   return (
     <Provider store={Store}>
+    <Api>
       <UiContext.Provider value={{ uiState: ui, uiDispatch: dispatch }}>
         <SidebarContext.Provider
           value={{ sidebarState: sidebar, sidebarDispatch: sidebarDispatch }}
@@ -151,13 +155,24 @@ function App() {
                   }
                   return <Client {...props} />
                 }} />
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/admin">
+                  <Admin />
+                </Route>
+                <Route path="/client">
+                  <Client />
+                </Route>
               </Switch>
               {/* </div> */}
             </ThemeProvider>
           </Router>
         </SidebarContext.Provider>
       </UiContext.Provider>
+      </Api>
     </Provider>
+   
   );
 }
 

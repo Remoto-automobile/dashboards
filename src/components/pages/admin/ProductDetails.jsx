@@ -1,10 +1,11 @@
 import React from "react";
+import Axios from "axios";
 import { Card, fonts, colors } from "../../../globalStyles";
 import TitleBar from "../../pageLayout/TitleBar";
 import TabPanel from "../../basic/TabPanel";
 import { MainBodyText, BodyText } from "../../../typography";
 import AddIcon from "@material-ui/icons/Add";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 import { UiContext } from "../../../App";
 import {
   AppBar,
@@ -20,6 +21,22 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import CallToAction from "../../basic/CallToAction";
+import {
+  componentRoute,
+  ComponentContext,
+  ExactCompContext,
+  exactcomponentRoute,
+  modelRoute,
+  ModelContext,
+  brandRoute,
+  BrandContext,
+  ItemContext,
+} from "../../../context/Api";
+import Loading from "../../major/Loading";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const CarTabs = withStyles({
   root: {
@@ -63,44 +80,126 @@ function a11yProps(index) {
   };
 }
 
-const carTypes = ["Toyota", "Honda", "Kia", "Hyundai", "Toyota", "Honda"];
+// const carTypes = ["Toyota", "Honda", "Kia", "Hyundai", "Toyota", "Honda"];
 const years = [
-  2000,
-  2001,
-  2002,
-  2003,
-  2004,
-  2005,
-  2006,
-  2007,
-  2008,
-  2009,
-  2010,
-  2011,
-  2012,
-  2013,
-  2014,
-  2015,
+  2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
+  2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021,
 ];
 
-function ProductDetails() {
+function ProductDetails({ systemId }) {
+  let query = useQuery();
+  const paramData = query.get("systemId");
+  console.log(paramData);
+  const Comp = React.useContext(ComponentContext);
+  const ExactComp = React.useContext(ExactCompContext);
+  const Model = React.useContext(ModelContext);
+  const Brand = React.useContext(BrandContext);
+  const Item = React.useContext(ItemContext);
   const Ui = React.useContext(UiContext);
   const location = useLocation();
   const history = useHistory();
+  const [components, setComponents] = React.useState([]);
+  const [carModel, setCarModel] = React.useState({});
   // if (!location.state) {
   //   history.push("/admin/products");
   // }
   // const history = useHistory();
-  console.log(location.state.name);
-  const [year, setYear] = React.useState(2008);
+  // console.log(location.state.name);
+  const [year, setYear] = React.useState(2010);
   const [value, setValue] = React.useState(0);
-  const [car, setCar] = React.useState("Toyota");
+  const [car, setCar] = React.useState(1);
   const changeCar = (e) => {
     setCar(e.target.value);
   };
   const changeYear = (e) => {
     setYear(e.target.value);
   };
+
+  console.log(Item.state.data.system);
+
+  // get component
+  React.useEffect(() => {
+    Axios.get(`${componentRoute}/system/${query.get("systemId")}`, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
+      .then((data) => {
+        Comp.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: data.data,
+          loading: false,
+        });
+      })
+      .catch((err) =>
+        Comp.dispatch({
+          type: "FETCH_FAILURE",
+          error: err,
+          loading: false,
+        })
+      );
+  }, []);
+
+  // get brand
+  React.useEffect(() => {
+    Axios.get(brandRoute, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
+      .then((data) => {
+        Brand.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: data.data,
+          loading: false,
+        });
+      })
+      .catch((err) =>
+        Brand.dispatch({ type: "FETCH_ERROR", error: err, loading: false })
+      );
+  }, []);
+
+  // get model
+  React.useEffect(() => {
+    Axios.get(modelRoute, {
+      headers: { token: "f45165058243964ce7acff87206efb97" },
+    })
+      .then((data) =>
+        Model.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: data.data,
+          loading: false,
+        })
+      )
+      .catch((err) =>
+        Model.dispatch({
+          type: "FETCH_FAILURE",
+          error: err,
+          loading: false,
+        })
+      );
+  }, []);
+
+  React.useEffect(() => {
+    Axios.post(
+      `${exactcomponentRoute}/find_unique`,
+      {
+        model_id: car,
+        year: year,
+        system_id: query.get("systemId"),
+      },
+      { headers: { token: "f45165058243964ce7acff87206efb97" } }
+    )
+      .then((res) =>
+        ExactComp.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: res.data,
+          loading: false,
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+    return ExactComp.dispatch({
+      loading: true,
+    });
+  }, [year, car]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -109,10 +208,19 @@ function ProductDetails() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-  return (
+  return Comp.state.loading ? (
+    <Loading />
+  ) : Brand.state.loading ? (
+    <Loading />
+  ) : Model.state.loading ? (
+    <Loading />
+  ) : (
+    //  ExactComp.state.loading ? (
+    //   <Loading />
+    // ) :
     <div>
       <TitleBar
-        title={location.state.name}
+        title={query.get("system_id")}
         actionText="Add New Product"
         actionIcon={<AddIcon />}
         onActionClick={() => history.push("/admin/products/add")}
@@ -127,114 +235,172 @@ function ProductDetails() {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <CarTab label="Toyota" {...a11yProps(0)} />
+            {Brand.state.data.map((brand) => (
+              <CarTab
+                label={brand.name}
+                {...a11yProps(brand.id)}
+                // onChange={handleChangeIndex}
+              />
+            ))}
+            {/* <CarTab label="Toyota" {...a11yProps(0)} />
             <CarTab label="Honda" {...a11yProps(1)} />
             <CarTab label="Hyundai" {...a11yProps(2)} />
             <CarTab label="Kia" {...a11yProps(3)} />
             <CarTab label="Toyota" {...a11yProps(4)} />
             <CarTab label="Kia" {...a11yProps(5)} />
-            <CarTab label="Hyundai" {...a11yProps(5)} />
+            <CarTab label="Hyundai" {...a11yProps(5)} /> */}
           </CarTabs>
         </AppBar>
 
-        <TabPanel value={value} index={0}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              marginBottom: 30,
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <BodyText small other={{ marginRight: 20 }}>
-                Select Car Type
-              </BodyText>
-              <TextField
-                name="car"
-                select
-                variant="outlined"
-                onChange={changeCar}
-                value={car}
-                style={{ width: 300 }}
-                size="small"
-              >
-                {carTypes.map((c) => (
-                  <MenuItem key={c} value={c}>
-                    {c}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <BodyText small other={{ marginRight: 20 }}>
-                Choose Year
-              </BodyText>
-              <TextField
-                name="year"
-                select
-                variant="outlined"
-                onChange={changeYear}
-                value={year}
-                style={{ width: 300 }}
-                size="small"
-              >
-                {years.map((year) => (
-                  <MenuItem key={year} value={year}>
-                    {year}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-          </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <MainBodyText bold>Components</MainBodyText>
-                </TableCell>
-                <TableCell>
-                  <MainBodyText bold>Prices</MainBodyText>
-                </TableCell>
-                <TableCell>
-                  <MainBodyText bold>Probability</MainBodyText>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {location.state.data.map((data) => (
-                <TableRow>
-                  <TableCell>
-                    <BodyText>{data.component}</BodyText>
-                  </TableCell>
-                  <TableCell>
-                    <BodyText>{data.price}</BodyText>
-                  </TableCell>
-                  <TableCell>
-                    <BodyText>{data.probability}</BodyText>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "right",
-              marginTop: 50,
-              paddingRight: 50,
-            }}
-          >
-            <CallToAction
-              onClick={() => {
-                Ui.uiDispatch("showUpdateProductDialog");
+        {Brand.state.data.map((brand) => (
+          <TabPanel value={value} index={brand.id - 1}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                marginBottom: 30,
+                flexWrap: "wrap",
               }}
             >
-              Update Data
-            </CallToAction>
-          </div>
-        </TabPanel>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <BodyText small other={{ marginRight: 20 }}>
+                  Select Car Type
+                </BodyText>
+                <TextField
+                  name="car"
+                  select
+                  variant="outlined"
+                  onChange={changeCar}
+                  value={car}
+                  style={{ width: 300 }}
+                  size="small"
+                >
+                  {Model.state.data.map((model) => {
+                    if (model.brand_id == brand.id)
+                      return (
+                        <MenuItem key={model.id} value={model.id}>
+                          {model.name}
+                        </MenuItem>
+                      );
+                  })}
+                  {
+                    // carTypes.map((c) => (
+                    //   <MenuItem key={c} value={c}>
+                    //     {c}
+                    //   </MenuItem>
+                    // ))
+                  }
+                </TextField>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <BodyText small other={{ marginRight: 20 }}>
+                  Choose Year
+                </BodyText>
+                <TextField
+                  name="year"
+                  select
+                  variant="outlined"
+                  onChange={changeYear}
+                  value={year}
+                  style={{ width: 300 }}
+                  size="small"
+                >
+                  {years.map((year) => (
+                    <MenuItem key={year} value={year}>
+                      {year}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <MainBodyText bold>Components</MainBodyText>
+                  </TableCell>
+                  <TableCell>
+                    <MainBodyText bold>Prices</MainBodyText>
+                  </TableCell>
+                  <TableCell>
+                    <MainBodyText bold>Probability</MainBodyText>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {console.log(Comp.state.data)}
+                {console.log(ExactComp.state.data)}
+                {ExactComp.state.loading ? (
+                  <Loading />
+                ) : (
+                  Comp.state.data.map((comp) =>
+                    ExactComp.state.data.map(
+                      (ecomp, i) =>
+                        ecomp.component_id === comp.id &&
+                        year === ecomp.year && (
+                          <TableRow>
+                            <TableCell>
+                              <BodyText>{comp.name}</BodyText>
+                            </TableCell>
+                            <TableCell>
+                              <BodyText>{ecomp.price}</BodyText>
+                            </TableCell>
+                            <TableCell>
+                              <BodyText>0.5</BodyText>
+                            </TableCell>
+                          </TableRow>
+                        )
+                    )
+                  )
+                )}
+
+                {/* {components.map((comp) => (
+                  <TableRow>
+                    <TableCell>
+                      <BodyText>{comp.price}</BodyText>
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>{comp.price}</BodyText>
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>0.5</BodyText>
+                    </TableCell>
+                  </TableRow>
+                ))} */}
+                {/* {location.state.data.map((data) => (
+                  <TableRow>
+                    <TableCell>
+                      <BodyText>{data.component}</BodyText>
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>{data.price}</BodyText>
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>{data.probability}</BodyText>
+                    </TableCell>
+                  </TableRow>
+                ))} */}
+              </TableBody>
+            </Table>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "right",
+                marginTop: 50,
+                paddingRight: 50,
+              }}
+            >
+              <CallToAction
+                onClick={() => {
+                  Ui.uiDispatch("showUpdateProductDialog");
+                }}
+              >
+                Update Data
+              </CallToAction>
+            </div>
+          </TabPanel>
+        ))}
       </div>
     </div>
   );
