@@ -23,14 +23,14 @@ export const reducer = (state, action) => {
 
 const ApiContext = React.createContext();
 
-export const brandRoute = "http://localhost:8000/api/brand";
-export const carRoute = "http://localhost:8000/api/car";
-export const carModelRoute = "http://localhost:8000/api/carModel";
-export const planRoute = "http://localhost:8000/api/plan";
-export const orderRoute = "http://localhost:8000/api/order";
-export const productRoute = "http://localhost:8000/api/product";
-export const productCategoryRoute = "http://localhost:8000/api/productCategory";
-export const subscriptionRoute = "http://localhost:8000/api/subscription";
-export const userRoute = "http://localhost:8000/api/user";
+export const brandRoute = "https://remotoglobal.com/api/brand";
+export const carRoute = "https://remotoglobal.com/api/car";
+export const carModelRoute = "https://remotoglobal.com/api/carModel";
+export const planRoute = "https://remotoglobal.com/api/plan";
+export const orderRoute = "https://remotoglobal.com/api/order";
+export const productRoute = "https://remotoglobal.com/api/product";
+export const productCategoryRoute = "https://remotoglobal.com/api/productCategory";
+export const subscriptionRoute = "https://remotoglobal.com/api/subscription";
+export const userRoute = "https://remotoglobal.com/api/user";
 
 export default ApiContext;

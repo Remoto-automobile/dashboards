@@ -89,7 +89,6 @@ const years = [
 function ProductDetails({ systemId }) {
   let query = useQuery();
   const paramData = query.get("systemId");
-  console.log(paramData);
   const Comp = React.useContext(ComponentContext);
   const ExactComp = React.useContext(ExactCompContext);
   const Model = React.useContext(ModelContext);
@@ -114,8 +113,6 @@ function ProductDetails({ systemId }) {
   const changeYear = (e) => {
     setYear(e.target.value);
   };
-
-  console.log(Item.state.data.system);
 
   // get component
   React.useEffect(() => {
@@ -328,8 +325,7 @@ function ProductDetails({ systemId }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {console.log(Comp.state.data)}
-                {console.log(ExactComp.state.data)}
+                
                 {ExactComp.state.loading ? (
                   <Loading />
                 ) : (

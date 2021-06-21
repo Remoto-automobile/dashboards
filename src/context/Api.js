@@ -60,17 +60,17 @@ export const UserContext = React.createContext();
 export const ItemContext = React.createContext();
 
 // Define Routes
-export const brandRoute = "http://localhost:8000/api/brand";
-export const carRoute = "http://localhost:8000/api/car";
-export const modelRoute = "http://localhost:8000/api/model";
-export const planRoute = "http://localhost:8000/api/plan";
-export const orderRoute = "http://localhost:8000/api/order";
-export const productRoute = "http://localhost:8000/api/product";
-export const componentRoute = "http://localhost:8000/api/component";
-export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
-export const subscriptionRoute = "http://localhost:8000/api/subscription";
-export const userRoute = "http://localhost:8000/api/register";
-export const systemRoute = "http://localhost:8000/api/system";
+export const brandRoute = "https://remotoglobal.com/api/brand";
+export const carRoute = "https://remotoglobal.com/api/car";
+export const modelRoute = "https://remotoglobal.com/api/model";
+export const planRoute = "https://remotoglobal.com/api/plan";
+export const orderRoute = "https://remotoglobal.com/api/order";
+export const productRoute = "https://remotoglobal.com/api/product";
+export const componentRoute = "https://remotoglobal.com/api/component";
+export const exactcomponentRoute = "https://remotoglobal.com/api/exact_comp";
+export const subscriptionRoute = "https://remotoglobal.com/api/subscription";
+export const userRoute = "https://remotoglobal.com/api/register";
+export const systemRoute = "https://remotoglobal.com/api/system";
 
 function Api({ children }) {
   // Create Reducers

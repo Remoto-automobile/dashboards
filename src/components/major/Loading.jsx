@@ -1,7 +1,11 @@
 import React from "react";
 
 function Loading() {
-  return <div style={{ margin: "auto" }}>Fetching Data</div>;
+  return <div className="loader-container">
+    <div className="loader">
+
+    </div>
+  </div>;
 }
 
 export default Loading;
