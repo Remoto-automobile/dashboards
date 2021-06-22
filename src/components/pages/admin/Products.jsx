@@ -1,7 +1,11 @@
 import React from "react";
 import Axios from "axios";
 import { UiContext } from "../../../App";
-import { SystemContext, systemRoute, ItemContext } from "../../../context/Api";
+import {
+  SystemContext,
+  adminSystemRoute,
+  ItemContext,
+} from "../../../context/Api";
 import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
 import ProductCard from "../../medium/ProductCard";
@@ -21,6 +25,7 @@ import transmissionImage from "../../../assets/transmission.svg";
 import Loading from "../../major/Loading";
 
 function Products() {
+  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
   let history = useHistory();
   let { path, url } = useRouteMatch();
   const Ui = React.useContext(UiContext);
@@ -57,9 +62,9 @@ function Products() {
     { color: "rgba(45, 156, 219, 0.1)", image: brakeImage, link: "brake" },
   ];
   React.useEffect(() => {
-    Axios.get(systemRoute, {
+    Axios.get(adminSystemRoute, {
       headers: {
-        token: "f45165058243964ce7acff87206efb97",
+        token: token,
       },
     })
       .then((data) =>

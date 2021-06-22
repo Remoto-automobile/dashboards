@@ -12,7 +12,7 @@ import SiderItem from "../../basic/SiderItem";
 // import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
-import { LocalAtm } from "@material-ui/icons"
+import { LocalAtm } from "@material-ui/icons";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
@@ -33,6 +33,7 @@ import ProductDetails from "./ProductDetails";
 import UpdateProductData from "./UpdateProductData";
 import UpdatePrice from "./UpdatePrice";
 import UpdateProbability from "./UpdateProbability";
+import UploadForms from "./UploadForms";
 
 const paint = makeStyles((theme) => ({
   link: {
@@ -159,8 +160,9 @@ function Layout({ children }) {
               className={painting.link}
               to={`#`}
               onClick={() => {
-                localStorage.removeItem("admin_token")
-                window.location.href = "/admin/login"
+                localStorage.setItem("admin_token", null);
+                localStorage.removeItem("admin_token");
+                window.location.href = "/admin/login";
               }}
             >
               <SiderItem
@@ -179,7 +181,7 @@ function Layout({ children }) {
       </div>
       <div style={styles.body}>
         <div style={styles.appbar}>
-          <Appbar bg="#f6f8fb" />
+          <Appbar bg="#f6f8fb" dataUpdate />
         </div>
         <div style={{ width: "100%", backgroundColor: colors.secondaryBg }}>
           <div style={{ width: "100%", padding: "0 20px" }}>
@@ -216,6 +218,9 @@ function Layout({ children }) {
               </Route>
               <Route path={`${path}/products/:product`}>
                 <ProductDetails />
+              </Route>
+              <Route path={`${path}/updateData`}>
+                <UploadForms />
               </Route>
             </Switch>
 

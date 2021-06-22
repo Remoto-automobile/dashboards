@@ -1,7 +1,7 @@
 import React from "react";
 import Axios from "axios";
 import { UiContext } from "../../../App";
-import { ItemContext, planRoute } from "../../../context/Api";
+import { ItemContext, adminPlanRoute } from "../../../context/Api";
 
 import TitleBar from "../../pageLayout/TitleBar";
 import ProductCard from "../../medium/ProductCard";
@@ -14,12 +14,14 @@ import Yellow from "../../../assets/yellow.svg";
 import Loading from "../../major/Loading";
 
 function PremiumPlan() {
+  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
+
   const Ui = React.useContext(UiContext);
   const Plan = React.useContext(ItemContext);
 
   // Fetch Data
   React.useEffect(() => {
-    Axios.get(planRoute + "/2")
+    Axios.get(adminPlanRoute + "/2", { headers: { token: token } })
       .then((data) => {
         console.log(data);
         Plan.dispatch({ type: "FETCH_SUCCESS", payload: data.data });

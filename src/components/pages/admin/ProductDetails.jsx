@@ -22,13 +22,13 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import CallToAction from "../../basic/CallToAction";
 import {
-  componentRoute,
+  adminComponentRoute,
   ComponentContext,
   ExactCompContext,
-  exactcomponentRoute,
-  modelRoute,
+  adminExactcomponentRoute,
+  adminModelRoute,
   ModelContext,
-  brandRoute,
+  adminBrandRoute,
   BrandContext,
   ItemContext,
 } from "../../../context/Api";
@@ -87,6 +87,8 @@ const years = [
 ];
 
 function ProductDetails({ systemId }) {
+  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
+
   let query = useQuery();
   const paramData = query.get("systemId");
   const Comp = React.useContext(ComponentContext);
@@ -116,8 +118,8 @@ function ProductDetails({ systemId }) {
 
   // get component
   React.useEffect(() => {
-    Axios.get(`${componentRoute}/system/${query.get("systemId")}`, {
-      headers: { token: "f45165058243964ce7acff87206efb97" },
+    Axios.get(`${adminComponentRoute}/system/${query.get("systemId")}`, {
+      headers: { token: token },
     })
       .then((data) => {
         Comp.dispatch({
@@ -137,8 +139,8 @@ function ProductDetails({ systemId }) {
 
   // get brand
   React.useEffect(() => {
-    Axios.get(brandRoute, {
-      headers: { token: "f45165058243964ce7acff87206efb97" },
+    Axios.get(adminBrandRoute, {
+      headers: { token: token },
     })
       .then((data) => {
         Brand.dispatch({
@@ -154,8 +156,8 @@ function ProductDetails({ systemId }) {
 
   // get model
   React.useEffect(() => {
-    Axios.get(modelRoute, {
-      headers: { token: "f45165058243964ce7acff87206efb97" },
+    Axios.get(adminModelRoute, {
+      headers: { token: token },
     })
       .then((data) =>
         Model.dispatch({
@@ -175,13 +177,13 @@ function ProductDetails({ systemId }) {
 
   React.useEffect(() => {
     Axios.post(
-      `${exactcomponentRoute}/find_unique`,
+      `${adminExactcomponentRoute}/find_unique`,
       {
         model_id: car,
         year: year,
         system_id: query.get("systemId"),
       },
-      { headers: { token: "f45165058243964ce7acff87206efb97" } }
+      { headers: { token: token } }
     )
       .then((res) =>
         ExactComp.dispatch({
@@ -325,7 +327,6 @@ function ProductDetails({ systemId }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                
                 {ExactComp.state.loading ? (
                   <Loading />
                 ) : (
@@ -349,33 +350,6 @@ function ProductDetails({ systemId }) {
                     )
                   )
                 )}
-
-                {/* {components.map((comp) => (
-                  <TableRow>
-                    <TableCell>
-                      <BodyText>{comp.price}</BodyText>
-                    </TableCell>
-                    <TableCell>
-                      <BodyText>{comp.price}</BodyText>
-                    </TableCell>
-                    <TableCell>
-                      <BodyText>0.5</BodyText>
-                    </TableCell>
-                  </TableRow>
-                ))} */}
-                {/* {location.state.data.map((data) => (
-                  <TableRow>
-                    <TableCell>
-                      <BodyText>{data.component}</BodyText>
-                    </TableCell>
-                    <TableCell>
-                      <BodyText>{data.price}</BodyText>
-                    </TableCell>
-                    <TableCell>
-                      <BodyText>{data.probability}</BodyText>
-                    </TableCell>
-                  </TableRow>
-                ))} */}
               </TableBody>
             </Table>
             <div

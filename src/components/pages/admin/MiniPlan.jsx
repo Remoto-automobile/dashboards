@@ -3,7 +3,7 @@ import Axios from "axios";
 import TitleBar from "../../pageLayout/TitleBar";
 import ProductCard from "../../medium/ProductCard";
 import { UiContext } from "../../../App";
-import { ItemContext, planRoute } from "../../../context/Api";
+import { ItemContext, adminPlanRoute } from "../../../context/Api";
 
 import Premium from "../../../assets/premium.svg";
 import Mini from "../../../assets/mini.svg";
@@ -13,12 +13,14 @@ import Yellow from "../../../assets/yellow.svg";
 import Loading from "../../major/Loading";
 
 function MiniPlan() {
+  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
+
   const Plan = React.useContext(ItemContext);
   const Ui = React.useContext(UiContext);
 
   // Fetch Data
   React.useEffect(() => {
-    Axios.get(planRoute + "/2")
+    Axios.get(adminPlanRoute + "/2", { headers: { token: token } })
       .then((data) => {
         console.log(data);
         Plan.dispatch({ type: "FETCH_SUCCESS", payload: data.data });

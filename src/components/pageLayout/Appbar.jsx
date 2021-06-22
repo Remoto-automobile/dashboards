@@ -22,6 +22,7 @@ import {
   Menu,
   Avatar,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -31,6 +32,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsActiveIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import CreateOrderDialog from "../pages/client/CreateOrder";
+import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -107,7 +110,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
+export default function PrimarySearchAppBar({
+  callToAction,
+  showBrand,
+  bg,
+  dataUpdate,
+}) {
   const Ui = React.useContext(UiContext);
   const responsive = pageDynamics();
   const classes = useStyles();
@@ -276,6 +284,17 @@ export default function PrimarySearchAppBar({ callToAction, showBrand, bg }) {
               >
                 fix my car
               </CallToAction>
+            </div>
+          ) : (
+            ""
+          )}
+          {dataUpdate ? (
+            <div>
+              <Link exact to="/admin/updateData">
+                <Button>
+                  <FolderOpenOutlinedIcon />
+                </Button>
+              </Link>
             </div>
           ) : (
             ""

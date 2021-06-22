@@ -12,7 +12,7 @@ import Access from "../../../assets/access.svg";
 import Loading from "../../major/Loading";
 import { capitalize } from "../../../globalStyles";
 
-import { planRoute, PlanContext } from "../../../context/Api";
+import { adminPlanRoute, PlanContext } from "../../../context/Api";
 
 const images = { premium: Premium, mini: Mini, access: Access };
 let bg = [
@@ -24,25 +24,40 @@ let bg = [
 const paint = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
-    color: "inherit"
+    color: "inherit",
   },
 }));
 
 function Dashboard() {
+  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
   const Plan = React.useContext(PlanContext);
   const painting = paint();
 
   // Fetch Data From Api
   React.useEffect(() => {
-    Axios.get(planRoute)
+    Axios.get(adminPlanRoute, {
+      headers: { token: "1b251eacf96f48d70400065321a93792" },
+    })
       .then((data) =>
-        Plan.dispatch({ type: "FETCH_SUCCESS", payload: data.data })
+        Plan.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: data.data,
+          loading: false,
+        })
       )
-      .catch((err) => Plan.dispatch({ type: "FETCH_FAILURE", error: err }));
+      .catch((err) => {
+        Plan.dispatch({ type: "FETCH_FAILURE", error: err, loading: false });
+        // console.log(err);
+      });
   }, []);
 
   return Plan.state.loading ? (
     <Loading />
+  ) : Plan.state.error ? (
+    <React.Fragment>
+      {console.log(Plan.state.error)}
+      <h4>Failed to Fetch Plan Data</h4>
+    </React.Fragment>
   ) : (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <TitleBar
