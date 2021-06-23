@@ -36,7 +36,7 @@ function Dashboard() {
   // Fetch Data From Api
   React.useEffect(() => {
     Axios.get(adminPlanRoute, {
-      headers: { token: "1b251eacf96f48d70400065321a93792" },
+      headers: { token: token },
     })
       .then((data) =>
         Plan.dispatch({
