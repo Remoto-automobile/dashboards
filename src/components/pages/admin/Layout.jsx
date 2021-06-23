@@ -34,6 +34,7 @@ import UpdateProductData from "./UpdateProductData";
 import UpdatePrice from "./UpdatePrice";
 import UpdateProbability from "./UpdateProbability";
 import UploadForms from "./UploadForms";
+import DataEditForms from "./DataEditForms";
 
 const paint = makeStyles((theme) => ({
   link: {
@@ -218,6 +219,9 @@ function Layout({ children }) {
               </Route>
               <Route path={`${path}/products/:product`}>
                 <ProductDetails />
+              </Route>
+              <Route path={`${path}/updateData/edit`}>
+                <DataEditForms />
               </Route>
               <Route path={`${path}/updateData`}>
                 <UploadForms />

@@ -291,9 +291,9 @@ export default function PrimarySearchAppBar({
           {dataUpdate ? (
             <div>
               <Link exact to="/admin/updateData">
-                <Button>
+                <IconButton>
                   <FolderOpenOutlinedIcon />
-                </Button>
+                </IconButton>
               </Link>
             </div>
           ) : (

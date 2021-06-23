@@ -60,58 +60,58 @@ export const UserContext = React.createContext();
 export const ItemContext = React.createContext();
 
 // Define Routes
-// export const brandRoute = "https://remotoglobal.com/api/brand";
-// export const carRoute = "https://remotoglobal.com/api/car";
-// export const modelRoute = "https://remotoglobal.com/api/model";
-// export const planRoute = "https://remotoglobal.com/api/plan";
-// export const orderRoute = "https://remotoglobal.com/api/order";
-// export const productRoute = "https://remotoglobal.com/api/product";
-// export const componentRoute = "https://remotoglobal.com/api/component";
-// export const exactcomponentRoute = "https://remotoglobal.com/api/exact_comp";
-// export const subscriptionRoute = "https://remotoglobal.com/api/subscription";
-// export const userRoute = "https://remotoglobal.com/api/register";
-// export const systemRoute = "https://remotoglobal.com/api/system";
+export const brandRoute = "https://remotoglobal.com/api/brand";
+export const carRoute = "https://remotoglobal.com/api/car";
+export const modelRoute = "https://remotoglobal.com/api/model";
+export const planRoute = "https://remotoglobal.com/api/plan";
+export const orderRoute = "https://remotoglobal.com/api/order";
+export const productRoute = "https://remotoglobal.com/api/product";
+export const componentRoute = "https://remotoglobal.com/api/component";
+export const exactcomponentRoute = "https://remotoglobal.com/api/exact_comp";
+export const subscriptionRoute = "https://remotoglobal.com/api/subscription";
+export const userRoute = "https://remotoglobal.com/api/register";
+export const systemRoute = "https://remotoglobal.com/api/system";
 
-// export const adminBrandRoute = "https://remotoglobal.com/api/admin/brand";
-// export const adminCarRoute = "https://remotoglobal.com/api/admin/car";
-// export const adminModelRoute = "https://remotoglobal.com/api/admin/model";
-// export const adminPlanRoute = "https://remotoglobal.com/api/admin/plan";
-// export const adminOrderRoute = "https://remotoglobal.com/api/admin/order";
-// export const adminProductRoute = "https://remotoglobal.com/api/admin/product";
-// export const adminComponentRoute =
-//   "https://remotoglobal.com/api/admin/component";
-// export const adminExactcomponentRoute =
-//   "https://remotoglobal.com/api/admin/exact_comp";
-// export const adminSubscriptionRoute =
-//   "https://remotoglobal.com/api/admin/subscription";
-// export const adminUserRoute = "https://remotoglobal.com/api/admin/register";
-// export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
-
-export const brandRoute = "http://localhost:8000/api/brand";
-export const carRoute = "http://localhost:8000/api/car";
-export const modelRoute = "http://localhost:8000/api/model";
-export const planRoute = "http://localhost:8000/api/plan";
-export const orderRoute = "http://localhost:8000/api/order";
-export const productRoute = "http://localhost:8000/api/product";
-export const componentRoute = "http://localhost:8000/api/component";
-export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
-export const subscriptionRoute = "http://localhost:8000/api/subscription";
-export const userRoute = "http://localhost:8000/api/register";
-export const systemRoute = "http://localhost:8000/api/system";
-
-export const adminBrandRoute = "http://localhost:8000/api/admin/brand";
-export const adminCarRoute = "http://localhost:8000/api/admin/car";
-export const adminModelRoute = "http://localhost:8000/api/admin/model";
-export const adminPlanRoute = "http://localhost:8000/api/admin/plan";
-export const adminOrderRoute = "http://localhost:8000/api/admin/order";
-export const adminProductRoute = "http://localhost:8000/api/admin/product";
-export const adminComponentRoute = "http://localhost:8000/api/admin/component";
+export const adminBrandRoute = "https://remotoglobal.com/api/admin/brand";
+export const adminCarRoute = "https://remotoglobal.com/api/admin/car";
+export const adminModelRoute = "https://remotoglobal.com/api/admin/model";
+export const adminPlanRoute = "https://remotoglobal.com/api/admin/plan";
+export const adminOrderRoute = "https://remotoglobal.com/api/admin/order";
+export const adminProductRoute = "https://remotoglobal.com/api/admin/product";
+export const adminComponentRoute =
+  "https://remotoglobal.com/api/admin/component";
 export const adminExactcomponentRoute =
-  "http://localhost:8000/api/admin/exact_comp";
+  "https://remotoglobal.com/api/admin/exact_comp";
 export const adminSubscriptionRoute =
-  "http://localhost:8000/api/admin/subscription";
-export const adminUserRoute = "http://localhost:8000/api/admin/register";
-export const adminSystemRoute = "http://localhost:8000/api/admin/system";
+  "https://remotoglobal.com/api/admin/subscription";
+export const adminUserRoute = "https://remotoglobal.com/api/admin/register";
+export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
+
+// export const brandRoute = "http://localhost:8000/api/brand";
+// export const carRoute = "http://localhost:8000/api/car";
+// export const modelRoute = "http://localhost:8000/api/model";
+// export const planRoute = "http://localhost:8000/api/plan";
+// export const orderRoute = "http://localhost:8000/api/order";
+// export const productRoute = "http://localhost:8000/api/product";
+// export const componentRoute = "http://localhost:8000/api/component";
+// export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
+// export const subscriptionRoute = "http://localhost:8000/api/subscription";
+// export const userRoute = "http://localhost:8000/api/register";
+// export const systemRoute = "http://localhost:8000/api/system";
+
+// export const adminBrandRoute = "http://localhost:8000/api/admin/brand";
+// export const adminCarRoute = "http://localhost:8000/api/admin/car";
+// export const adminModelRoute = "http://localhost:8000/api/admin/model";
+// export const adminPlanRoute = "http://localhost:8000/api/admin/plan";
+// export const adminOrderRoute = "http://localhost:8000/api/admin/order";
+// export const adminProductRoute = "http://localhost:8000/api/admin/product";
+// export const adminComponentRoute = "http://localhost:8000/api/admin/component";
+// export const adminExactcomponentRoute =
+//   "http://localhost:8000/api/admin/exact_comp";
+// export const adminSubscriptionRoute =
+//   "http://localhost:8000/api/admin/subscription";
+// export const adminUserRoute = "http://localhost:8000/api/admin/register";
+// export const adminSystemRoute = "http://localhost:8000/api/admin/system";
 
 function Api({ children }) {
   // Create Reducers

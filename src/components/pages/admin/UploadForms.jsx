@@ -1,6 +1,6 @@
 import React from "react";
 import Axios from "axios";
-import { Formik, Form, Field, FieldArray } from "formik";
+import { Formik, Form, Field, FieldArray, FastField } from "formik";
 import {
   withStyles,
   AppBar,
@@ -24,114 +24,28 @@ import {
   adminModelRoute,
   SystemContext,
   adminSystemRoute,
+  adminExactcomponentRoute,
 } from "../../../context/Api";
 import TabPanel from "../../basic/TabPanel";
 import { BodyText, MainBodyText } from "../../../typography";
 import { Card, fonts, colors } from "../../../globalStyles";
 import { Button } from "@material-ui/core";
+import Loading from "../../major/Loading";
+import { values } from "lodash";
+import {
+  UploadComponentDataForm,
+  UploadProbabilityForm,
+  UploadBrandForm,
+  UploadModelForm,
+  submitProbability,
+  submitComponents,
+  submitBrand,
+  submitModel,
+} from "../../../context/helpers";
 
-function UploadComponentDataForm({ components, models }) {
-  return (
-    // <TableRow>
-    <FieldArray name="component">
-      {(fieldArrayProp) => {
-        const { push, remove, form, insert } = fieldArrayProp;
-        const { values } = form;
-        const { component } = values;
-        return (
-          <React.Fragment>
-            {component.map((c, index) => (
-              <TableRow>
-                <TableCell>
-                  <Field as="select" name={`component[${index}].name`}>
-                    {components.map((comp, i) => (
-                      <option key={i} value={comp.id}>
-                        {comp.name}
-                      </option>
-                    ))}
-                  </Field>
-                </TableCell>
-
-                <TableCell>
-                  <Field as="select" name={`component[${index}].model`}>
-                    {models.map((model, i) => (
-                      <option key={i} value={model.id}>
-                        {model.name}
-                      </option>
-                    ))}
-                  </Field>
-                </TableCell>
-
-                <TableCell>
-                  <Field name={`component[${index}].price`} />
-                </TableCell>
-
-                <TableCell>
-                  <Field name={`component[${index}].year`} />
-                </TableCell>
-                <TableCell>
-                  <Button onClick={() => remove(index)}>-</Button>
-                  <Button
-                    onClick={() =>
-                      insert(index, {
-                        name: component[index].name,
-                        model: component[index].model,
-                        year: component[index].year,
-                        price: component[index].price,
-                      })
-                    }
-                  >
-                    +
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </React.Fragment>
-        );
-      }}
-    </FieldArray>
-  );
-}
-
-function UploadBrandDataForm() {
-  return (
-    <FieldArray name="probability">
-      {(prop) => {
-        const { push, remove, form, insert } = prop;
-        const { values } = form;
-        const { probability } = values;
-
-        return probability.map((p, index) => (
-          <TableRow>
-            <TableCell>
-              <Field name={`probability[${index}].system`} />
-            </TableCell>
-            <TableCell>
-              <Field name={`probability[${index}].brand`} />
-            </TableCell>
-            <TableCell>
-              <Field name={`probability[${index}].probability`} />
-            </TableCell>
-            <TableCell>
-              <Button onClick={() => remove(index)}>-</Button>
-              <Button
-                onClick={() =>
-                  insert(index, {
-                    system: probability[index].system,
-                    brand: probability[index].brand,
-                    probability: probability[index].probability,
-                  })
-                }
-              >
-                +
-              </Button>
-            </TableCell>
-          </TableRow>
-        ));
-      }}
-    </FieldArray>
-  );
-}
+const token =
+  localStorage.getItem("admin_token") &&
+  JSON.parse(localStorage.getItem("admin_token")).auth_token;
 
 const FormTabs = withStyles({
   root: {
@@ -176,8 +90,6 @@ function a11yProps(index) {
 }
 
 function UploadForms() {
-  const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
-
   const Brand = React.useContext(BrandContext);
   const Model = React.useContext(ModelContext);
   const Component = React.useContext(ComponentContext);
@@ -269,18 +181,23 @@ function UploadForms() {
       );
   }, []);
 
-  return (
-    // !Brand.state.loading &&
-    // !System.state.loading &&
-    // !Model.state.loading &&
-    // !Component.state.loading && (
+  return Brand.state.loading ? (
+    <Loading />
+  ) : System.state.loading ? (
+    <Loading />
+  ) : Model.state.loading ? (
+    <Loading />
+  ) : Component.state.loading ? (
+    <Loading />
+  ) : (
     <React.Fragment>
       <div>
         <TitleBar
           title="Update Database"
-          actionText="Add New Product"
-          actionIcon={<AddIcon />}
-          //   onActionClick={() => history.push("/admin/products/add")}
+          noCtaButton
+          //   actionText="Edit Existing"
+          //   actionIcon={<AddIcon />}
+          //   onActionClick={() => history.push(`${path}/edit`)}
         />
         <div>
           <AppBar position="static" color="default" elevation="none">
@@ -291,20 +208,10 @@ function UploadForms() {
               textColor="primary"
               variant="fullWidth"
             >
-              {/* {Brand.state.data.map((brand) => (
-                <FormTab
-                label={brand.name}
-                {...a11yProps(brand.id)}
-                // onChange={handleChangeIndex}
-                />
-                ))} */}
               <FormTab label="Add Components" {...a11yProps(0)} />
               <FormTab label="Add Probability" {...a11yProps(1)} />
-              <FormTab label="Add System" {...a11yProps(2)} />
-              {/* <FormTab label="Kia" {...a11yProps(3)} />
-            <FormTab label="Toyota" {...a11yProps(4)} />
-            <FormTab label="Kia" {...a11yProps(5)} />
-        <FormTab label="Hyundai" {...a11yProps(5)} /> */}
+              <FormTab label="Add Brand" {...a11yProps(2)} />
+              <FormTab label="Add Car Models" {...a11yProps(3)} />
             </FormTabs>
           </AppBar>
         </div>
@@ -312,156 +219,161 @@ function UploadForms() {
       <TabPanel value={value} index={0}>
         <Formik
           initialValues={{
-            brand: "",
-            system: "",
-            component: [
-              { name: "", model: "", price: "", year: "" },
-              //   { name: "Toyota", model: "Toyota", price: 250000, year: 2010 },
-              //   { name: "Toyota", model: "Toyota", price: 250000, year: 2010 },
-            ],
+            component: [{ name: "", model: "", price: "", year: "" }],
           }}
         >
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                marginBottom: 30,
-                flexWrap: "wrap",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <BodyText small other={{ marginRight: 20 }}>
-                  Select Brand
-                </BodyText>
-                <Field
-                  name="brand"
-                  as="select"
-                  variant="outlined"
-                  style={{ width: 300 }}
-                  size="small"
-                >
-                  {/* {Brand.state.data.map((brand) => ( */}
-                  {[1, 2, 3].map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </Field>
+          {(prop) => {
+            const { values } = prop;
+            // const { values } = form;
+            // alert(values.brand);
+            return (
+              <div>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <MainBodyText bold>Component</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Model</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Price</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Year</MainBodyText>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <UploadComponentDataForm
+                      components={Component.state.data}
+                      models={Model.state.data}
+                    />
+                  </TableBody>
+                </Table>
+                <div>
+                  <Button onClick={() => submitComponents(values)}>Go</Button>
+                </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <BodyText small other={{ marginRight: 20 }}>
-                  Choose System
-                </BodyText>
-                <Field
-                  name="system"
-                  as="select"
-                  variant="outlined"
-                  style={{ width: 300 }}
-                  size="small"
-                >
-                  {[1, 2, 3].map((system) => (
-                    //   {System.state.data.map((system) => (
-                    <option key={system} value={system}>
-                      {system}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <MainBodyText bold>Model</MainBodyText>
-                  </TableCell>
-                  <TableCell>
-                    <MainBodyText bold>Component</MainBodyText>
-                  </TableCell>
-                  <TableCell>
-                    <MainBodyText bold>Price</MainBodyText>
-                  </TableCell>
-                  <TableCell>
-                    <MainBodyText bold>Year</MainBodyText>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <UploadComponentDataForm
-                  components={[
-                    { id: 1, name: "Hammer" },
-                    { id: 2, name: "Gauge" },
-                  ]}
-                  models={[
-                    { id: 1, name: "Hyundai" },
-                    { id: 2, name: "Toyota" },
-                  ]}
-                />
-              </TableBody>
-            </Table>
-          </div>
+            );
+          }}
         </Formik>
       </TabPanel>
 
+      {/* Probability Tab */}
       <TabPanel value={value} index={1}>
         <Formik
           initialValues={{
-            brand: "",
-            probability: [
-              { system: "", brand: "", probability: "" },
-              //   { system: "Cooling system", brand: "Toyota", probability: 2.5 },
-              //   { system: "Cooling system", brand: "Toyota", probability: 2.5 },
-            ],
+            probability: [{ component: 1, brand: 1, probability: "" }],
           }}
         >
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                marginBottom: 30,
-                flexWrap: "wrap",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <BodyText small other={{ marginRight: 20 }}>
-                  Select Brand
-                </BodyText>
-                <Field
-                  name="brand"
-                  as="select"
-                  variant="outlined"
-                  style={{ width: 300 }}
-                  size="small"
-                >
-                  {/* {Brand.state.data.map((brand) => ( */}
-                  {[1, 2, 3].map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </Field>
+          {(prop) => {
+            return (
+              <div>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <MainBodyText bold>Component</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Brand</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Probability</MainBodyText>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <UploadProbabilityForm
+                      components={Component.state.data}
+                      brand={Brand.state.data}
+                    />
+                  </TableBody>
+                </Table>
+                <div>
+                  <Button color="secondary" onClick={() => prop.resetForm()}>
+                    Reset
+                  </Button>
+                  <Button onClick={() => submitProbability(prop.values)}>
+                    Go
+                  </Button>
+                </div>
               </div>
-            </div>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <MainBodyText bold>System</MainBodyText>
-                  </TableCell>
-                  <TableCell>
-                    <MainBodyText bold>Brand</MainBodyText>
-                  </TableCell>
-                  <TableCell>
-                    <MainBodyText bold>Probability</MainBodyText>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <UploadBrandDataForm />
-              </TableBody>
-            </Table>
-          </div>
+            );
+          }}
+        </Formik>
+      </TabPanel>
+
+      {/* Brand */}
+      <TabPanel value={value} index={2}>
+        <Formik
+          initialValues={{
+            name: [""],
+          }}
+        >
+          {(prop) => {
+            return (
+              <div>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <MainBodyText bold>Name</MainBodyText>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <UploadBrandForm />
+                  </TableBody>
+                </Table>
+                <div>
+                  <Button color="secondary" onClick={() => prop.resetForm()}>
+                    Reset
+                  </Button>
+                  <Button onClick={() => submitBrand(prop.values)}>Go</Button>
+                </div>
+              </div>
+            );
+          }}
+        </Formik>
+      </TabPanel>
+
+      {/* Model */}
+      <TabPanel value={value} index={3}>
+        <Formik
+          initialValues={{
+            model: [{ brand: 1, name: "" }],
+          }}
+        >
+          {(prop) => {
+            return (
+              <div>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <MainBodyText bold>Brand</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Name</MainBodyText>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <UploadModelForm brands={Brand.state.data} />
+                  </TableBody>
+                </Table>
+                <div>
+                  <Button color="secondary" onClick={() => prop.resetForm()}>
+                    Reset
+                  </Button>
+                  <Button onClick={() => submitModel(prop.values)}>Go</Button>
+                </div>
+              </div>
+            );
+          }}
         </Formik>
       </TabPanel>
     </React.Fragment>
