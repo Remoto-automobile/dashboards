@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldArray, FastField } from "formik";
+import { FieldArray, FastField, Field } from "formik";
 import { TableCell, TableRow, Button } from "@material-ui/core";
 import Axios from "axios";
 
@@ -8,6 +8,7 @@ import {
   adminExactcomponentRoute,
   adminModelRoute,
   adminSystemRoute,
+  adminFileUploadRoute,
 } from "../context/Api";
 
 const token =
@@ -271,6 +272,18 @@ export function submitModel(data) {
     { model: data.model },
     { headers: { token: token } }
   )
+    .then((res) => {
+      alert(`${res.data} Fields Added`);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("Failed to Add Fields");
+    });
+}
+
+export function submitFiles(data) {
+  Axios.post(adminFileUploadRoute, { data }, { headers: { token: token } })
     .then((res) => {
       alert(`${res.data} Fields Added`);
       console.log(res.data);

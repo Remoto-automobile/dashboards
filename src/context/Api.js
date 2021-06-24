@@ -86,6 +86,8 @@ export const adminSubscriptionRoute =
   "https://remotoglobal.com/api/admin/subscription";
 export const adminUserRoute = "https://remotoglobal.com/api/admin/register";
 export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
+export const adminFileUploadRoute =
+  "https://remotoglobal.com/api/admin/upload_file";
 
 // export const brandRoute = "http://localhost:8000/api/brand";
 // export const carRoute = "http://localhost:8000/api/car";
@@ -112,6 +114,8 @@ export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
 //   "http://localhost:8000/api/admin/subscription";
 // export const adminUserRoute = "http://localhost:8000/api/admin/register";
 // export const adminSystemRoute = "http://localhost:8000/api/admin/system";
+// export const adminFileUploadRoute =
+//   "http://localhost:8000/api/admin/upload_file";
 
 function Api({ children }) {
   // Create Reducers

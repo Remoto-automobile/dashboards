@@ -39,6 +39,7 @@ import {
   UploadModelForm,
   submitProbability,
   submitComponents,
+  submitFiles,
   submitBrand,
   submitModel,
 } from "../../../context/helpers";
@@ -212,6 +213,7 @@ function UploadForms() {
               <FormTab label="Add Probability" {...a11yProps(1)} />
               <FormTab label="Add Brand" {...a11yProps(2)} />
               <FormTab label="Add Car Models" {...a11yProps(3)} />
+              <FormTab label="Upload Files (CSV)" {...a11yProps(4)} />
             </FormTabs>
           </AppBar>
         </div>
@@ -370,6 +372,80 @@ function UploadForms() {
                     Reset
                   </Button>
                   <Button onClick={() => submitModel(prop.values)}>Go</Button>
+                </div>
+              </div>
+            );
+          }}
+        </Formik>
+      </TabPanel>
+
+      {/* File */}
+      <TabPanel value={value} index={4}>
+        <Formik
+          initialValues={{
+            file: null,
+            format: "CSV",
+            target: "Components",
+          }}
+        >
+          {(prop) => {
+            const { setFieldValue, handleChange, values } = prop;
+            const acceptableTargets = ["Components", "Probability"];
+            return (
+              <div>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <MainBodyText bold>Format</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>Target Database</MainBodyText>
+                      </TableCell>
+                      <TableCell>
+                        <MainBodyText bold>File</MainBodyText>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Field name="format" disabled value="CSV" />
+                      </TableCell>
+                      <TableCell>
+                        <Field name="target" as="select">
+                          {acceptableTargets.map((t, i) => (
+                            <option value={t} key={i}>
+                              {t}
+                            </option>
+                          ))}
+                        </Field>
+                      </TableCell>
+                      <TableCell>
+                        <input
+                          type="file"
+                          // value={values.file}
+                          className="form-control"
+                          onChange={(event) => {
+                            let formData = new FormData();
+                            formData.append(
+                              "dataFile",
+                              event.currentTarget.files[0]
+                            );
+                            // console.log(formData.get("dataFile"));
+                            setFieldValue("file", formData.get("dataFile"));
+                          }}
+                        />
+                      </TableCell>
+                      {/* <Button onClick={() => console.log(values)}>hihgi</Button> */}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <div>
+                  <Button color="secondary" onClick={() => prop.resetForm()}>
+                    Reset
+                  </Button>
+                  <Button onClick={() => submitFiles(values)}>Go</Button>
                 </div>
               </div>
             );
