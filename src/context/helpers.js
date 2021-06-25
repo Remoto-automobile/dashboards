@@ -282,14 +282,33 @@ export function submitModel(data) {
     });
 }
 
-export function submitFiles(data) {
-  Axios.post(adminFileUploadRoute, { data }, { headers: { token: token } })
+export function submitFiles(data, disp) {
+  console.log(data);
+  Axios.post(adminFileUploadRoute, data, {
+    headers: {
+      token: token,
+    },
+  })
     .then((res) => {
-      alert(`${res.data} Fields Added`);
-      console.log(res.data);
+      res.status == 201
+        ? disp({
+            type: "feedbackDialog",
+            payload: { success: true, active: true, content: res.data },
+          })
+        : disp({
+            type: "feedbackDialog",
+            payload: { success: false, active: true, content: res.data },
+          });
     })
     .catch((err) => {
+      disp({
+        type: "feedbackDialog",
+        payload: {
+          success: false,
+          active: true,
+          content: "Failed to add fields, check file type",
+        },
+      });
       console.log(err);
-      alert("Failed to Add Fields");
     });
 }

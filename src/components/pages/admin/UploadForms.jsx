@@ -31,7 +31,7 @@ import { BodyText, MainBodyText } from "../../../typography";
 import { Card, fonts, colors } from "../../../globalStyles";
 import { Button } from "@material-ui/core";
 import Loading from "../../major/Loading";
-import { values } from "lodash";
+import { UiContext } from "../../../App";
 import {
   UploadComponentDataForm,
   UploadProbabilityForm,
@@ -91,10 +91,14 @@ function a11yProps(index) {
 }
 
 function UploadForms() {
+  const Ui = React.useContext(UiContext);
   const Brand = React.useContext(BrandContext);
   const Model = React.useContext(ModelContext);
   const Component = React.useContext(ComponentContext);
   const System = React.useContext(SystemContext);
+
+  const fileRef = React.useRef(null);
+  let fData = new FormData();
 
   const [value, setValue] = React.useState(0);
 
@@ -391,6 +395,7 @@ function UploadForms() {
           {(prop) => {
             const { setFieldValue, handleChange, values } = prop;
             const acceptableTargets = ["Components", "Probability"];
+
             return (
               <div>
                 <Table>
@@ -423,17 +428,14 @@ function UploadForms() {
                       </TableCell>
                       <TableCell>
                         <input
+                          ref={fileRef}
                           type="file"
                           // value={values.file}
                           className="form-control"
                           onChange={(event) => {
-                            let formData = new FormData();
-                            formData.append(
-                              "dataFile",
-                              event.currentTarget.files[0]
-                            );
-                            // console.log(formData.get("dataFile"));
-                            setFieldValue("file", formData.get("dataFile"));
+                            fData.set("file", event.currentTarget.files[0]);
+                            console.log(fData.get("file"));
+                            setFieldValue("file", fData.get("dataFile"));
                           }}
                         />
                       </TableCell>
@@ -445,7 +447,24 @@ function UploadForms() {
                   <Button color="secondary" onClick={() => prop.resetForm()}>
                     Reset
                   </Button>
-                  <Button onClick={() => submitFiles(values)}>Go</Button>
+                  <Button
+                    onClick={() => {
+                      // formData.set("file", fileRef.current.files[0]);
+                      fData.set("format", values.format);
+                      fData.set("target", values.target);
+                      Ui.uiDispatch({
+                        type: "feedbackDialog",
+                        payload: {
+                          active: true,
+                          content: "Processing...",
+                          success: "",
+                        },
+                      });
+                      submitFiles(fData, Ui.uiDispatch);
+                    }}
+                  >
+                    Go
+                  </Button>
                 </div>
               </div>
             );

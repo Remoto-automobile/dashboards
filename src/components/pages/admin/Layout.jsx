@@ -35,6 +35,7 @@ import UpdatePrice from "./UpdatePrice";
 import UpdateProbability from "./UpdateProbability";
 import UploadForms from "./UploadForms";
 import DataEditForms from "./DataEditForms";
+import FeedbackDialog from "../../major/FeedbackDialog";
 
 const paint = makeStyles((theme) => ({
   link: {
@@ -233,6 +234,7 @@ function Layout({ children }) {
             <UpdateProductData />
             <UpdatePrice />
             <UpdateProbability />
+            <FeedbackDialog />
           </div>
         </div>
       </div>
