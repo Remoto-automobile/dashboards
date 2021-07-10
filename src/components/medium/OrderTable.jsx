@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import PropTypes from "prop-types";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Heading6, MainBodyText, BodyText } from "../../typography";
@@ -19,6 +20,9 @@ import {
   Table,
   Button,
 } from "@material-ui/core";
+
+import Loading from "../major/Loading";
+import { OrderContext, orderRoute } from "../../context/Api";
 
 // import { Pagination } from "@material-ui/lab";
 
@@ -260,6 +264,22 @@ export default function OrderTable() {
   const [orderBy, setOrderBy] = React.useState("name");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
+
+  const clientToken = JSON.parse(localStorage.getItem("client_token"));
+  const Order = React.useContext(OrderContext);
+
+  React.useEffect(() => {
+    if (Order.state.data == null || Order.state.data == undefined) {
+      Order.dispatch({ type: "LOADING" });
+      Axios.get(orderRoute, { headers: { token: clientToken.token } })
+        .then((res) => {
+          Order.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        })
+        .catch((err) =>
+          Order.dispatch({ type: "FETCH_FAILURE", payload: err })
+        );
+    }
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

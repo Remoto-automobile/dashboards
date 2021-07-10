@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { authAdmin } from "../../../redux/action/auth.action";
+import { authAdmin, authClient } from "../../../redux/action/auth.action";
 import Loading from "../../major/Loading";
 export default function (props) {
   const dispatch = useDispatch();
@@ -22,14 +22,26 @@ export default function (props) {
     }
   }, [1]);
   const startAuth = async () => {
-    await dispatch({ type: "ADMIN_AUTHENTICATING_UPDATE", payload: null });
-    if (email === "" || password == "") {
-      dispatch({
-        type: "ADMIN_AUTHENTICATING_UPDATE",
-        payload: "Please provide valid username and password",
-      });
+    if (props.type == "client") {
+      await dispatch({ type: "CLIENT_AUTHENTICATING_UPDATE", payload: null });
+      if (email === "" || password == "") {
+        dispatch({
+          type: "CLIENT_AUTHENTICATING_UPDATE",
+          payload: "Please provide valid username and password",
+        });
+      } else {
+        dispatch(authClient({ email, password }));
+      }
     } else {
-      dispatch(authAdmin({ email, password }));
+      await dispatch({ type: "ADMIN_AUTHENTICATING_UPDATE", payload: null });
+      if (email === "" || password == "") {
+        dispatch({
+          type: "ADMIN_AUTHENTICATING_UPDATE",
+          payload: "Please provide valid username and password",
+        });
+      } else {
+        dispatch(authAdmin({ email, password }));
+      }
     }
   };
   useEffect(() => {

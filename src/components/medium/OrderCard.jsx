@@ -1,11 +1,60 @@
 import React from "react";
+import Axios from "axios";
 import { Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { Card, fonts } from "../../globalStyles";
 import { Heading6, BodyText } from "../../typography";
+import { OrderContext, orderRoute } from "../../context/Api";
+import Loading from "../major/Loading";
 
 function OrderCard({ children, flex }) {
-  return (
+  const [count, setCount] = React.useState({
+    ongoing: 0,
+    completed: 0,
+    withdrawn: 0,
+  });
+  const clientToken = JSON.parse(localStorage.getItem("client_token"));
+  const Order = React.useContext(OrderContext);
+
+  React.useEffect(() => {
+    Order.dispatch({ type: "LOADING" });
+    Axios.get(orderRoute, { headers: { token: clientToken.token } })
+      .then((res) => {
+        Order.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+      })
+      .then(() => {
+        Order.state.data.forEach((order) => {
+          switch (order.status) {
+            case 1:
+              setCount((count) => ({ ...count, ongoing: count.ongoing + 1 }));
+              break;
+
+            case 2:
+              setCount((count) => ({
+                ...count,
+                completed: count.completed + 1,
+              }));
+              break;
+
+            case 3:
+              setCount((count) => ({
+                ...count,
+                withdrawn: count.withdrawn + 1,
+              }));
+
+            default:
+              break;
+          }
+        });
+      })
+      .catch((err) => {
+        Order.dispatch({ type: "FETCH_FAILURE", payload: err });
+      });
+  }, []);
+
+  return Order.state.loading ? (
+    <Loading />
+  ) : (
     <div
       style={{
         ...Card.spacing,
@@ -43,7 +92,8 @@ function OrderCard({ children, flex }) {
               marginBottom: 5,
             }}
           />
-          <BodyText bold>100 Completed</BodyText>
+          {/* <BodyText bold>100 Completed</BodyText> */}
+          <BodyText bold>{count.completed} Completed</BodyText>
         </div>
         <div style={Card.orderBullet}>
           <FiberManualRecordIcon
@@ -54,7 +104,7 @@ function OrderCard({ children, flex }) {
               marginBottom: 5,
             }}
           />
-          <BodyText bold>50 Ongoing</BodyText>
+          <BodyText bold>{count.ongoing} Ongoing</BodyText>
         </div>
         <div style={Card.orderBullet}>
           <FiberManualRecordIcon
@@ -65,7 +115,7 @@ function OrderCard({ children, flex }) {
               marginBottom: 5,
             }}
           />
-          <BodyText bold>19 Withdrawn</BodyText>
+          <BodyText bold>{count.withdrawn} Withdrawn</BodyText>
         </div>
       </div>
     </div>
