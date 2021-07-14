@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import { Card, pageDynamics } from "../../globalStyles";
 import EditProfileForm from "../basic/EditProfileForm";
 import { Heading6, BodyText } from "../../typography";
@@ -6,9 +7,14 @@ import BasicCard from "../medium/BasicCard";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Avatar } from "@material-ui/core";
+import { UserContext, userRoute } from "../../context/Api";
 
 function EditProfileCard({ flex, title, picSrc, picAlt, children }) {
+  const User = React.useContext(UserContext);
   const responsive = pageDynamics();
+
+  // Add side effects
+  React.useEffect(() => {}, []);
   return (
     <BasicCard
       custom={{

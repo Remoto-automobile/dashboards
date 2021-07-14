@@ -20,6 +20,7 @@ function ProfileCard({
   if (action === "editProfile") {
     location = `${path}/edit`;
   }
+  if (action === "View Profile") location = "/client/profile";
   return (
     <div
       style={{

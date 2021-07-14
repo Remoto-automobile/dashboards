@@ -30,7 +30,7 @@ function Dashboard() {
       })
       .catch((err) => {
         console.log(clientToken);
-        Car.dispatch({ type: "FETCH_FAILURE", payload: err });
+        Car.dispatch({ type: "FETCH_FAILURE", error: err });
         // localStorage.removeItem("client_token");
         // window.location.href = "/client/login";
       });

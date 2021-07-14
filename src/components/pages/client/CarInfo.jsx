@@ -1,13 +1,8 @@
 import React from "react";
-import { Card, colors, fonts } from "../../../globalStyles";
-import { BodyText, Heading6 } from "../../../typography";
-import TabPanel from "../../basic/TabPanel";
-import BasicCard from "../../medium/BasicCard";
+import Axios from "axios";
 
-// import SwipeableViews from "react-swipeable-views";
-import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-
+import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableHead,
@@ -17,6 +12,16 @@ import {
   Tab,
   Tabs,
 } from "@material-ui/core";
+
+// import SwipeableViews from "react-swipeable-views";
+import { Card, colors, fonts } from "../../../globalStyles";
+import { BodyText, Heading6 } from "../../../typography";
+import TabPanel from "../../basic/TabPanel";
+import BasicCard from "../../medium/BasicCard";
+import { CarContext, carRoute } from "../../../context/Api";
+import Loading from "../../major/Loading";
+
+const clientData = JSON.parse(localStorage.getItem("client_token"));
 
 const CarTabs = withStyles({
   root: {
@@ -70,8 +75,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CarInfo() {
+  const Car = React.useContext(CarContext);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!Car.state.data || Car.state.error) {
+      Car.dispatch({ type: "LOADING" });
+      Axios.get(`${carRoute}/${clientData.id}`, {
+        headers: { token: clientData.token },
+      })
+        .then((res) => {
+          Car.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        })
+        .catch((err) => Car.dispatch({ type: "FETCH_FAILURE", error: err }));
+    }
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -96,12 +115,19 @@ export default function CarInfo() {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <CarTab label="Toyota" {...a11yProps(0)} />
+            {Car.state.loading ? (
+              ""
+            ) : (
+              <React.Fragment>
+                <CarTab label={Car.state.data.brand.name} {...a11yProps(0)} />
+              </React.Fragment>
+            )}
+            {/* <CarTab label="Toyota" {...a11yProps(0)} />
             <CarTab label="Honda" {...a11yProps(1)} />
             <CarTab label="Hyundai" {...a11yProps(2)} />
             <CarTab label="Kia" {...a11yProps(3)} />
             <CarTab label="Toyota" {...a11yProps(4)} />
-            <CarTab label="Kia" {...a11yProps(5)} />
+            <CarTab label="Kia" {...a11yProps(5)} /> */}
           </CarTabs>
         </AppBar>
         {/* <SwipeableViews
@@ -109,32 +135,37 @@ export default function CarInfo() {
         index={value}
         onChangeIndex={handleChangeIndex}
       > */}
-        <TabPanel value={value} index={0}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <BodyText bold>Car Model</BodyText>
-                </TableCell>
-                <TableCell>
-                  <BodyText bold>Year</BodyText>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>
-                  <BodyText>Corolla</BodyText>
-                </TableCell>
-                <TableCell>
-                  <BodyText>2018</BodyText>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TabPanel>
+        {Car.state.loading ? (
+          <Loading />
+        ) : (
+          <TabPanel value={value} index={0}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <BodyText bold>Car Model</BodyText>
+                  </TableCell>
+                  <TableCell>
+                    <BodyText bold>Year</BodyText>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <BodyText>{Car.state.data.model.name}</BodyText>
+                    {/* <BodyText>Corolla</BodyText> */}
+                  </TableCell>
+                  <TableCell>
+                    <BodyText>{Car.state.data.year}</BodyText>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TabPanel>
+        )}
 
-        <TabPanel value={value} index={1}>
+        {/* <TabPanel value={value} index={1}>
           <Table>
             <TableHead>
               <TableRow>
@@ -257,7 +288,7 @@ export default function CarInfo() {
               </TableRow>
             </TableBody>
           </Table>
-        </TabPanel>
+        </TabPanel> */}
 
         {/* </SwipeableViews> */}
       </div>

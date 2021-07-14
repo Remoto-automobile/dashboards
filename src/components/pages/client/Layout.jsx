@@ -19,6 +19,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { LocalAtm } from "@material-ui/icons";
 import { colors } from "../../../globalStyles";
 
 const paint = makeStyles((theme) => ({
@@ -132,6 +133,26 @@ function Layout({ children }) {
                   }
                 >
                   Help
+                </SiderItem>
+              </Link>
+              <Link
+                className={painting.link}
+                to={`#`}
+                onClick={() => {
+                  localStorage.setItem("client_token", null);
+                  localStorage.removeItem("client_token");
+                  window.location.href = "/client/login";
+                }}
+              >
+                <SiderItem
+                  icon={<LocalAtm />}
+                  activeStyle={
+                    Sidebar.sidebarState.selected === "a_help" && {
+                      backgroundColor: "#f8e8e5",
+                    }
+                  }
+                >
+                  Logout
                 </SiderItem>
               </Link>
             </SiderCard>

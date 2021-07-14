@@ -116,6 +116,7 @@ const rows = [
   ),
 ];
 
+const clientToken = JSON.parse(localStorage.getItem("client_token"));
 // Handle sorting
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -160,9 +161,21 @@ const headCells = [
 // Sorting by headers
 function EnhancedTableHead(props) {
   const { classes, order, orderBy, onRequestSort } = props;
+  const Order = React.useContext(OrderContext);
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+  React.useEffect(() => {
+    if (Order.state.data == null || Order.state.data == undefined) {
+      Order.dispatch({ type: "LOADING" });
+      Axios.get(orderRoute, { headers: { token: clientToken.token } })
+        .then((res) => {
+          Order.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        })
+        .catch((err) => Order.dispatch({ type: "FETCH_FAILURE", error: err }));
+    }
+  }, []);
 
   return (
     <TableHead>
@@ -265,21 +278,7 @@ export default function OrderTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(6);
 
-  const clientToken = JSON.parse(localStorage.getItem("client_token"));
   const Order = React.useContext(OrderContext);
-
-  React.useEffect(() => {
-    if (Order.state.data == null || Order.state.data == undefined) {
-      Order.dispatch({ type: "LOADING" });
-      Axios.get(orderRoute, { headers: { token: clientToken.token } })
-        .then((res) => {
-          Order.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        })
-        .catch((err) =>
-          Order.dispatch({ type: "FETCH_FAILURE", payload: err })
-        );
-    }
-  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -299,7 +298,9 @@ export default function OrderTable() {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  return (
+  return Order.state.loading ? (
+    <Loading />
+  ) : (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar />
@@ -318,49 +319,53 @@ export default function OrderTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+              {Order.state.loading && <Loading />}
+              {/* {!Order.state.loading && Order.state.error && "Request Failed"} */}
+              {!Order.state.loading &&
+                Order.state.data &&
+                stableSort(Order.state.data, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.name}
-                    >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.name}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
                         >
-                          <Avatar
-                            src={profilePicture}
-                            alt="A"
-                            style={{ marginRight: 10 }}
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Avatar
+                              src={profilePicture}
+                              alt="A"
+                              style={{ marginRight: 10 }}
+                            />
+                            <BodyText>{row.name}</BodyText>
+                          </div>
+                        </TableCell>
+                        <TableCell>{row.carBrand}</TableCell>
+                        <TableCell>{row.date}</TableCell>
+                        <TableCell>{row.status}</TableCell>
+                        <TableCell style={{ padding: 0, margin: 0 }}>
+                          <DeleteForeverOutlinedIcon
+                            style={{ color: "#ffb3af" }}
                           />
-                          <BodyText>{row.name}</BodyText>
-                        </div>
-                      </TableCell>
-                      <TableCell>{row.carBrand}</TableCell>
-                      <TableCell>{row.date}</TableCell>
-                      <TableCell>{row.status}</TableCell>
-                      <TableCell style={{ padding: 0, margin: 0 }}>
-                        <DeleteForeverOutlinedIcon
-                          style={{ color: "#ffb3af" }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
