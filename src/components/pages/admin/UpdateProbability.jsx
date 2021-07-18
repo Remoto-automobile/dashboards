@@ -41,12 +41,12 @@ export default function UpdatePrice() {
     // <div>
     <Dialog
       // open={true}
-      open={Ui.uiState.updateProbabilityDialog}
+      open={Ui.uiState.probabilityUpdate.active}
       TransitionComponent={Transition}
       keepMounted
       onClose={() => {
-        Ui.uiDispatch("hideUpdateProbabilityDialog");
-        Ui.uiDispatch("showUpdateProductDialog");
+        Ui.uiDispatch({ type: "probabilityUpdate", data: { active: false } });
+        Ui.uiDispatch({ type: "productUpdate", data: { active: true } });
       }}
       aria-labelledby="update-data-title"
       aria-describedby="update-data-form"

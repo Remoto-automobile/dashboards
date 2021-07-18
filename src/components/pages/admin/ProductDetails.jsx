@@ -31,6 +31,7 @@ import {
   adminBrandRoute,
   BrandContext,
   ItemContext,
+  adminProbRoute,
 } from "../../../context/Api";
 import Loading from "../../major/Loading";
 
@@ -87,7 +88,12 @@ const years = [
 ];
 
 function ProductDetails({ systemId }) {
+  let priceD = [];
+  let probD = [];
   const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
+
+  const [priceData, setPriceData] = React.useState([]);
+  const [probData, setProbData] = React.useState([]);
 
   let query = useQuery();
   const paramData = query.get("systemId");
@@ -331,10 +337,25 @@ function ProductDetails({ systemId }) {
                   <Loading />
                 ) : (
                   Comp.state.data.map((comp) =>
-                    ExactComp.state.data.map(
-                      (ecomp, i) =>
+                    ExactComp.state.data.map((ecomp, i) => {
+                      if (
                         ecomp.component_id === comp.id &&
-                        year === ecomp.year && (
+                        year === ecomp.year
+                      ) {
+                        priceD = [
+                          ...priceD,
+                          { id: ecomp.id, name: comp.name, price: ecomp.price },
+                        ];
+                        probD = [
+                          ...probD,
+                          {
+                            id: ecomp.id,
+                            name: comp.name,
+                            probability: ecomp.probability,
+                          },
+                        ];
+
+                        return (
                           <TableRow>
                             <TableCell>
                               <BodyText>{comp.name}</BodyText>
@@ -343,11 +364,15 @@ function ProductDetails({ systemId }) {
                               <BodyText>{ecomp.price}</BodyText>
                             </TableCell>
                             <TableCell>
-                              <BodyText>0.5</BodyText>
+                              <BodyText>{ecomp.probability}</BodyText>
+                              {/* <button onClick={() => alert(priceD[i].name)}>
+                                Hey
+                              </button> */}
                             </TableCell>
                           </TableRow>
-                        )
-                    )
+                        );
+                      }
+                    })
                   )
                 )}
               </TableBody>
@@ -363,7 +388,10 @@ function ProductDetails({ systemId }) {
             >
               <CallToAction
                 onClick={() => {
-                  Ui.uiDispatch("showUpdateProductDialog");
+                  Ui.uiDispatch({
+                    type: "productUpdate",
+                    data: { active: true, priceD, probD },
+                  });
                 }}
               >
                 Update Data

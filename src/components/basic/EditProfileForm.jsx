@@ -6,7 +6,12 @@ import { useFormik } from "formik";
 import { form, Card, colors } from "../../globalStyles";
 import { FormControl, TextField, Button, MenuItem } from "@material-ui/core";
 import { BodyText } from "../../typography";
-import { CarContext, carRoute } from "../../context/Api";
+import {
+  CarContext,
+  carRoute,
+  UserContext,
+  profileRoute,
+} from "../../context/Api";
 import Loading from "../major/Loading";
 
 const years = [
@@ -26,7 +31,11 @@ const editProfileSchema = Yup.object({
 const clientData = JSON.parse(localStorage.getItem("client_token"));
 
 function EditProfileForm({ picAlt, picSrc, mobile }) {
+  const User = React.useContext(UserContext);
   const Car = React.useContext(CarContext);
+
+  const buttonRef = React.useRef(null);
+
   const formik = useFormik({
     initialValues: {
       name: clientData.company_name,
@@ -39,7 +48,23 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
 
     validationSchema: editProfileSchema,
     onSubmit: (values) => {
-      alert(values.name);
+      Axios.put(
+        `${profileRoute}/edit/${clientData.id}`,
+        {
+          company_name: values.name,
+          contact_number: values.phone,
+          address: values.location,
+        },
+        { headers: { token: clientData.token } }
+      )
+        .then((res) => {
+          User.dispatch({ type: "POST_SUCCESS", payload: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          User.dispatch({ type: "POST_FAILURE", error: err });
+          console.log(err);
+        });
     },
   });
   const [year, setYear] = useState(2018);
@@ -175,6 +200,7 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
           textTransform: "capitalize",
         }}
         type="submit"
+        ref={buttonRef}
       >
         <BodyText bold color={colors.mainBg}>
           Save Changes

@@ -333,7 +333,7 @@ export default function OrderTable() {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.name}
+                        key={row.id}
                       >
                         <TableCell
                           component="th"
@@ -352,11 +352,11 @@ export default function OrderTable() {
                               alt="A"
                               style={{ marginRight: 10 }}
                             />
-                            <BodyText>{row.name}</BodyText>
+                            <BodyText>{row.user.name}</BodyText>
                           </div>
                         </TableCell>
-                        <TableCell>{row.carBrand}</TableCell>
-                        <TableCell>{row.date}</TableCell>
+                        <TableCell>{row.car.brand.name}</TableCell>
+                        <TableCell>{row.created_at}</TableCell>
                         <TableCell>{row.status}</TableCell>
                         <TableCell style={{ padding: 0, margin: 0 }}>
                           <DeleteForeverOutlinedIcon

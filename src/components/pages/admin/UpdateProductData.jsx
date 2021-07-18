@@ -34,11 +34,11 @@ export default function UpdateProductData() {
     // <div>
     <Dialog
       // open={true}
-      open={Ui.uiState.productDataDialog}
+      open={Ui.uiState.productUpdate.active}
       TransitionComponent={Transition}
       keepMounted
       onClose={() => {
-        Ui.uiDispatch("hideUpdateProductDialog");
+        Ui.uiDispatch({ type: "productUpdate", data: { active: false } });
       }}
       aria-labelledby="update-data-title"
       aria-describedby="update-data-form"
@@ -59,7 +59,9 @@ export default function UpdateProductData() {
               fontSize: 48,
               cursor: "pointer",
             }}
-            onClick={() => Ui.uiDispatch({ type: "hideUpdateProductDialog" })}
+            onClick={() =>
+              Ui.uiDispatch({ type: "productUpdate", data: { active: false } })
+            }
           >
             &times;
           </div>
@@ -79,7 +81,13 @@ export default function UpdateProductData() {
                 variant="outlined"
                 onClick={() => {
                   Ui.uiDispatch("default");
-                  Ui.uiDispatch("showUpdatePriceDialog");
+                  Ui.uiDispatch({
+                    type: "priceUpdate",
+                    data: {
+                      active: true,
+                      data: Ui.uiState.productUpdate.priceD,
+                    },
+                  });
                 }}
                 style={{
                   color: colors.mainBg,
@@ -95,7 +103,13 @@ export default function UpdateProductData() {
                 variant="outlined"
                 onClick={() => {
                   Ui.uiDispatch("default");
-                  Ui.uiDispatch("showUpdateProbabilityDialog");
+                  Ui.uiDispatch({
+                    type: "probabilityUpdate",
+                    data: {
+                      active: true,
+                      data: Ui.uiState.productUpdate.probD,
+                    },
+                  });
                 }}
                 style={{
                   color: colors.main,

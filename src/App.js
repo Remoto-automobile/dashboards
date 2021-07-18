@@ -33,6 +33,9 @@ const initialUiState = {
   updateProbabilityDialog: false,
   openMobileMenu: false,
   feedbackDialog: { active: false, success: "", content: "" },
+  productUpdate: { active: false },
+  priceUpdate: { active: false, data: [] },
+  probabilityUpdate: { active: false, data: [] },
   // selectedSideitem: 'dashboard'
 };
 const initialSidebarState = { selected: "dashboard" };
@@ -44,6 +47,13 @@ const uiReducer = (state, action) => {
         ...state,
         feedbackDialog: { ...state.feedbackDialog, ...action.payload },
       };
+
+    case "productUpdate":
+      return { ...state, productUpdate: action.data };
+    case "priceUpdate":
+      return { ...state, priceUpdate: action.data };
+    case "probabilityUpdate":
+      return { ...state, probabilityUpdate: action.data };
   }
   switch (action) {
     case "openMobileMenu":

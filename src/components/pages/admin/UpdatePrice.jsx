@@ -1,4 +1,6 @@
 import React from "react";
+import Axios from "axios";
+import { useFormik } from "formik";
 import { UiContext } from "../../../App";
 import { colors, fonts, form } from "../../../globalStyles";
 import { Heading7, BodyText, MainBodyText } from "../../../typography";
@@ -35,18 +37,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdatePrice() {
+  const usefulData = [];
   const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (
     // <div>
     <Dialog
       // open={true}
-      open={Ui.uiState.updatePriceDialog}
+      open={Ui.uiState.priceUpdate.active}
       TransitionComponent={Transition}
       keepMounted
       onClose={() => {
-        Ui.uiDispatch("hideUpdatePriceDialog");
-        Ui.uiDispatch("showUpdateProductDialog");
+        Ui.uiDispatch({ type: "priceUpdate", data: { active: false } });
+        Ui.uiDispatch({ type: "productUpdate", data: { active: true } });
       }}
       aria-labelledby="update-data-title"
       aria-describedby="update-data-form"
@@ -84,7 +87,22 @@ export default function UpdatePrice() {
               }}
             >
               <form autoComplete={false} noValidate className={classes.form}>
-                <FormControl margin="dense">
+                {Ui.uiState.priceUpdate.data &&
+                  Ui.uiState.priceUpdate.data.map((component) => {
+                    return (
+                      <FormControl margin="dense">
+                        <label htmlFor={component.name}>
+                          <BodyText>{component.name}</BodyText>
+                        </label>
+                        <TextField
+                          name={component.name}
+                          variant="outlined"
+                          value={component.id}
+                        />
+                      </FormControl>
+                    );
+                  })}
+                {/* <FormControl margin="dense">
                   <label htmlFor="compressor">
                     <BodyText>Compressor</BodyText>
                   </label>
@@ -153,7 +171,7 @@ export default function UpdatePrice() {
                     variant="outlined"
                     value={31000}
                   />
-                </FormControl>
+                </FormControl> */}
               </form>
             </div>
           </DialogContentText>

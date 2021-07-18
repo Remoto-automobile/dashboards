@@ -63,6 +63,7 @@ export const ExactCompContext = React.createContext();
 export const SubscriptionContext = React.createContext();
 export const UserContext = React.createContext();
 export const ItemContext = React.createContext();
+export const ProbContext = React.createContext();
 
 // Define Routes
 // export const brandRoute = "https://remotoglobal.com/api/brand";
@@ -94,6 +95,7 @@ export const ItemContext = React.createContext();
 // export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
 // export const adminFileUploadRoute =
 //   "https://remotoglobal.com/api/admin/upload_file";
+// export const adminProbRoute = "https://remotoglobal.com/api/admin/prob"
 
 export const brandRoute = "http://localhost:8000/api/brand";
 export const carRoute = "http://localhost:8000/api/car";
@@ -123,6 +125,7 @@ export const adminUserRoute = "http://localhost:8000/api/admin/register";
 export const adminSystemRoute = "http://localhost:8000/api/admin/system";
 export const adminFileUploadRoute =
   "http://localhost:8000/api/admin/upload_file";
+export const adminProbRoute = "http://localhost:8000/api/admin/prob";
 
 function Api({ children }) {
   // Create Reducers
