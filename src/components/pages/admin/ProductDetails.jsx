@@ -88,12 +88,7 @@ const years = [
 ];
 
 function ProductDetails({ systemId }) {
-  let priceD = [];
-  let probD = [];
   const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
-
-  const [priceData, setPriceData] = React.useState([]);
-  const [probData, setProbData] = React.useState([]);
 
   let query = useQuery();
   const paramData = query.get("systemId");
@@ -213,6 +208,8 @@ function ProductDetails({ systemId }) {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+  // if (Comp.state.loading || Brand.state.loading || Model.state.loading)
   return Comp.state.loading ? (
     <Loading />
   ) : Brand.state.loading ? (
@@ -342,18 +339,22 @@ function ProductDetails({ systemId }) {
                         ecomp.component_id === comp.id &&
                         year === ecomp.year
                       ) {
-                        priceD = [
-                          ...priceD,
-                          { id: ecomp.id, name: comp.name, price: ecomp.price },
-                        ];
-                        probD = [
-                          ...probD,
-                          {
-                            id: ecomp.id,
-                            name: comp.name,
-                            probability: ecomp.probability,
-                          },
-                        ];
+                        // priceD = [
+                        //   ...priceD,
+                        //   {
+                        //     id: ecomp.id,
+                        //     name: comp.name,
+                        //     price: ecomp.price,
+                        //   },
+                        // ];
+                        // probD = [
+                        //   ...probD,
+                        //   {
+                        //     id: ecomp.id,
+                        //     name: comp.name,
+                        //     probability: ecomp.probability,
+                        //   },
+                        // ];
 
                         return (
                           <TableRow>
@@ -375,6 +376,7 @@ function ProductDetails({ systemId }) {
                     })
                   )
                 )}
+                {console.log(ExactComp.state.data)}
               </TableBody>
             </Table>
             <div
@@ -390,7 +392,7 @@ function ProductDetails({ systemId }) {
                 onClick={() => {
                   Ui.uiDispatch({
                     type: "productUpdate",
-                    data: { active: true, priceD, probD },
+                    data: { active: true },
                   });
                 }}
               >

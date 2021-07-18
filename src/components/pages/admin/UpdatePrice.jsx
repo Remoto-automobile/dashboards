@@ -91,87 +91,17 @@ export default function UpdatePrice() {
                   Ui.uiState.priceUpdate.data.map((component) => {
                     return (
                       <FormControl margin="dense">
-                        <label htmlFor={component.name}>
-                          <BodyText>{component.name}</BodyText>
+                        <label htmlFor={component.component.name}>
+                          <BodyText>{component.component.name}</BodyText>
                         </label>
                         <TextField
-                          name={component.name}
+                          name={component.component.name}
                           variant="outlined"
-                          value={component.id}
+                          value={component.price}
                         />
                       </FormControl>
                     );
                   })}
-                {/* <FormControl margin="dense">
-                  <label htmlFor="compressor">
-                    <BodyText>Compressor</BodyText>
-                  </label>
-                  <TextField
-                    name="compressor"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="condenser">
-                    <BodyText>Condenser</BodyText>
-                  </label>
-                  <TextField
-                    name="condenser"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="expansionValve">
-                    <BodyText>Expansion Valve</BodyText>
-                  </label>
-                  <TextField
-                    name="expansionValve"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="recieverDrier">
-                    <BodyText>Reciever Drier</BodyText>
-                  </label>
-                  <TextField
-                    name="recieverDrier"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="evaporator">
-                    <BodyText>Evaporator</BodyText>
-                  </label>
-                  <TextField
-                    name="evaporator"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="blowerMotor">
-                    <BodyText>Blower Motor</BodyText>
-                  </label>
-                  <TextField
-                    name="blowerMotor"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="accumulator">
-                    <BodyText>Accumulator</BodyText>
-                  </label>
-                  <TextField
-                    name="accumulator"
-                    variant="outlined"
-                    value={31000}
-                  />
-                </FormControl> */}
               </form>
             </div>
           </DialogContentText>

@@ -10,6 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles } from "@material-ui/core/styles";
+import { ExactCompContext } from "../../../context/Api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpdateProductData() {
   const classes = useStyles();
+  const ExactComp = React.useContext(ExactCompContext);
   const Ui = React.useContext(UiContext);
   return (
     // <div>
@@ -85,7 +87,7 @@ export default function UpdateProductData() {
                     type: "priceUpdate",
                     data: {
                       active: true,
-                      data: Ui.uiState.productUpdate.priceD,
+                      data: ExactComp.state.data,
                     },
                   });
                 }}
@@ -107,7 +109,7 @@ export default function UpdateProductData() {
                     type: "probabilityUpdate",
                     data: {
                       active: true,
-                      data: Ui.uiState.productUpdate.probD,
+                      data: ExactComp.state.data,
                     },
                   });
                 }}

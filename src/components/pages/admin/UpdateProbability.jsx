@@ -74,109 +74,65 @@ export default function UpdatePrice() {
             &times;
           </div> */}
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="create-order-description">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                justifyContent: "space-evenly",
-                alignItems: "stretch",
-              }}
-            >
-              <form autoComplete={false} noValidate className={classes.form}>
-                <FormControl margin="dense">
-                  <label htmlFor="compressor">
-                    <BodyText>Compressor</BodyText>
-                  </label>
-                  <TextField
-                    name="compressor"
-                    variant="outlined"
-                    value={0.25}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="condenser">
-                    <BodyText>Condenser</BodyText>
-                  </label>
-                  <TextField name="condenser" variant="outlined" value={0.2} />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="expansionValve">
-                    <BodyText>Expansion Valve</BodyText>
-                  </label>
-                  <TextField
-                    name="expansionValve"
-                    variant="outlined"
-                    value={0.1}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="recieverDrier">
-                    <BodyText>Reciever Drier</BodyText>
-                  </label>
-                  <TextField
-                    name="recieverDrier"
-                    variant="outlined"
-                    value={0.2}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="evaporator">
-                    <BodyText>Evaporator</BodyText>
-                  </label>
-                  <TextField name="evaporator" variant="outlined" value={0.1} />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="blowerMotor">
-                    <BodyText>Blower Motor</BodyText>
-                  </label>
-                  <TextField
-                    name="blowerMotor"
-                    variant="outlined"
-                    value={0.03}
-                  />
-                </FormControl>
-                <FormControl margin="dense">
-                  <label htmlFor="accumulator">
-                    <BodyText>Accumulator</BodyText>
-                  </label>
-                  <TextField
-                    name="accumulator"
-                    variant="outlined"
-                    value={0.01}
-                  />
-                </FormControl>
-              </form>
-            </div>
-          </DialogContentText>
-        </DialogContent>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "stretch",
-            width: "100%",
-            // backgroundColor: "red",
-          }}
-        >
-          {/* <DialogActions> */}
-          <Button
-            onClick={() => {
-              Ui.uiDispatch("default");
-            }}
-            color="primary"
+        <form autoComplete={false} noValidate className={classes.form}>
+          <DialogContent>
+            <DialogContentText id="create-order-description">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  justifyContent: "space-evenly",
+                  alignItems: "stretch",
+                }}
+              >
+                {Ui.uiState.probabilityUpdate.data &&
+                  Ui.uiState.probabilityUpdate.data.map((component) => {
+                    return (
+                      <FormControl margin="dense">
+                        <label htmlFor={component.component.name}>
+                          <BodyText>{component.component.name}</BodyText>
+                        </label>
+                        <TextField
+                          name={component.component.name}
+                          variant="outlined"
+                          value={component.probability}
+                        />
+                      </FormControl>
+                    );
+                  })}
+              </div>
+            </DialogContentText>
+          </DialogContent>
+          <div
             style={{
-              backgroundColor: colors.main,
-              textTransform: "capitalize",
-              marginBottom: 40,
+              display: "flex",
+              justifyContent: "stretch",
               width: "100%",
+              // backgroundColor: "red",
             }}
           >
-            <MainBodyText color={colors.mainBg}>Save Probability</MainBodyText>
-          </Button>
-          {/* </DialogActions> */}
-        </div>
+            {/* <DialogActions> */}
+            <Button
+              onClick={() => {
+                Ui.uiDispatch("default");
+              }}
+              color="primary"
+              style={{
+                backgroundColor: colors.main,
+                textTransform: "capitalize",
+                marginBottom: 40,
+                width: "100%",
+              }}
+              type="submit"
+            >
+              <MainBodyText color={colors.mainBg}>
+                Save Probability
+              </MainBodyText>
+            </Button>
+            {/* </DialogActions> */}
+          </div>
+        </form>
       </div>
     </Dialog>
   );
