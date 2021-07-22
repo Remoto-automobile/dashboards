@@ -103,7 +103,7 @@ export default function UpdatePrice() {
             }
             Axios.post(
               `${adminExactcomponentRoute}/edit_probability`,
-              formatInput,
+              { component: formatInput },
               { headers: { token: adminData.auth_token } }
             )
               .then((res) => {
