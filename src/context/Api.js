@@ -96,6 +96,7 @@ export const ProbContext = React.createContext();
 // export const adminFileUploadRoute =
 //   "https://remotoglobal.com/api/admin/upload_file";
 // export const adminProbRoute = "https://remotoglobal.com/api/admin/prob"
+// export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
 
 export const brandRoute = "http://localhost:8000/api/brand";
 export const carRoute = "http://localhost:8000/api/car";
@@ -126,6 +127,7 @@ export const adminSystemRoute = "http://localhost:8000/api/admin/system";
 export const adminFileUploadRoute =
   "http://localhost:8000/api/admin/upload_file";
 export const adminProbRoute = "http://localhost:8000/api/admin/prob";
+export const adminProfileRoute = "http://localhost:8000/api/admin/profile";
 
 function Api({ children }) {
   // Create Reducers

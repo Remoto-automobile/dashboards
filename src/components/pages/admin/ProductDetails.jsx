@@ -376,7 +376,6 @@ function ProductDetails({ systemId }) {
                     })
                   )
                 )}
-                {console.log(ExactComp.state.data)}
               </TableBody>
             </Table>
             <div

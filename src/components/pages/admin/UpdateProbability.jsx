@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import { UiContext } from "../../../App";
 import { colors, fonts, form } from "../../../globalStyles";
 import { Heading7, BodyText, MainBodyText } from "../../../typography";
@@ -10,6 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { TextField, FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { adminExactcomponentRoute } from "../../../context/Api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -35,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdatePrice() {
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
+  const [formData, setFormData] = React.useState([]);
+  const editForm = React.useRef(null);
+  let fields = [];
   const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (
@@ -74,7 +80,39 @@ export default function UpdatePrice() {
             &times;
           </div> */}
         </DialogTitle>
-        <form autoComplete={false} noValidate className={classes.form}>
+        <form
+          ref={editForm}
+          autoComplete={false}
+          noValidate
+          className={classes.form}
+          method="POST"
+          action={`${adminExactcomponentRoute}/edit_probability`}
+          onSubmit={(event) => {
+            event.preventDefault();
+            const inputs = editForm.current.elements;
+            let formatInput = [];
+            // Iterate over the form controls
+            for (let i = 0; i < inputs.length; i++) {
+              if (inputs[i].nodeName === "INPUT" && inputs[i].type === "text") {
+                // Update text input
+                formatInput.push({
+                  id: inputs[i].name,
+                  probability: inputs[i].value,
+                });
+              }
+            }
+            Axios.post(
+              `${adminExactcomponentRoute}/edit_probability`,
+              formatInput,
+              { headers: { token: adminData.auth_token } }
+            )
+              .then((res) => {
+                alert("Updated successfully");
+                console.log(res.data);
+              })
+              .catch((err) => alert("Failed to update components"));
+          }}
+        >
           <DialogContent>
             <DialogContentText id="create-order-description">
               <div
@@ -94,7 +132,7 @@ export default function UpdatePrice() {
                           <BodyText>{component.component.name}</BodyText>
                         </label>
                         <TextField
-                          name={component.component.name}
+                          name={component.id}
                           variant="outlined"
                           value={component.probability}
                         />

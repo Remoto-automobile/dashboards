@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import { colors } from "../../../globalStyles";
 import { Route, Switch, useRouteMatch, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import Appbar from "../../pageLayout/Appbar";
 import Drawer from "../../pageLayout/Drawer";
 import SiderCard from "../../medium/a_Sider";
 import SiderItem from "../../basic/SiderItem";
+import { UserContext, adminProfileRoute } from "../../../context/Api";
 
 // import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -36,6 +38,7 @@ import UpdateProbability from "./UpdateProbability";
 import UploadForms from "./UploadForms";
 import DataEditForms from "./DataEditForms";
 import FeedbackDialog from "../../major/FeedbackDialog";
+import Loading from "../../major/Loading";
 
 const paint = makeStyles((theme) => ({
   link: {
@@ -50,8 +53,29 @@ const paint = makeStyles((theme) => ({
 function Layout({ children }) {
   const Sidebar = React.useContext(SidebarContext);
   const painting = paint();
+  const User = React.useContext(UserContext);
   const { url, path } = useRouteMatch();
-  return (
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
+
+  React.useEffect(() => {
+    // alert(adminData.auth_token);
+    User.dispatch({ type: "LOADING" });
+    Axios.get(adminProfileRoute, { headers: { token: adminData.auth_token } })
+      .then((res) => {
+        User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+        User.dispatch({ type: "FETCH_FAILURE", error: err });
+        localStorage.setItem("admin_token", null);
+        localStorage.removeItem("admin_token");
+        window.location.href = "/admin/login";
+      });
+  }, []);
+
+  return User.state.loading ? (
+    <Loading />
+  ) : (
     <div style={styles.root}>
       <div>
         <Drawer>
