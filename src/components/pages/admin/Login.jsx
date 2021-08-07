@@ -115,7 +115,9 @@ export default function (props) {
                   </div>
                   <div className="form-group text-center">
                     <a
-                      href="#"
+                      // href="http://localhost:8000/password_recovery"
+                      href="http://www.remotoglobal.com/password_recovery"
+                      target="blank"
                       className="text-center"
                       style={{ display: "block" }}
                     >
