@@ -3,6 +3,7 @@ import TitleBar from "../../pageLayout/TitleBar";
 import ProductCard from "../../medium/ProductCard";
 import UserTable from "../../major/UserTable";
 import { TextField, Input } from "@material-ui/core";
+import CallToAction from "../../basic/CallToAction";
 import AddIcon from "@material-ui/icons/Add";
 import { pageDynamics } from "../../../globalStyles";
 import { UserContext, userRoute } from "../../../context/Api";
@@ -11,14 +12,17 @@ import Loading from "../../major/Loading";
 
 function Users() {
   const User = React.useContext(UserContext);
+  // const Auth = React.useContext(AuthContext);
   const responsive = pageDynamics();
+  // const [source, setSource] = React.useState(userRoute);
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
   React.useEffect(() => {
     axios
       .get(userRoute, {
-        // headers: {
-        //   token: "f45165058243964ce7acff87206efb97",
-        // },
+        headers: {
+          token: adminData.auth_token,
+        },
       })
       .then((res) => {
         User.dispatch({

@@ -9,7 +9,7 @@ import Appbar from "../../pageLayout/Appbar";
 import Drawer from "../../pageLayout/Drawer";
 import SiderCard from "../../medium/a_Sider";
 import SiderItem from "../../basic/SiderItem";
-import { UserContext, adminProfileRoute } from "../../../context/Api";
+import { AuthContext, adminProfileRoute } from "../../../context/Api";
 
 // import Icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -49,31 +49,34 @@ const paint = makeStyles((theme) => ({
     },
   },
 }));
+const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
 function Layout({ children }) {
   const Sidebar = React.useContext(SidebarContext);
   const painting = paint();
-  const User = React.useContext(UserContext);
+  const Auth = React.useContext(AuthContext);
   const { url, path } = useRouteMatch();
-  const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
   React.useEffect(() => {
     // alert(adminData.auth_token);
-    User.dispatch({ type: "LOADING" });
-    Axios.get(adminProfileRoute, { headers: { token: adminData.auth_token } })
+    Auth.dispatch({ type: "LOADING" });
+    Axios.get(adminProfileRoute, {
+      headers: { token: adminData.auth_token },
+    })
       .then((res) => {
-        User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        Auth.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
       })
       .catch((err) => {
         console.log(err);
-        User.dispatch({ type: "FETCH_FAILURE", error: err });
+        Auth.dispatch({ type: "FETCH_FAILURE", error: err });
         localStorage.setItem("admin_token", null);
         localStorage.removeItem("admin_token");
         window.location.href = "/admin/login";
       });
   }, []);
 
-  return User.state.loading ? (
+  // alert(adminData.auth_token);
+  return Auth.state.loading ? (
     <Loading />
   ) : (
     <div style={styles.root}>

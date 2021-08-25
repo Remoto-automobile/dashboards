@@ -64,6 +64,7 @@ export const SubscriptionContext = React.createContext();
 export const UserContext = React.createContext();
 export const ItemContext = React.createContext();
 export const ProbContext = React.createContext();
+export const AuthContext = React.createContext();
 
 // Define Routes
 export const brandRoute = "https://remotoglobal.com/api/brand";
@@ -91,7 +92,7 @@ export const adminExactcomponentRoute =
   "https://remotoglobal.com/api/admin/exact_comp";
 export const adminSubscriptionRoute =
   "https://remotoglobal.com/api/admin/subscription";
-export const adminUserRoute = "https://remotoglobal.com/api/admin/register";
+export const adminUserRoute = "https://remotoglobal.com/api/admin";
 export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
 export const adminFileUploadRoute =
   "https://remotoglobal.com/api/admin/upload_file";
@@ -122,7 +123,7 @@ export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
 //   "http://localhost:8000/api/admin/exact_comp";
 // export const adminSubscriptionRoute =
 //   "http://localhost:8000/api/admin/subscription";
-// export const adminUserRoute = "http://localhost:8000/api/admin/register";
+// export const adminUserRoute = "http://localhost:8000/api/admin";
 // export const adminSystemRoute = "http://localhost:8000/api/admin/system";
 // export const adminFileUploadRoute =
 //   "http://localhost:8000/api/admin/upload_file";
@@ -150,6 +151,7 @@ function Api({ children }) {
     initialState
   );
   const [user, userDispatch] = React.useReducer(reducer, initialState);
+  const [auth, authDispatch] = React.useReducer(reducer, initialState);
   const [item, itemDispatch] = React.useReducer(reducer, initialState);
 
   return (
@@ -189,7 +191,14 @@ function Api({ children }) {
                             dispatch: exactComponentDispatch,
                           }}
                         >
-                          {children}
+                          <AuthContext.Provider
+                            value={{
+                              state: auth,
+                              dispatch: authDispatch,
+                            }}
+                          >
+                            {children}
+                          </AuthContext.Provider>
                         </ExactCompContext.Provider>
                       </ItemContext.Provider>
                     </SubscriptionContext.Provider>

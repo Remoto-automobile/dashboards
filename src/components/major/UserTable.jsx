@@ -11,9 +11,15 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { navigation, pageDynamics, colors } from "../../globalStyles";
 import profileImage from "../../assets/temp/profilePicture.jpg";
-import { UserContext, userRoute } from "../../context/Api";
+import {
+  UserContext,
+  userRoute,
+  AuthContext,
+  adminUserRoute,
+} from "../../context/Api";
 import axios from "axios";
 import Loading from "./Loading";
+import CallToAction from "../basic/CallToAction";
 
 const useStyles = makeStyles({
   table: {
@@ -25,51 +31,16 @@ function createData(name, phone, carBrand, location, orderStatus) {
   return { name, phone, carBrand, location, orderStatus };
 }
 
-const rows = [
-  createData(
-    "Leslie Alexander",
-    "+23445024566",
-    "Toyota Corolla, 2020",
-    "Lagos",
-    "Completed"
-  ),
-  createData(
-    "Ronald Richards",
-    "+23445024566",
-    "Toyota Corolla, 2020",
-    "Lagos",
-    "Completed"
-  ),
-  createData(
-    "Jane Richards",
-    "+23445024566",
-    "Toyota Corolla, 2020",
-    "Lagos",
-    "Completed"
-  ),
-  createData(
-    "Robert Fox",
-    "+23445024566",
-    "Toyota Corolla, 2020",
-    "Lagos",
-    "Completed"
-  ),
-  createData(
-    "Jenny Wilson",
-    "+23445024566",
-    "Toyota Corolla, 2020",
-    "Lagos",
-    "Completed"
-  ),
-];
-
 export default function BasicTable() {
   const [rows, setRows] = React.useState([]);
+  const [source, setSource] = React.useState(userRoute);
   const User = React.useContext(UserContext);
+  const Auth = React.useContext(AuthContext);
   const responsive = pageDynamics();
   const painting = navigation();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   // const [isDia, setIsDia] = React.useState(false);
 
@@ -108,99 +79,122 @@ export default function BasicTable() {
 
   React.useEffect(() => {
     axios
-      .get(userRoute, {
-        headers: { token: "f45165058243964ce7acff87206efb97" },
+      .get(source, {
+        headers: { token: adminData.auth_token },
+        // headers: { token: "f45165058243964ce7acff87206efb97" },
       })
       .then((res) => {
         // User.dispatch({type: "FETCH_SUCCESS", payload: res.data, loading: false})
         setRows((r) => (r = res.data));
+        // console.log(rows);
       })
       .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
-  }, []);
+  }, [source]);
   return User.state.loading ? (
     <Loading />
   ) : (
-    <div style={{ padding: "auto 40px", marginTop: 20, marginBottom: 50 }}>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <MainBodyText bold>Name</MainBodyText>
-              </TableCell>
-              <TableCell align="right">
-                <MainBodyText bold>Phone</MainBodyText>
-              </TableCell>
-              <TableCell align="right">
-                <MainBodyText bold>Car Brand</MainBodyText>
-              </TableCell>
-              <TableCell align="right">
-                <MainBodyText bold>Location</MainBodyText>
-              </TableCell>
-              <TableCell align="right">
-                <MainBodyText bold>Order Status</MainBodyText>
-              </TableCell>
-              <TableCell align="right">
-                <MainBodyText bold>Action</MainBodyText>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <img
-                      src={profileImage}
-                      alt=""
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: "50%",
-                        marginRight: 20,
-                      }}
-                    />
-                    <BodyText>{row.company_name}</BodyText>
-                  </div>
+    <React.Fragment>
+      {Auth.state.data.__superadmin__ == true &&
+        (source === userRoute ? (
+          <CallToAction
+            onClick={() => {
+              setSource(adminUserRoute);
+            }}
+          >
+            Manage Administrators
+          </CallToAction>
+        ) : (
+          <CallToAction
+            onClick={() => {
+              setSource(userRoute);
+            }}
+          >
+            Manage Clients
+          </CallToAction>
+        ))}
+      <div style={{ padding: "auto 40px", marginTop: 20, marginBottom: 50 }}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <MainBodyText bold>Name</MainBodyText>
                 </TableCell>
                 <TableCell align="right">
-                  <BodyText>{row.contact_number}</BodyText>
+                  <MainBodyText bold>Phone</MainBodyText>
                 </TableCell>
                 <TableCell align="right">
-                  <BodyText>{row.carBrand}</BodyText>
+                  <MainBodyText bold>Car Brand</MainBodyText>
                 </TableCell>
                 <TableCell align="right">
-                  <BodyText>{row.location}</BodyText>
+                  <MainBodyText bold>Location</MainBodyText>
                 </TableCell>
                 <TableCell align="right">
-                  <BodyText>{row.orderStatus}</BodyText>
+                  <MainBodyText bold>Order Status</MainBodyText>
                 </TableCell>
                 <TableCell align="right">
-                  <ButtonBase disableRipple onClick={handleActionMenuOpen}>
-                    <Heading6 bold>. . .</Heading6>
-                  </ButtonBase>
+                  <MainBodyText bold>Action</MainBodyText>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div
-        className={responsive.mobileOnly}
-        style={{ width: "100%", justifyContent: "right", marginTop: 20 }}
-      >
-        <Button
-          style={{
-            color: colors.mainBg,
-            backgroundColor: colors.main,
-            textTransform: "capitalize",
-            fontWeight: 700,
-          }}
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={profileImage}
+                        alt=""
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: "50%",
+                          marginRight: 20,
+                        }}
+                      />
+                      <BodyText>{row.company_name}</BodyText>
+                    </div>
+                  </TableCell>
+                  <TableCell align="right">
+                    <BodyText>{row.contact_number}</BodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <BodyText>{row.carBrand}</BodyText>
+                    {console.log(row)}
+                  </TableCell>
+                  <TableCell align="right">
+                    <BodyText>{row.location}</BodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <BodyText>{row.orderStatus}</BodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <ButtonBase disableRipple onClick={handleActionMenuOpen}>
+                      <Heading6 bold>. . .</Heading6>
+                    </ButtonBase>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div
+          className={responsive.mobileOnly}
+          style={{ width: "100%", justifyContent: "right", marginTop: 20 }}
         >
-          View All
-        </Button>
+          <Button
+            style={{
+              color: colors.mainBg,
+              backgroundColor: colors.main,
+              textTransform: "capitalize",
+              fontWeight: 700,
+            }}
+          >
+            View All
+          </Button>
+        </div>
+        {actionMenu}
       </div>
-      {actionMenu}
-    </div>
+    </React.Fragment>
   );
 }

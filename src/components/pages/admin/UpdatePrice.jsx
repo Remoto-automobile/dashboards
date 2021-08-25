@@ -86,7 +86,7 @@ export default function UpdatePrice() {
                 alignItems: "stretch",
               }}
             >
-              <form autoComplete={false} noValidate className={classes.form}>
+              <form autoComplete="false" noValidate className={classes.form}>
                 {Ui.uiState.priceUpdate.data &&
                   Ui.uiState.priceUpdate.data.map((component) => {
                     return (
