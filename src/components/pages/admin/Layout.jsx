@@ -236,7 +236,7 @@ function Layout({ children }) {
               <Route exact path={`${path}/users`}>
                 <Users />
               </Route>
-              <Route path={`${path}/users/view`}>
+              <Route path={`${path}/users/:id`}>
                 <Status />
               </Route>
               <Route path={`${path}/notifications`}>

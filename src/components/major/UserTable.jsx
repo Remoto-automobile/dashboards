@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { MainBodyText, BodyText, Heading6 } from "../../typography";
@@ -32,14 +32,15 @@ function createData(name, phone, carBrand, location, orderStatus) {
 }
 
 export default function BasicTable() {
-  const [rows, setRows] = React.useState([]);
-  const [source, setSource] = React.useState(userRoute);
-  const User = React.useContext(UserContext);
-  const Auth = React.useContext(AuthContext);
+  const [rows, setRows] = useState([]);
+  const [source, setSource] = useState(userRoute);
+  const User = useContext(UserContext);
+  const Auth = useContext(AuthContext);
   const responsive = pageDynamics();
   const painting = navigation();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [clickedUser, setClickedUser] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   // const [isDia, setIsDia] = React.useState(false);
@@ -47,8 +48,9 @@ export default function BasicTable() {
   const isMenuOpen = Boolean(anchorEl);
   // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleActionMenuOpen = (event) => {
+  const handleActionMenuOpen = (event, userData) => {
     setAnchorEl(event.currentTarget);
+    setClickedUser(userData);
   };
 
   // const handleMobileMenuClose = () => {
@@ -70,7 +72,13 @@ export default function BasicTable() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to="users/view" className={painting.link}>
+      <Link
+        to={{
+          pathname: `users/${clickedUser.id}`,
+          state: { user: clickedUser },
+        }}
+        className={painting.link}
+      >
         <MenuItem onClick={handleMenuClose}>View User</MenuItem>
       </Link>
       <MenuItem onClick={handleMenuClose}>Delete User</MenuItem>
@@ -84,9 +92,9 @@ export default function BasicTable() {
         // headers: { token: "f45165058243964ce7acff87206efb97" },
       })
       .then((res) => {
-        // User.dispatch({type: "FETCH_SUCCESS", payload: res.data, loading: false})
+        User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        console.log(User.state.data);
         setRows((r) => (r = res.data));
-        // console.log(rows);
       })
       .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
   }, [source]);
@@ -114,69 +122,141 @@ export default function BasicTable() {
         ))}
       <div style={{ padding: "auto 40px", marginTop: 20, marginBottom: 50 }}>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <MainBodyText bold>Name</MainBodyText>
-                </TableCell>
-                <TableCell align="right">
-                  <MainBodyText bold>Phone</MainBodyText>
-                </TableCell>
-                <TableCell align="right">
-                  <MainBodyText bold>Car Brand</MainBodyText>
-                </TableCell>
-                <TableCell align="right">
-                  <MainBodyText bold>Location</MainBodyText>
-                </TableCell>
-                <TableCell align="right">
-                  <MainBodyText bold>Order Status</MainBodyText>
-                </TableCell>
-                <TableCell align="right">
-                  <MainBodyText bold>Action</MainBodyText>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={profileImage}
-                        alt=""
-                        style={{
-                          width: 40,
-                          height: 40,
-                          borderRadius: "50%",
-                          marginRight: 20,
-                        }}
-                      />
-                      <BodyText>{row.company_name}</BodyText>
-                    </div>
+          {User.state.loading ? (
+            <Loading />
+          ) : source === userRoute ? (
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <MainBodyText bold>Name</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <BodyText>{row.contact_number}</BodyText>
+                    <MainBodyText bold>Phone</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <BodyText>{row.carBrand}</BodyText>
-                    {console.log(row)}
+                    <MainBodyText bold>Car Brand</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <BodyText>{row.location}</BodyText>
+                    <MainBodyText bold>Location</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <BodyText>{row.orderStatus}</BodyText>
+                    <MainBodyText bold>Order Status</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <ButtonBase disableRipple onClick={handleActionMenuOpen}>
-                      <Heading6 bold>. . .</Heading6>
-                    </ButtonBase>
+                    <MainBodyText bold>Action</MainBodyText>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {User.state.data.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={profileImage}
+                          alt=""
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: "50%",
+                            marginRight: 20,
+                          }}
+                        />
+                        <BodyText>{row.company_name}</BodyText>
+                      </div>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.contact_number}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.carBrand}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.location}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.orderStatus}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <ButtonBase
+                        disableRipple
+                        onClick={(e) => handleActionMenuOpen(e, row)}
+                      >
+                        <Heading6 bold>. . .</Heading6>
+                      </ButtonBase>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <MainBodyText bold>Name</MainBodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <MainBodyText bold>Email</MainBodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <MainBodyText bold>SuperAdmin?</MainBodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <MainBodyText bold>UserName</MainBodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <MainBodyText bold>Active?</MainBodyText>
+                  </TableCell>
+                  <TableCell align="right">
+                    <MainBodyText bold>Action</MainBodyText>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {User.state.data.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={profileImage}
+                          alt=""
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: "50%",
+                            marginRight: 20,
+                          }}
+                        />
+                        <BodyText>{row.name}</BodyText>
+                      </div>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.email}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.__superadmin__}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.username}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <BodyText>{row.active}</BodyText>
+                    </TableCell>
+                    <TableCell align="right">
+                      <ButtonBase
+                        disableRipple
+                        onClick={(e) => handleActionMenuOpen(e, row)}
+                      >
+                        <Heading6 bold>. . .</Heading6>
+                      </ButtonBase>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </TableContainer>
         <div
           className={responsive.mobileOnly}

@@ -40,36 +40,6 @@ const rows = [
     "Leslie Alexander",
     "Toyota Corolla 2020",
     "10 / 10 / 2021",
-    "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
     "'Withdrawn'"
   ),
   createData(
@@ -83,36 +53,6 @@ const rows = [
     "Toyota Corolla 2020",
     "10 / 10 / 2021",
     "Completed"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Ongoing"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Withdrawn"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Withdrawn"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Ongoing"
-  ),
-  createData(
-    "Leslie Alexander",
-    "Toyota Corolla 2020",
-    "10 / 10 / 2021",
-    "Withdrawn"
   ),
 ];
 
