@@ -72,13 +72,7 @@ export default function BasicTable() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link
-        to={{
-          pathname: `users/${clickedUser.id}`,
-          state: { user: clickedUser },
-        }}
-        className={painting.link}
-      >
+      <Link to={`users/${clickedUser.id}`} className={painting.link}>
         <MenuItem onClick={handleMenuClose}>View User</MenuItem>
       </Link>
       <MenuItem onClick={handleMenuClose}>Delete User</MenuItem>
@@ -93,7 +87,6 @@ export default function BasicTable() {
       })
       .then((res) => {
         User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        console.log(User.state.data);
         setRows((r) => (r = res.data));
       })
       .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
@@ -135,7 +128,7 @@ export default function BasicTable() {
                     <MainBodyText bold>Phone</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <MainBodyText bold>Car Brand</MainBodyText>
+                    <MainBodyText bold>Email</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
                     <MainBodyText bold>Location</MainBodyText>
@@ -144,7 +137,7 @@ export default function BasicTable() {
                     <MainBodyText bold>Order Status</MainBodyText>
                   </TableCell>
                   <TableCell align="right">
-                    <MainBodyText bold>Action</MainBodyText>
+                    <MainBodyText bold>Actions</MainBodyText>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -170,10 +163,10 @@ export default function BasicTable() {
                       <BodyText>{row.contact_number}</BodyText>
                     </TableCell>
                     <TableCell align="right">
-                      <BodyText>{row.carBrand}</BodyText>
+                      <BodyText>{row.email}</BodyText>
                     </TableCell>
                     <TableCell align="right">
-                      <BodyText>{row.location}</BodyText>
+                      <BodyText>{row.address}</BodyText>
                     </TableCell>
                     <TableCell align="right">
                       <BodyText>{row.orderStatus}</BodyText>
