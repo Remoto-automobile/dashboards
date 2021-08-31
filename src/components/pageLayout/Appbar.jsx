@@ -30,12 +30,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import NotificationsActiveIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import CreateOrderDialog from "../pages/client/CreateOrder";
+import NotificationItem from "../basic/SiderItem";
 import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
 import { adminMessagesRoute, MessagesContext } from "../../context/Api";
 import Loading from "../major/Loading";
+import { BodyText } from "../../typography";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -110,6 +109,19 @@ const useStyles = makeStyles((theme) => ({
   alertIcon: {
     transform: "rotate(25deg)",
   },
+  notificationItem: {
+    maxWidth: 300,
+    borderRadius: 5,
+    backgroundColor: "#b5151505",
+    margin: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 5,
+    "&:hover": {
+      backgroundColor: "#b5151525",
+      cursor: "pointer",
+    },
+  },
 }));
 
 export default function PrimarySearchAppBar({
@@ -129,27 +141,31 @@ export default function PrimarySearchAppBar({
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
   useEffect(() => {
-    Notifications.dispatch({ type: "LOADING" });
-    Axios.get(`${adminMessagesRoute}`, {
-      headers: { token: adminData.auth_token },
-    })
-      .then((res) => {
-        Notifications.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+    let refreshNotifications = setInterval(() => {
+      Notifications.dispatch({ type: "LOADING" });
+
+      Axios.get(`${adminMessagesRoute}`, {
+        headers: { token: adminData.auth_token },
       })
-      .catch((err) => {
-        Notifications.dispatch({ type: "FETCH_FAILURE", error: err });
-        console.log(err);
-      });
+        .then((res) => {
+          Notifications.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        })
+        .catch((err) => {
+          Notifications.dispatch({ type: "FETCH_FAILURE", error: err });
+          console.log(err);
+        });
+    }, 1000 * 30);
+    return clearInterval(refreshNotifications);
   }, []);
 
   const [notificationAnchor, setNotificationAnchor] = useState(null);
 
   const openNotifications = (event) => {
-    setAnchorEl(event.currentTarget);
+    setNotificationAnchor(event.currentTarget);
   };
 
   const closeNotifications = () => {
-    setAnchorEl(null);
+    setNotificationAnchor(null);
   };
 
   const isMenuOpen = Boolean(anchorEl);
@@ -193,9 +209,9 @@ export default function PrimarySearchAppBar({
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -290,9 +306,7 @@ export default function PrimarySearchAppBar({
             >
               <Badge
                 badgeContent={
-                  Notifications.state.loading
-                    ? 0
-                    : Notifications.state.data.length
+                  Notifications.state.data && Notifications.state.data.length
                 }
                 color="secondary"
                 style={Appbar.desktopNotificationIcon}
@@ -306,7 +320,28 @@ export default function PrimarySearchAppBar({
               keepMounted
               open={Boolean(notificationAnchor)}
               onClose={closeNotifications}
-            ></Menu>
+              anchorOrigin={{ vertical: "top", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
+              // style={{ backgroundColor: "#b49090" }}
+            >
+              <div
+                style={{
+                  width: 300,
+                  backgroundColor: colors.mainBg,
+                  maxHeight: 600,
+                  overflow: "auto",
+                }}
+              >
+                {Notifications.state.data &&
+                  Notifications.state.data.map((notification) => (
+                    <div className={classes.notificationItem}>
+                      <BodyText color={colors.dark3}>
+                        {notification.title}
+                      </BodyText>
+                    </div>
+                  ))}
+              </div>
+            </Menu>
             <IconButton
               edge="end"
               aria-label="account of current user"
