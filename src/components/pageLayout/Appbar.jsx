@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
+import Axios from "axios";
 import { UiContext } from "../../App";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import {
@@ -33,7 +34,8 @@ import NotificationsActiveIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import CreateOrderDialog from "../pages/client/CreateOrder";
 import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
-import { Button } from "@material-ui/core";
+import { adminMessagesRoute, MessagesContext } from "../../context/Api";
+import Loading from "../major/Loading";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -116,12 +118,39 @@ export default function PrimarySearchAppBar({
   bg,
   dataUpdate,
 }) {
-  const Ui = React.useContext(UiContext);
+  const Ui = useContext(UiContext);
+  const Notifications = useContext(MessagesContext);
   const responsive = pageDynamics();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  // const [isDia, setIsDia] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  // GET ADMIN TOKEN
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
+
+  useEffect(() => {
+    Notifications.dispatch({ type: "LOADING" });
+    Axios.get(`${adminMessagesRoute}`, {
+      headers: { token: adminData.auth_token },
+    })
+      .then((res) => {
+        Notifications.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+      })
+      .catch((err) => {
+        Notifications.dispatch({ type: "FETCH_FAILURE", error: err });
+        console.log(err);
+      });
+  }, []);
+
+  const [notificationAnchor, setNotificationAnchor] = useState(null);
+
+  const openNotifications = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeNotifications = () => {
+    setAnchorEl(null);
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -254,15 +283,30 @@ export default function PrimarySearchAppBar({
           </div>
           <div className={classes.grow} />
           <div className={responsive.desktopOnly}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <IconButton
+              aria-label="show 17 new notifications"
+              color="inherit"
+              onClick={openNotifications}
+            >
               <Badge
-                badgeContent={17}
+                badgeContent={
+                  Notifications.state.loading
+                    ? 0
+                    : Notifications.state.data.length
+                }
                 color="secondary"
                 style={Appbar.desktopNotificationIcon}
               >
                 <NotificationsIcon className={classes.alertIcon} />
               </Badge>
             </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={notificationAnchor}
+              keepMounted
+              open={Boolean(notificationAnchor)}
+              onClose={closeNotifications}
+            ></Menu>
             <IconButton
               edge="end"
               aria-label="account of current user"

@@ -65,8 +65,10 @@ export const UserContext = React.createContext();
 export const ItemContext = React.createContext();
 export const ProbContext = React.createContext();
 export const AuthContext = React.createContext();
+export const MessagesContext = React.createContext();
 
 // Define Routes
+/*
 export const brandRoute = "https://remotoglobal.com/api/brand";
 export const carRoute = "https://remotoglobal.com/api/car";
 export const modelRoute = "https://remotoglobal.com/api/model";
@@ -91,48 +93,51 @@ export const adminComponentRoute =
 export const adminExactcomponentRoute =
   "https://remotoglobal.com/api/admin/exact_comp";
 export const adminSubscriptionRoute =
-  "https://remotoglobal.com/api/admin/subscription";
+"https://remotoglobal.com/api/admin/subscription";
 export const adminUserRoute = "https://remotoglobal.com/api/admin";
 export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
 export const adminFileUploadRoute =
   "https://remotoglobal.com/api/admin/upload_file";
-export const adminProbRoute = "https://remotoglobal.com/api/admin/prob";
-export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
-export const adminTransactionRoute =
+  export const adminProbRoute = "https://remotoglobal.com/api/admin/prob";
+  export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
+  export const adminTransactionRoute =
   "https://remotoglobal.com/api/admin/transactions";
+  export const adminMessagesRoute = "https://remotoglobal.com/api/admin/messages"
+*/
 
-// export const brandRoute = "http://localhost:8000/api/brand";
-// export const carRoute = "http://localhost:8000/api/car";
-// export const modelRoute = "http://localhost:8000/api/model";
-// export const planRoute = "http://localhost:8000/api/plan";
-// export const orderRoute = "http://localhost:8000/api/order";
-// export const productRoute = "http://localhost:8000/api/product";
-// export const componentRoute = "http://localhost:8000/api/component";
-// export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
-// export const subscriptionRoute = "http://localhost:8000/api/subscription";
-// export const userRoute = "http://localhost:8000/api/register";
-// export const systemRoute = "http://localhost:8000/api/system";
-// export const profileRoute = "http://localhost:8000/api/profile";
+export const brandRoute = "http://localhost:8000/api/brand";
+export const carRoute = "http://localhost:8000/api/car";
+export const modelRoute = "http://localhost:8000/api/model";
+export const planRoute = "http://localhost:8000/api/plan";
+export const orderRoute = "http://localhost:8000/api/order";
+export const productRoute = "http://localhost:8000/api/product";
+export const componentRoute = "http://localhost:8000/api/component";
+export const exactcomponentRoute = "http://localhost:8000/api/exact_comp";
+export const subscriptionRoute = "http://localhost:8000/api/subscription";
+export const userRoute = "http://localhost:8000/api/register";
+export const systemRoute = "http://localhost:8000/api/system";
+export const profileRoute = "http://localhost:8000/api/profile";
 
-// export const adminBrandRoute = "http://localhost:8000/api/admin/brand";
-// export const adminCarRoute = "http://localhost:8000/api/admin/car";
-// export const adminModelRoute = "http://localhost:8000/api/admin/model";
-// export const adminPlanRoute = "http://localhost:8000/api/admin/plan";
-// export const adminOrderRoute = "http://localhost:8000/api/admin/order";
-// export const adminProductRoute = "http://localhost:8000/api/admin/product";
-// export const adminComponentRoute = "http://localhost:8000/api/admin/component";
-// export const adminExactcomponentRoute =
-//   "http://localhost:8000/api/admin/exact_comp";
-// export const adminSubscriptionRoute =
-//   "http://localhost:8000/api/admin/subscription";
-// export const adminUserRoute = "http://localhost:8000/api/admin";
-// export const adminSystemRoute = "http://localhost:8000/api/admin/system";
-// export const adminFileUploadRoute =
-//   "http://localhost:8000/api/admin/upload_file";
-// export const adminProbRoute = "http://localhost:8000/api/admin/prob";
-// export const adminProfileRoute = "http://localhost:8000/api/admin/profile";
-// export const adminTransactionRoute =
-//   "http://localhost:8000/api/admin/transactions";
+export const adminBrandRoute = "http://localhost:8000/api/admin/brand";
+export const adminCarRoute = "http://localhost:8000/api/admin/car";
+export const adminModelRoute = "http://localhost:8000/api/admin/model";
+export const adminPlanRoute = "http://localhost:8000/api/admin/plan";
+export const adminOrderRoute = "http://localhost:8000/api/admin/order";
+export const adminProductRoute = "http://localhost:8000/api/admin/product";
+export const adminComponentRoute = "http://localhost:8000/api/admin/component";
+export const adminExactcomponentRoute =
+  "http://localhost:8000/api/admin/exact_comp";
+export const adminSubscriptionRoute =
+  "http://localhost:8000/api/admin/subscription";
+export const adminUserRoute = "http://localhost:8000/api/admin";
+export const adminSystemRoute = "http://localhost:8000/api/admin/system";
+export const adminFileUploadRoute =
+  "http://localhost:8000/api/admin/upload_file";
+export const adminProbRoute = "http://localhost:8000/api/admin/prob";
+export const adminProfileRoute = "http://localhost:8000/api/admin/profile";
+export const adminTransactionRoute =
+  "http://localhost:8000/api/admin/transactions";
+export const adminMessagesRoute = "http://localhost:8000/api/admin/messages";
 
 function Api({ children }) {
   // Create Reducers
@@ -142,6 +147,7 @@ function Api({ children }) {
   const [plan, planDispatch] = React.useReducer(reducer, initialState);
   const [order, orderDispatch] = React.useReducer(reducer, initialState);
   const [system, systemDispatch] = React.useReducer(reducer, initialState);
+  const [messages, messagesDispatch] = React.useReducer(reducer, initialState);
   const [component, componentDispatch] = React.useReducer(
     reducer,
     initialState
@@ -201,7 +207,14 @@ function Api({ children }) {
                               dispatch: authDispatch,
                             }}
                           >
-                            {children}
+                            <MessagesContext.Provider
+                              value={{
+                                state: messages,
+                                dispatch: messagesDispatch,
+                              }}
+                            >
+                              {children}
+                            </MessagesContext.Provider>
                           </AuthContext.Provider>
                         </ExactCompContext.Provider>
                       </ItemContext.Provider>

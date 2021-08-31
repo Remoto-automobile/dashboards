@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import Axios from "axios";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   Avatar,
   Button,
   Card as MaterialCard,
   CardActions,
   CardContent,
-  CardHeader,
   makeStyles,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  DialogTitle,
 } from "@material-ui/core";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import { useParams } from "react-router-dom";
 
 import { UiContext } from "../../../App";
-import { ItemContext, adminUserRoute } from "../../../context/Api";
+import {
+  ItemContext,
+  adminUserRoute,
+  adminSubscriptionRoute,
+} from "../../../context/Api";
 import {
   MainBodyText,
   BodyText,
@@ -105,13 +120,17 @@ function sqlDateToTime(dateString) {
 const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
 function Status(imgSrc, imgAlt) {
-  const User = React.useContext(ItemContext);
+  const User = useContext(ItemContext);
   const routeParams = useParams();
-  const [refresher, setRefresher] = React.useState(0);
+  const [openSubscriptionDialog, setOpenSubscriptionDialog] = useState({
+    open: false,
+    carId: null,
+  });
+  const [refresher, setRefresher] = useState(0);
   const classes = useStyles();
-  const Ui = React.useContext(UiContext);
+  const Ui = useContext(UiContext);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Axios.get(`${adminUserRoute}/users/${routeParams.id}`, {
       headers: { token: adminData.auth_token },
     })
@@ -134,6 +153,80 @@ function Status(imgSrc, imgAlt) {
         setRefresher(refresher + 1);
       })
       .catch((err) => console.log(err));
+  }
+  function SubscriptionDialog() {
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    // new Date("2014-08-18T21:11:54")
+
+    function submitSub() {
+      Axios.patch(
+        `${adminSubscriptionRoute}/${openSubscriptionDialog.carId}`,
+        { expiry_date: selectedDate.getTime() },
+        { headers: { token: adminData.auth_token } }
+      )
+        .then((res) => setRefresher(refresher + 1))
+        .catch((err) => console.log(err));
+    }
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+      // alert(selectedDate.getTime());
+    };
+    return (
+      <Dialog
+        open={openSubscriptionDialog.open}
+        onClose={() => setOpenSubscriptionDialog({ open: false, carId: null })}
+      >
+        <DialogTitle>
+          <Heading7>Edit Subscription</Heading7>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <BodyText>
+              Are you sure you want to manually edit subscription for selected
+              vehicle
+            </BodyText>
+            <br />
+            <br />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                // format="MM-dd-yyyy"
+                format="yyyy-dd-MM"
+                margin="normal"
+                id="expiry_date"
+                label="Select Expiry Date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() =>
+              setOpenSubscriptionDialog({ open: false, carId: null })
+            }
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              submitSub();
+              setOpenSubscriptionDialog({ open: false, carId: null });
+            }}
+            color="primary"
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
   }
 
   return User.state.loading ? (
@@ -175,7 +268,7 @@ function Status(imgSrc, imgAlt) {
           Cars
         </Heading4>
         {User.state.data.car.map((car) => (
-          <React.Fragment>
+          <Fragment>
             <MaterialCard style={{ width: "100%" }}>
               {/* <CardHeader>
                   <Heading6>{`${car.brand.name} ${car.model.name} ${car.year}`}</Heading6>
@@ -197,13 +290,28 @@ function Status(imgSrc, imgAlt) {
                   </MainBodyText>
                   {sqlDateToTimestamp(car.subscription.expiry_date) >
                   Date.now() ? (
-                    <Button variant="contained" className={classes.paidButton}>
+                    <Button
+                      onClick={() => {
+                        setOpenSubscriptionDialog({
+                          open: true,
+                          carId: car.id,
+                        });
+                      }}
+                      variant="contained"
+                      className={classes.paidButton}
+                    >
                       Active
                     </Button>
                   ) : (
                     <Button
                       variant="contained"
                       className={classes.notPaidButton}
+                      onClick={() => {
+                        setOpenSubscriptionDialog({
+                          open: true,
+                          carId: car.id,
+                        });
+                      }}
                     >
                       Inactive
                     </Button>
@@ -224,7 +332,7 @@ function Status(imgSrc, imgAlt) {
                 <div className={classes.largerSection}>
                   <Heading7>Payment Tickets</Heading7>
                   {car.transaction_log.map((transaction, index) => (
-                    <React.Fragment key={index}>
+                    <Fragment key={index}>
                       <div
                         style={{
                           border: "1px dotted black",
@@ -280,7 +388,7 @@ function Status(imgSrc, imgAlt) {
                             </MainBodyText>
                           </div> */}
                       </div>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </div>
               </CardContent>
@@ -288,7 +396,8 @@ function Status(imgSrc, imgAlt) {
             </MaterialCard>
             <br />
             <br />
-          </React.Fragment>
+            <SubscriptionDialog />
+          </Fragment>
         ))}
       </div>
       <OrderTable />
