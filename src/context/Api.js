@@ -68,7 +68,7 @@ export const AuthContext = React.createContext();
 export const MessagesContext = React.createContext();
 
 // Define Routes
-/*
+// /*
 export const brandRoute = "https://remotoglobal.com/api/brand";
 export const carRoute = "https://remotoglobal.com/api/car";
 export const modelRoute = "https://remotoglobal.com/api/model";
@@ -93,18 +93,19 @@ export const adminComponentRoute =
 export const adminExactcomponentRoute =
   "https://remotoglobal.com/api/admin/exact_comp";
 export const adminSubscriptionRoute =
-"https://remotoglobal.com/api/admin/subscription";
+  "https://remotoglobal.com/api/admin/subscription";
 export const adminUserRoute = "https://remotoglobal.com/api/admin";
 export const adminSystemRoute = "https://remotoglobal.com/api/admin/system";
 export const adminFileUploadRoute =
   "https://remotoglobal.com/api/admin/upload_file";
-  export const adminProbRoute = "https://remotoglobal.com/api/admin/prob";
-  export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
-  export const adminTransactionRoute =
+export const adminProbRoute = "https://remotoglobal.com/api/admin/prob";
+export const adminProfileRoute = "https://remotoglobal.com/api/admin/profile";
+export const adminTransactionRoute =
   "https://remotoglobal.com/api/admin/transactions";
-  export const adminMessagesRoute = "https://remotoglobal.com/api/admin/messages"
-*/
+export const adminMessagesRoute = "https://remotoglobal.com/api/admin/messages";
+// */
 
+/*
 export const brandRoute = "http://localhost:8000/api/brand";
 export const carRoute = "http://localhost:8000/api/car";
 export const modelRoute = "http://localhost:8000/api/model";
@@ -138,6 +139,7 @@ export const adminProfileRoute = "http://localhost:8000/api/admin/profile";
 export const adminTransactionRoute =
   "http://localhost:8000/api/admin/transactions";
 export const adminMessagesRoute = "http://localhost:8000/api/admin/messages";
+*/
 
 function Api({ children }) {
   // Create Reducers
