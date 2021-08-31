@@ -23,7 +23,7 @@ import {
   Menu,
   Avatar,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -136,18 +136,19 @@ export default function PrimarySearchAppBar({
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const { path, url } = useRouteMatch();
 
   // GET ADMIN TOKEN
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
   useEffect(() => {
+    Notifications.dispatch({ type: "LOADING" });
     let refreshNotifications = setInterval(() => {
-      Notifications.dispatch({ type: "LOADING" });
-
       Axios.get(`${adminMessagesRoute}`, {
         headers: { token: adminData.auth_token },
       })
         .then((res) => {
+          console.log("Yay");
           Notifications.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
         })
         .catch((err) => {
@@ -340,6 +341,13 @@ export default function PrimarySearchAppBar({
                       </BodyText>
                     </div>
                   ))}
+                <Link to={`${url}/notifications`}>
+                  <div className={classes.notificationItem}>
+                    <BodyText small other={{ textAlign: "center" }}>
+                      View All Notifications
+                    </BodyText>
+                  </div>
+                </Link>
               </div>
             </Menu>
             <IconButton
