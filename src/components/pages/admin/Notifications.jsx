@@ -1,4 +1,5 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import parseHtml from "html-react-parser";
 import Axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import {
@@ -8,6 +9,7 @@ import {
   AccordionDetails,
   makeStyles,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import TitleBar from "../../pageLayout/TitleBar";
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
 function Notifications() {
+  const [range, setRange] = useState({ from: 0, to: 10 });
   const classes = useStyles();
   const Messages = useContext(MessagesContext);
   const responsive = pageDynamics();
@@ -72,58 +75,34 @@ function Notifications() {
               <Heading6 color={Card.color}>{"Subscribers"}</Heading6>
             </div>
             <div>
-              {Messages.state.data.map((msg) => (
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={msg.body && <ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
-                  >
-                    <MainBodyText color={colors.main}>{msg.title}</MainBodyText>
-                  </AccordionSummary>
-                  {msg.body && (
-                    <AccordionDetails>
-                      <BodyText>{msg.body}</BodyText>
-                    </AccordionDetails>
-                  )}
-                </Accordion>
-              ))}
-              {/* <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel2a-content"
-                  id="panel2a-header"
-                >
-                  <MainBodyText>Accordion 2</MainBodyText>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <BodyText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </BodyText>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel2a-content"
-                  id="panel2a-header"
-                >
-                  <MainBodyText>Accordion 2</MainBodyText>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <BodyText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </BodyText>
-                </AccordionDetails>
-              </Accordion> */}
-              <BodyText other={{ marginTop: 30, padding: 20 }}>
+              {Messages.state.data.map((msg, i) => {
+                return (
+                  i >= range.from &&
+                  i < range.to && (
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={msg.body && <ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                      >
+                        <MainBodyText color={colors.main}>
+                          {msg.title}
+                        </MainBodyText>
+                      </AccordionSummary>
+                      {msg.body && (
+                        <AccordionDetails>
+                          <BodyText>{parseHtml(msg.body)}</BodyText>
+                        </AccordionDetails>
+                      )}
+                    </Accordion>
+                  )
+                );
+              })}
+
+              {/* <BodyText other={{ marginTop: 30, padding: 20 }}>
                 New issurance subscribe available, please take action for
                 release of documents
-              </BodyText>
+              </BodyText> */}
             </div>
             <div
               style={{
@@ -131,9 +110,10 @@ function Notifications() {
                 width: "100%",
                 justifyContent: "right",
                 marginTop: 20,
+                marginBottom: 20,
               }}
             >
-              <Button
+              {/* <Button
                 variant="outlined"
                 style={{
                   color: colors.mainBg,
@@ -155,7 +135,22 @@ function Notifications() {
                 }}
               >
                 Reject
-              </Button>
+              </Button> */}
+              <Pagination
+                count={Math.ceil(
+                  Messages.state.data.length / (range.to - range.from)
+                )}
+                variant="outlined"
+                shape="rounded"
+                onChange={(e, page) => {
+                  setRange((currentRange) => ({
+                    from:
+                      page * (currentRange.to - currentRange.from) -
+                      (currentRange.to - currentRange.from),
+                    to: page * (currentRange.to - currentRange.from),
+                  }));
+                }}
+              />
             </div>
           </BasicCard>
 
