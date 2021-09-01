@@ -148,7 +148,6 @@ export default function PrimarySearchAppBar({
         headers: { token: adminData.auth_token },
       })
         .then((res) => {
-          console.log("Yay");
           Notifications.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
         })
         .catch((err) => {
