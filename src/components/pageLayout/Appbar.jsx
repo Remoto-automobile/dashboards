@@ -299,21 +299,23 @@ export default function PrimarySearchAppBar({
           </div>
           <div className={classes.grow} />
           <div className={responsive.desktopOnly}>
-            <IconButton
-              aria-label="show 17 new notifications"
-              color="inherit"
-              onClick={openNotifications}
-            >
-              <Badge
-                badgeContent={
-                  Notifications.state.data && Notifications.state.data.length
-                }
-                color="secondary"
-                style={Appbar.desktopNotificationIcon}
+            {adminData && (
+              <IconButton
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={openNotifications}
               >
-                <NotificationsIcon className={classes.alertIcon} />
-              </Badge>
-            </IconButton>
+                <Badge
+                  badgeContent={
+                    Notifications.state.data && Notifications.state.data.length
+                  }
+                  color="secondary"
+                  style={Appbar.desktopNotificationIcon}
+                >
+                  <NotificationsIcon className={classes.alertIcon} />
+                </Badge>
+              </IconButton>
+            )}
             <Menu
               id="simple-menu"
               anchorEl={notificationAnchor}

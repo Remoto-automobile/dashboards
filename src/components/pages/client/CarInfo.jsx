@@ -119,7 +119,8 @@ export default function CarInfo() {
               ""
             ) : (
               <React.Fragment>
-                <CarTab label={Car.state.data.brand.name} {...a11yProps(0)} />
+                <CarTab label="Cars" {...a11yProps(0)} />
+                {/* <CarTab label={Car.state.data.brand.name} {...a11yProps(0)} /> */}
               </React.Fragment>
             )}
             {/* <CarTab label="Toyota" {...a11yProps(0)} />
@@ -139,27 +140,47 @@ export default function CarInfo() {
           <Loading />
         ) : (
           <TabPanel value={value} index={0}>
+            {console.log(Car.state.data)}
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>
+                    <BodyText bold>Car Brand</BodyText>
+                  </TableCell>
                   <TableCell>
                     <BodyText bold>Car Model</BodyText>
                   </TableCell>
                   <TableCell>
                     <BodyText bold>Year</BodyText>
                   </TableCell>
+                  <TableCell>
+                    <BodyText bold>Subscription Expiry</BodyText>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <BodyText>{Car.state.data.model.name}</BodyText>
-                    {/* <BodyText>Corolla</BodyText> */}
-                  </TableCell>
-                  <TableCell>
-                    <BodyText>{Car.state.data.year}</BodyText>
-                  </TableCell>
-                </TableRow>
+                {Car.state.data.map((car) => (
+                  <TableRow>
+                    <TableCell>
+                      <BodyText>{car.brand.name}</BodyText>
+                      {/* <BodyText>Corolla</BodyText> */}
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>{car.model.name}</BodyText>
+                      {/* <BodyText>Corolla</BodyText> */}
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>{car.year}</BodyText>
+                    </TableCell>
+                    <TableCell>
+                      <BodyText>
+                        {car.subscription.expiry_date
+                          ? car.subscription.expiry_date
+                          : "Not Active"}
+                      </BodyText>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TabPanel>
