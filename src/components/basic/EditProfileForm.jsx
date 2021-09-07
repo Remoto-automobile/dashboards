@@ -3,21 +3,13 @@ import Axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-import { form, Card, colors } from "../../globalStyles";
-import { FormControl, TextField, Button, MenuItem } from "@material-ui/core";
+import { colors } from "../../globalStyles";
+import { FormControl, TextField, Button } from "@material-ui/core";
 import { BodyText } from "../../typography";
-import {
-  CarContext,
-  carRoute,
-  UserContext,
-  profileRoute,
-} from "../../context/Api";
-import Loading from "../major/Loading";
+import { UserContext, profileRoute } from "../../context/Api";
+import CallToAction from "./CallToAction";
+import { useHistory } from "react-router-dom";
 
-const years = [
-  2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
-  2018,
-];
 const editProfileSchema = Yup.object({
   name: Yup.string()
     .min(3, "Company name is too short")
@@ -32,7 +24,7 @@ const clientData = JSON.parse(localStorage.getItem("client_token"));
 
 function EditProfileForm({ picAlt, picSrc, mobile }) {
   const User = React.useContext(UserContext);
-  const Car = React.useContext(CarContext);
+  const history = useHistory();
 
   const buttonRef = React.useRef(null);
 
@@ -67,21 +59,9 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
         });
     },
   });
-  const [year, setYear] = useState(2018);
-  const changeYear = (event) => {
-    setYear(event.target.value);
-  };
+
   let width;
   mobile ? (width = "90%") : (width = "35%");
-
-  React.useEffect(() => {
-    Car.dispatch({ type: "LOADING" });
-    Axios.get(`${carRoute}/${clientData.id}`, {
-      headers: { token: clientData.token },
-    })
-      .then((res) => Car.dispatch({ type: "FETCH_SUCCESS", payload: res.data }))
-      .catch((err) => Car.dispatch({ type: "FETCH_FAILURE", error: err }));
-  }, []);
 
   return (
     <form
@@ -125,60 +105,27 @@ function EditProfileForm({ picAlt, picSrc, mobile }) {
           helperText={formik.touched.phone && formik.errors.phone}
         />
       </FormControl>
-      {Car.state.loading || Car.state.error ? (
-        <Loading />
-      ) : (
-        <React.Fragment>
-          <FormControl margin="normal">
-            <label htmlFor="brand">
-              <BodyText bold>Brand</BodyText>
-            </label>
-            <TextField
-              name="brand"
-              value=""
-              disabled
-              value={Car.state.data.brand.name}
-              variant="outlined"
-              // style={form.field}
-            />
-          </FormControl>
-
-          <FormControl margin="normal">
-            <label htmlFor="model">
-              <BodyText bold>Model</BodyText>
-            </label>
-            <TextField
-              name="model"
-              // value="Corolla"
-              variant="outlined"
-              disabled
-              value={Car.state.data.model.name}
-              // style={form.field}
-            />
-          </FormControl>
-
-          <FormControl margin="normal">
-            <label htmlFor="year">
-              <BodyText bold>Year</BodyText>
-            </label>
-            <TextField
-              name="year"
-              disabled
-              value={Car.state.data.year}
-              variant="outlined"
-              onChange={changeYear}
-              // value={year}
-              // style={form.field}
-            >
-              {/* {years.map((year) => (
-                <MenuItem key={year} value={year}>
-                  {year}
-                </MenuItem>
-              ))} */}
-            </TextField>
-          </FormControl>
-        </React.Fragment>
-      )}
+      <div
+        style={{
+          borderRadius: 10,
+          backgroundColor: colors.secondaryBg,
+          marginBottom: 10,
+          marginTop: 10,
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CallToAction
+          size="big"
+          onClick={() => {
+            history.push("/client/car_info");
+          }}
+        >
+          View All Cars
+        </CallToAction>
+      </div>
 
       <FormControl margin="normal">
         <label htmlFor="location">

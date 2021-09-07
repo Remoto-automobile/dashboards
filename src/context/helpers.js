@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldArray, FastField, Field } from "formik";
+import { FieldArray, FastField } from "formik";
 import { TableCell, TableRow, Button } from "@material-ui/core";
 import Axios from "axios";
 
@@ -20,7 +20,7 @@ export function UploadComponentDataForm({ components, models }) {
     // <TableRow>
     <FieldArray name="component">
       {(fieldArrayProp) => {
-        const { push, remove, form, insert } = fieldArrayProp;
+        const { remove, form, insert } = fieldArrayProp;
         const { values } = form;
         const { component } = values;
         return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { UiContext } from "../../../App";
-import { colors, fonts } from "../../../globalStyles";
+import { colors } from "../../../globalStyles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: 50,
       paddingRight: 50,
     },
+  },
+  link: {
+    textDecoration: "none",
+    color: colors.mainBg,
   },
 }));
 
@@ -80,7 +84,13 @@ export default function CreateOrderDialog({ dialogOpened }) {
             }}
           >
             <MainBodyText bold color={colors.mainBg}>
-              Book an appointment
+              <a
+                href="https://remotoglobal.com/book-appointment"
+                target="blank"
+                className={classes.link}
+              >
+                Book an appointment
+              </a>
             </MainBodyText>
           </Button>
         </DialogActions>

@@ -66,7 +66,7 @@ function Dashboard() {
         actionIcon={<AddIcon />}
       />
       {/* <h3> {Plan.state.data[0].title} </h3> */}
-      {console.log(Plan.state.data)}
+      {/* {console.log(Plan.state.data)} */}
       <div style={{ display: "flex", flexWrap: "wrap", marginBottom: 50 }}>
         {Plan.state.data.map(
           (planData) => (
@@ -78,11 +78,11 @@ function Dashboard() {
                 displayData={planData.total}
                 imgSrc={images.premium}
                 bg={
-                  planData.title == "premium"
+                  planData.title === "premium"
                     ? bg[0]
-                    : planData.title == "mini"
+                    : planData.title === "mini"
                     ? bg[1]
-                    : planData.title == "access"
+                    : planData.title === "access"
                     ? bg[2]
                     : bg[0]
                 }

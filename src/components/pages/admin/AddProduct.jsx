@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, fonts } from "../../../globalStyles";
+import { Card } from "../../../globalStyles";
 import { BodyText, MainBodyText } from "../../../typography";
 import TitleBar from "../../pageLayout/TitleBar";
 import BasicCard from "../../medium/BasicCard";

@@ -9,7 +9,6 @@ import {
   CardActions,
   CardContent,
   makeStyles,
-  TextField,
   Dialog,
   DialogContent,
   DialogContentText,
@@ -35,7 +34,7 @@ import {
   Heading6,
   Heading7,
 } from "../../../typography";
-import { fonts, Card, colors } from "../../../globalStyles";
+import { Card, colors } from "../../../globalStyles";
 import OrderTable from "../../medium/a_OrderTable";
 import CallToAction from "../../basic/CallToAction";
 import { adminTransactionRoute } from "../../../context/Api";
@@ -347,7 +346,7 @@ function Status(imgSrc, imgAlt) {
                         </div>
                         <div className={classes.transactionDiv}>
                           <MainBodyText bold>Status</MainBodyText>
-                          {transaction.status == 1 ? (
+                          {transaction.status === 1 ? (
                             <Button
                               variant="contained"
                               className={classes.paidButton}

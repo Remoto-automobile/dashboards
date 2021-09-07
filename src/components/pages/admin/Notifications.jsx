@@ -19,34 +19,65 @@ import { Heading6, BodyText, MainBodyText } from "../../../typography";
 import { adminMessagesRoute, MessagesContext } from "../../../context/Api";
 import Loading from "../../major/Loading";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     width: "100%",
+//   },
+//   heading: {
+//     fontSize: theme.typography.pxToRem(15),
+//     fontWeight: theme.typography.fontWeightRegular,
+//   },
+// }));
 
 const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
 function Notifications() {
   const [range, setRange] = useState({ from: 0, to: 10 });
-  const classes = useStyles();
+  // const classes = useStyles();
   const Messages = useContext(MessagesContext);
   const responsive = pageDynamics();
+  const [messages, setMessages] = useState([]);
+  const [error, setError] = useState([]);
+
+  function deleteMsg(id) {
+    Axios.delete(`${adminMessagesRoute}/${id}`, {
+      headers: { token: adminData.auth_token },
+    })
+      .then(() => {
+        let newList = messages.filter((msg) => msg.id !== id);
+        setMessages(newList);
+      })
+      .catch(setError("Operation Failed, Try again."));
+  }
 
   useEffect(() => {
     Axios.get(`${adminMessagesRoute}`, {
       headers: { token: adminData.auth_token },
     })
       .then((res) => {
+        setMessages(res.data);
         Messages.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
       })
       .catch((err) =>
         Messages.dispatch({ type: "FETCH_FAILURE", payload: err })
       );
+  }, []);
+
+  useEffect(() => {
+    Axios.put(
+      `${adminMessagesRoute}/mark_all_read`,
+      {},
+      {
+        headers: { token: adminData.auth_token },
+      }
+    )
+      .then((res) => {
+        console.log("Marked Read");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Failed to mark read");
+      });
   }, []);
 
   return Messages.state.loading ? (
@@ -75,7 +106,7 @@ function Notifications() {
               <Heading6 color={Card.color}>{"Subscribers"}</Heading6>
             </div>
             <div>
-              {Messages.state.data.map((msg, i) => {
+              {messages.map((msg, i) => {
                 return (
                   i >= range.from &&
                   i < range.to && (
@@ -86,12 +117,29 @@ function Notifications() {
                         id="panel2a-header"
                       >
                         <MainBodyText color={colors.main}>
-                          {msg.title}
+                          {parseHtml(msg.title)}
                         </MainBodyText>
                       </AccordionSummary>
                       {msg.body && (
-                        <AccordionDetails>
+                        <AccordionDetails
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
                           <BodyText>{parseHtml(msg.body)}</BodyText>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "right",
+                              paddingRight: 20,
+                              marginTop: 20,
+                            }}
+                          >
+                            <Button
+                              color="secondary"
+                              onClick={() => deleteMsg(msg.id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </AccordionDetails>
                       )}
                     </Accordion>

@@ -2,7 +2,6 @@ import React from "react";
 import Axios from "axios";
 
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { Avatar } from "@material-ui/core";
 
 import { Card, colors, pageDynamics } from "../../globalStyles";
 import check from "../../assets/check.jpg";

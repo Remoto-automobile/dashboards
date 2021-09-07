@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authAdmin, authClient } from "../../../redux/action/auth.action";
 import Loading from "../../major/Loading";
-export default function (props) {
+
+export default function Login(props) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

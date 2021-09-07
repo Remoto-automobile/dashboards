@@ -1,7 +1,7 @@
 import React from "react";
 import Axios from "axios";
 import { UiContext } from "../../../App";
-import { colors, fonts, form } from "../../../globalStyles";
+import { colors } from "../../../globalStyles";
 import { Heading7, BodyText, MainBodyText } from "../../../typography";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -38,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UpdatePrice() {
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
-  const [formData, setFormData] = React.useState([]);
+  // const [formData, setFormData] = React.useState([]);
   const editForm = React.useRef(null);
-  let fields = [];
+  // let fields = [];
   const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (

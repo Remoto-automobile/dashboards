@@ -5,7 +5,7 @@ import TitleBar from "../../pageLayout/TitleBar";
 import TabPanel from "../../basic/TabPanel";
 import { MainBodyText, BodyText } from "../../../typography";
 import AddIcon from "@material-ui/icons/Add";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { UiContext } from "../../../App";
 import {
   AppBar,
@@ -31,7 +31,6 @@ import {
   adminBrandRoute,
   BrandContext,
   ItemContext,
-  adminProbRoute,
 } from "../../../context/Api";
 import Loading from "../../major/Loading";
 
@@ -53,11 +52,8 @@ const CarTab = withStyles((theme) => ({
     textTransform: "capitalize",
     minWidth: 72,
     borderRadius: "20px 20px 0px 0px",
-    // margin: "auto 5px",
-    // backgroundColor: colors,
     fontWeight: 600,
     fontFamily: fonts.bodyText.fontFamily,
-    // marginRight: theme.spacing(4),
     "&:hover": {
       color: colors.main,
       opacity: 1,
@@ -91,17 +87,17 @@ function ProductDetails({ systemId }) {
   const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
 
   let query = useQuery();
-  const paramData = query.get("systemId");
+  // const paramData = query.get("systemId");
   const Comp = React.useContext(ComponentContext);
   const ExactComp = React.useContext(ExactCompContext);
   const Model = React.useContext(ModelContext);
   const Brand = React.useContext(BrandContext);
-  const Item = React.useContext(ItemContext);
+  // const Item = React.useContext(ItemContext);
   const Ui = React.useContext(UiContext);
-  const location = useLocation();
+  // const location = useLocation();
   const history = useHistory();
-  const [components, setComponents] = React.useState([]);
-  const [carModel, setCarModel] = React.useState({});
+  // const [components, setComponents] = React.useState([]);
+  // const [carModel, setCarModel] = React.useState({});
   // if (!location.state) {
   //   history.push("/admin/products");
   // }
@@ -205,9 +201,9 @@ function ProductDetails({ systemId }) {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
+  // const handleChangeIndex = (index) => {
+  //   setValue(index);
+  // };
 
   // if (Comp.state.loading || Brand.state.loading || Model.state.loading)
   return Comp.state.loading ? (
@@ -278,7 +274,7 @@ function ProductDetails({ systemId }) {
                   size="small"
                 >
                   {Model.state.data.map((model) => {
-                    if (model.brand_id == brand.id)
+                    if (model.brand_id === brand.id)
                       return (
                         <MenuItem key={model.id} value={model.id}>
                           {model.name}
@@ -339,23 +335,6 @@ function ProductDetails({ systemId }) {
                         ecomp.component_id === comp.id &&
                         year === ecomp.year
                       ) {
-                        // priceD = [
-                        //   ...priceD,
-                        //   {
-                        //     id: ecomp.id,
-                        //     name: comp.name,
-                        //     price: ecomp.price,
-                        //   },
-                        // ];
-                        // probD = [
-                        //   ...probD,
-                        //   {
-                        //     id: ecomp.id,
-                        //     name: comp.name,
-                        //     probability: ecomp.probability,
-                        //   },
-                        // ];
-
                         return (
                           <TableRow>
                             <TableCell>

@@ -1,6 +1,6 @@
 import React from "react";
 import Axios from "axios";
-import { Formik, Form, Field, FieldArray, FastField } from "formik";
+import { Formik, Field } from "formik";
 import {
   withStyles,
   AppBar,
@@ -12,7 +12,6 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
 
 import TitleBar from "../../pageLayout/TitleBar";
 import {
@@ -24,10 +23,9 @@ import {
   adminModelRoute,
   SystemContext,
   adminSystemRoute,
-  adminExactcomponentRoute,
 } from "../../../context/Api";
 import TabPanel from "../../basic/TabPanel";
-import { BodyText, MainBodyText } from "../../../typography";
+import { MainBodyText } from "../../../typography";
 import { Card, fonts, colors } from "../../../globalStyles";
 import { Button } from "@material-ui/core";
 import Loading from "../../major/Loading";
@@ -393,7 +391,7 @@ function UploadForms() {
           }}
         >
           {(prop) => {
-            const { setFieldValue, handleChange, values } = prop;
+            const { setFieldValue, values } = prop;
             const acceptableTargets = ["Components", "Probability"];
 
             return (

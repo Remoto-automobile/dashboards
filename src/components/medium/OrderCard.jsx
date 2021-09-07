@@ -1,8 +1,7 @@
 import React from "react";
 import Axios from "axios";
-import { Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { Card, fonts } from "../../globalStyles";
+import { Card } from "../../globalStyles";
 import { Heading6, BodyText } from "../../typography";
 import { OrderContext, orderRoute } from "../../context/Api";
 import Loading from "../major/Loading";
@@ -41,6 +40,7 @@ function OrderCard({ children, flex }) {
                 ...count,
                 withdrawn: count.withdrawn + 1,
               }));
+              break;
 
             default:
               break;

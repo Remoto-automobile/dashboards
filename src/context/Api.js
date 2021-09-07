@@ -81,6 +81,7 @@ export const subscriptionRoute = "https://remotoglobal.com/api/subscription";
 export const userRoute = "https://remotoglobal.com/api/register";
 export const systemRoute = "https://remotoglobal.com/api/system";
 export const profileRoute = "https://remotoglobal.com/api/profile";
+export const messagesRoute = "https://remotoglobal.com/api/messages";
 
 export const adminBrandRoute = "https://remotoglobal.com/api/admin/brand";
 export const adminCarRoute = "https://remotoglobal.com/api/admin/car";
@@ -118,6 +119,7 @@ export const subscriptionRoute = "http://localhost:8000/api/subscription";
 export const userRoute = "http://localhost:8000/api/register";
 export const systemRoute = "http://localhost:8000/api/system";
 export const profileRoute = "http://localhost:8000/api/profile";
+export const messagesRoute = "http://localhost:8000/api/messages";
 
 export const adminBrandRoute = "http://localhost:8000/api/admin/brand";
 export const adminCarRoute = "http://localhost:8000/api/admin/car";

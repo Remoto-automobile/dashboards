@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import Axios from "axios";
 import { UiContext } from "../../App";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
+import parseHtml from "html-react-parser";
 import {
   Appbar,
   colors,
@@ -30,7 +31,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
-import { MessagesContext, messagesRoute } from "../../context/Api";
+import { adminMessagesRoute, MessagesContext } from "../../context/Api";
 import { BodyText } from "../../typography";
 
 const useStyles = makeStyles((theme) => ({
@@ -135,15 +136,14 @@ export default function PrimarySearchAppBar({
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const { url } = useRouteMatch();
 
-  // GET TOKEN
-  const clientData = JSON.parse(localStorage.getItem("client_token"));
-  // }
+  // GET ADMIN TOKEN
+  const adminData = JSON.parse(localStorage.getItem("admin_token"));
 
   useEffect(() => {
     Notifications.dispatch({ type: "LOADING" });
     setInterval(() => {
-      Axios.get(`${messagesRoute}`, {
-        headers: { token: clientData.token },
+      Axios.get(`${adminMessagesRoute}`, {
+        headers: { token: adminData.auth_token },
       })
         .then((res) => {
           Notifications.dispatch({
@@ -299,23 +299,22 @@ export default function PrimarySearchAppBar({
           </div>
           <div className={classes.grow} />
           <div className={responsive.desktopOnly}>
-            {/* <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-                onClick={openNotifications}
+            <IconButton
+              aria-label="show 17 new notifications"
+              color="inherit"
+              onClick={openNotifications}
+            >
+              <Badge
+                badgeContent={
+                  Notifications.state.data &&
+                  Notifications.state.data.filter((not) => not.read == 0).length
+                }
+                color="secondary"
+                style={Appbar.desktopNotificationIcon}
               >
-                <Badge
-                  badgeContent={
-                    Notifications.state.data &&
-                    Notifications.state.data.filter((not) => not.read == 0)
-                      .length
-                  }
-                  color="secondary"
-                  style={Appbar.desktopNotificationIcon}
-                >
-                  <NotificationsIcon className={classes.alertIcon} />
-                </Badge>
-              </IconButton> */}
+                <NotificationsIcon className={classes.alertIcon} />
+              </Badge>
+            </IconButton>
             <Menu
               id="simple-menu"
               anchorEl={notificationAnchor}
@@ -340,7 +339,7 @@ export default function PrimarySearchAppBar({
                       notification.read == 0 && (
                         <div className={classes.notificationItem}>
                           <BodyText color={colors.dark3}>
-                            {notification.title}
+                            {parseHtml(notification.title)}
                           </BodyText>
                         </div>
                       )

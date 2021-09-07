@@ -27,12 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, phone, carBrand, location, orderStatus) {
-  return { name, phone, carBrand, location, orderStatus };
-}
-
 export default function BasicTable() {
-  const [rows, setRows] = useState([]);
   const [source, setSource] = useState(userRoute);
   const User = useContext(UserContext);
   const Auth = useContext(AuthContext);
@@ -42,31 +37,22 @@ export default function BasicTable() {
   const [clickedUser, setClickedUser] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  // const [isDia, setIsDia] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
-  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleActionMenuOpen = (event, userData) => {
     setAnchorEl(event.currentTarget);
     setClickedUser(userData);
   };
 
-  // const handleMobileMenuClose = () => {
-  //   setMobileMoreAnchorEl(null);
-  // };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    // handleMobileMenuClose();
   };
 
   const actionMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      // id={menuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
@@ -83,11 +69,9 @@ export default function BasicTable() {
     axios
       .get(source, {
         headers: { token: adminData.auth_token },
-        // headers: { token: "f45165058243964ce7acff87206efb97" },
       })
       .then((res) => {
         User.dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        setRows((r) => (r = res.data));
       })
       .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
   }, [source]);

@@ -5,11 +5,15 @@ import CardRow from "../../major/CardRow";
 import { BodyText, MainBodyText } from "../../../typography";
 import { CarContext, carRoute } from "../../../context/Api";
 import Loading from "../../major/Loading";
+import Button from "@material-ui/core/Button";
+import { Link, useRouteMatch } from "react-router-dom";
+import { colors } from "../../../globalStyles";
 
 const clientData = JSON.parse(localStorage.getItem("client_token"));
 
 function UserProfile() {
   const Car = React.useContext(CarContext);
+  const { path } = useRouteMatch();
 
   React.useEffect(() => {
     Car.dispatch({ type: "LOADING" });
@@ -37,11 +41,34 @@ function UserProfile() {
             <span style={{ fontWeight: 700 }}>{clientData.contact_number}</span>
           </BodyText>
           <BodyText other={{ margin: 5 }}>
-            Car Brand:{" "}
-            <span style={{ fontWeight: 700 }}>
-              {Car.state.data.brand.name}, {Car.state.data.model.name},{" "}
-              {Car.state.data.year}
-            </span>
+            Car Brand(s):{" "}
+            {Car.state.data.map(
+              (car, i) =>
+                i < 5 && (
+                  <span style={{ fontWeight: 700 }}>
+                    {car.brand.name}, {car.model.name}, {car.year}
+                    {";  "}
+                  </span>
+                )
+            )}
+            {Car.state.data.length > 5 && (
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginLeft: 20 }}
+              >
+                <Link
+                  to={`${path}car_info`}
+                  style={{
+                    textDecoration: "none",
+                    color: colors.mainBg,
+                    fontWeight: "bold",
+                  }}
+                >
+                  View all {Car.state.data.length}
+                </Link>
+              </Button>
+            )}
           </BodyText>
           <BodyText other={{ margin: 5 }}>
             Location:{" "}

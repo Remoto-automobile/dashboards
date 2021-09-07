@@ -36,7 +36,7 @@ function ProductCard({
   bg,
   routeLink,
 }) {
-  const { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
   const painting = paint();
   return (
     <div className={painting.card}>

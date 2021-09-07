@@ -24,10 +24,6 @@ import {
 import Loading from "../major/Loading";
 import { OrderContext, orderRoute } from "../../context/Api";
 
-// import { Pagination } from "@material-ui/lab";
-
-// import DeleteIcon from "@material-ui/icons/Delete";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 
 function createData(name, carBrand, date, status) {
@@ -107,7 +103,7 @@ function EnhancedTableHead(props) {
   };
 
   React.useEffect(() => {
-    if (Order.state.data == null || Order.state.data == undefined) {
+    if (Order.state.data === null || Order.state.data === undefined) {
       Order.dispatch({ type: "LOADING" });
       Axios.get(orderRoute, { headers: { token: clientToken.token } })
         .then((res) => {

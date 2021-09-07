@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Heading6, MainBodyText, BodyText } from "../../typography";
 import { pageDynamics, colors } from "../../globalStyles";
-// import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import {
   Toolbar,
@@ -24,10 +23,6 @@ import {
 import Loading from "../major/Loading";
 import { adminOrderRoute, OrderContext } from "../../context/Api";
 
-// import { Pagination } from "@material-ui/lab";
-
-// import DeleteIcon from "@material-ui/icons/Delete";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 
 function createData(name, carBrand, date, status) {
@@ -107,7 +102,7 @@ function EnhancedTableHead(props) {
   };
 
   React.useEffect(() => {
-    if (Order.state.data == null || Order.state.data == undefined) {
+    if (Order.state.data === null || Order.state.data === undefined) {
       Order.dispatch({ type: "LOADING" });
       Axios.get(adminOrderRoute, { headers: { token: adminData.token } })
         .then((res) => {

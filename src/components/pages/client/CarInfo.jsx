@@ -2,7 +2,7 @@ import React from "react";
 import Axios from "axios";
 
 import AppBar from "@material-ui/core/AppBar";
-import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableHead,
@@ -96,9 +96,9 @@ export default function CarInfo() {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
+  // const handleChangeIndex = (index) => {
+  //   setValue(index);
+  // };
 
   return (
     <BasicCard custom={{ display: "flex", flexDirection: "column" }}>

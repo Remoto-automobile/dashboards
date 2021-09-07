@@ -10,7 +10,7 @@ import UserOrder from "./UserOrder";
 import EditProfileCard from "../../medium/EditProfileCard";
 import CreateOrder from "./CreateOrder";
 import CarInfo from "./CarInfo";
-import { Switch, Route, useRouteMatch, Link, NavLink } from "react-router-dom";
+import { Switch, Route, useRouteMatch, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 // Import Icons

@@ -1,8 +1,6 @@
 import React from "react";
-import Axios from "axios";
-import { useFormik } from "formik";
 import { UiContext } from "../../../App";
-import { colors, fonts, form } from "../../../globalStyles";
+import { colors, form } from "../../../globalStyles";
 import { Heading7, BodyText, MainBodyText } from "../../../typography";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -37,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdatePrice() {
-  const usefulData = [];
+  // const usefulData = [];
   const classes = useStyles();
   const Ui = React.useContext(UiContext);
   return (

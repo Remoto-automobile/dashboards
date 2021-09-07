@@ -9,7 +9,7 @@ import {
 import TitleBar from "../../pageLayout/TitleBar";
 import AddIcon from "@material-ui/icons/Add";
 import ProductCard from "../../medium/ProductCard";
-import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 
 import acImage from "../../../assets/air-condition.svg";
 import exhaustImage from "../../../assets/exhaust.svg";
@@ -26,11 +26,11 @@ import Loading from "../../major/Loading";
 
 function Products() {
   const token = JSON.parse(localStorage.getItem("admin_token")).auth_token;
-  let history = useHistory();
-  let { path, url } = useRouteMatch();
-  const Ui = React.useContext(UiContext);
+  // let history = useHistory();
+  let { url } = useRouteMatch();
+  // const Ui = React.useContext(UiContext);
   const Product = React.useContext(SystemContext);
-  const Item = React.useContext(ItemContext);
+  // const Ite\m = React.useContext(ItemContext);
 
   let productData = [
     { color: "rgba(255, 102, 52, 0.1)", image: acImage, link: "ac_system" },

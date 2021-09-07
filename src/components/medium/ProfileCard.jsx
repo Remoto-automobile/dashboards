@@ -3,7 +3,7 @@ import { Button, Avatar } from "@material-ui/core";
 import { Card, colors, pageDynamics } from "../../globalStyles";
 import profilePicture from "../../assets/temp/profilePicture.jpg";
 import { Link, useRouteMatch } from "react-router-dom";
-import { Heading6, Heading7, MainBodyText } from "../../typography";
+import { Heading6 } from "../../typography";
 
 function ProfileCard({
   children,
