@@ -280,7 +280,8 @@ function Status(imgSrc, imgAlt) {
                     Active Plan:
                   </MainBodyText>
                   <MainBodyText color="green">
-                    {car.subscription.plan.title.toUpperCase()}
+                    {car.subscription &&
+                      car.subscription.plan.title.toUpperCase()}
                   </MainBodyText>
                 </div>
                 <div className={classes.carDiv}>

@@ -141,6 +141,19 @@ export default function PrimarySearchAppBar({
 
   useEffect(() => {
     Notifications.dispatch({ type: "LOADING" });
+    Axios.get(`${adminMessagesRoute}`, {
+      headers: { token: adminData.auth_token },
+    })
+      .then((res) => {
+        Notifications.dispatch({
+          type: "FETCH_SUCCESS",
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        Notifications.dispatch({ type: "FETCH_FAILURE", error: err });
+        console.log(err);
+      });
     setInterval(() => {
       Axios.get(`${adminMessagesRoute}`, {
         headers: { token: adminData.auth_token },

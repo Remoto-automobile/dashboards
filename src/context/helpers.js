@@ -312,3 +312,36 @@ export function submitFiles(data, disp) {
       console.log(err);
     });
 }
+
+export function sqlDateToTimestamp(dateString) {
+  let dateParts = dateString.split("-");
+  let jsDate = new Date(
+    dateParts[0],
+    dateParts[1] - 1,
+    dateParts[2].substr(0, 2)
+  );
+  return jsDate.getTime();
+}
+
+export function sqlDateToTime(dateString, time = false) {
+  let dateParts = dateString.split("-");
+  let jsDate = new Date(
+    dateParts[0],
+    dateParts[1] - 1,
+    dateParts[2].substr(0, 2)
+  );
+
+  if (time === true) {
+    let timePart = dateString.split("T");
+    timePart = timePart[1].split(":");
+    return (
+      jsDate.toLocaleDateString() +
+      " | <strong style='color: #b51515'>" +
+      timePart[0] +
+      ":" +
+      timePart[1] +
+      "</strong>"
+    );
+  }
+  return jsDate.toLocaleDateString();
+}

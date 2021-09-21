@@ -18,6 +18,7 @@ import { Card, colors, pageDynamics } from "../../../globalStyles";
 import { Heading6, BodyText, MainBodyText } from "../../../typography";
 import { adminMessagesRoute, MessagesContext } from "../../../context/Api";
 import Loading from "../../major/Loading";
+import { sqlDateToTime } from "../../../context/helpers";
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -116,9 +117,21 @@ function Notifications() {
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                       >
-                        <MainBodyText color={colors.main}>
-                          {parseHtml(msg.title)}
-                        </MainBodyText>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <MainBodyText color={colors.main}>
+                            {parseHtml(msg.title)}
+                          </MainBodyText>
+                          <MainBodyText>
+                            {parseHtml(sqlDateToTime(msg.created_at, true))}
+                            {/* {msg.created_at} */}
+                          </MainBodyText>
+                        </div>
                       </AccordionSummary>
                       {msg.body && (
                         <AccordionDetails

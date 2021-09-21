@@ -126,7 +126,7 @@ export default function BasicTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {User.state.data.map((row) => (
+                {User.state.data?.map((row) => (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
                       <div style={{ display: "flex", alignItems: "center" }}>
