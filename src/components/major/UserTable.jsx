@@ -2,7 +2,14 @@ import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { MainBodyText, BodyText, Heading6 } from "../../typography";
-import { Table, Menu, MenuItem, ButtonBase, Button } from "@material-ui/core";
+import {
+  Table,
+  Menu,
+  MenuItem,
+  ButtonBase,
+  Button,
+  Snackbar,
+} from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -20,6 +27,7 @@ import {
 import axios from "axios";
 import Loading from "./Loading";
 import CallToAction from "../basic/CallToAction";
+import ConfirmDialog from "../major/Retry";
 
 const useStyles = makeStyles({
   table: {
@@ -37,8 +45,12 @@ export default function BasicTable() {
   const [clickedUser, setClickedUser] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const adminData = JSON.parse(localStorage.getItem("admin_token"));
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [snack, setSnack] = useState({ open: false, message: null });
 
   const isMenuOpen = Boolean(anchorEl);
+
+  const closeAlert = () => setAlertOpen(false);
 
   const handleActionMenuOpen = (event, userData) => {
     setAnchorEl(event.currentTarget);
@@ -61,7 +73,14 @@ export default function BasicTable() {
       <Link to={`users/${clickedUser.id}`} className={painting.link}>
         <MenuItem onClick={handleMenuClose}>View User</MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>Delete User</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          setAlertOpen(true);
+        }}
+      >
+        Delete User
+      </MenuItem>
     </Menu>
   );
 
@@ -75,10 +94,44 @@ export default function BasicTable() {
       })
       .catch((err) => User.dispatch({ type: "FETCH_FAILURE", error: err }));
   }, [source]);
+
+  function runDelete() {
+    setAlertOpen(false);
+    axios
+      .delete(`${source}/${clickedUser.id}`, {
+        headers: {
+          token: adminData.auth_token,
+        },
+      })
+      .then((res) => {
+        handleSnack("Deleted Successfully");
+        let newData = User.state.data.filter(
+          (item) => item.id !== clickedUser.id
+        );
+        User.dispatch({ type: "FETCH_SUCCESS", payload: newData });
+      })
+      .catch((err) => {
+        handleSnack("Operation Failed");
+        console.log(err);
+      });
+  }
+
+  const handleSnack = (snackMessage) => {
+    setSnack({ open: true, message: snackMessage });
+    setTimeout(() => {
+      setSnack({ open: false, message: null });
+    }, 6000);
+  };
+
   return User.state.loading ? (
     <Loading />
   ) : (
     <React.Fragment>
+      <ConfirmDialog
+        open={alertOpen}
+        confirmAction={runDelete}
+        cancelAction={() => setAlertOpen(false)}
+      />
       {Auth.state.data.__superadmin__ == true &&
         (source === userRoute ? (
           <CallToAction
@@ -252,6 +305,13 @@ export default function BasicTable() {
         </div>
         {actionMenu}
       </div>
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={5000}
+        // onClose={handleClose}
+        message={snack.message}
+        // action={action}
+      />
     </React.Fragment>
   );
 }
